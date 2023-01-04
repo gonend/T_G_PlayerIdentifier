@@ -1,0 +1,21 @@
+//creating new react project with the name my-new-app
+npx create-react-app midterm-project --template typescript
+
+# to run our app, cd into your new app 
+#    (or even better open the new app's folder in "VS Code":
+cd midterm-project
+code .
+npm start
+
+
+
+//_____________________________________________________________//
+
+npm i//this command will import all node modules the package.json file tells him
+
+
+//example for creating mupltiple component from object
+{arrOfProgLanguages.map((curr, i) => ( 
+                <CardProgLangs key={i} pic={curr.pic} title={curr.title}
+                    alt={curr.alt} />
+            ))}
