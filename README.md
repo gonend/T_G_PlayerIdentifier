@@ -1,26 +1,28 @@
 # T_G_PlayerIdentifier
 
-contributers:
-Gonen Davidi (gonend)
-Tom Eventov (teventov5)
 
 Android App used to get player statistic data from facial recognition 
 
-
 ## Description
 
-An in-depth paragraph about your project and overview of use.
+This is an aducational project, made for the following reasons: gain hand-on expirience and knowledge in new technologies, methodologies and platforms.
+We aim to publish an app running on android OS and can be used 
 
 ## Getting Started
 
 ### Dependencies
 
+* Frontend- React-Native 
+* Backend- Node.js
+* Ml model- Python
+
 * Describe any prerequisites, libraries, OS version, etc., needed before installing program.
 * ex. Windows 10
+* (enter libraries)
 
 ### Installing
 
-* How/where to download your program
+* How/where to download your program (App store, etc...)
 * Any modifications needed to be made to files/folders
 
 ### Executing program
@@ -42,16 +44,9 @@ command to run if program contains helper info
 
 Contributors names and contact info
 
-ex. Dominique Pizzie  
-ex. [@DomPizzie](https://twitter.com/dompizzie)
+ex. Gonen Davidi ([gonend](https://github.com/gonend))
+ex. Tom Eventov ([(teventov5)](https://github.com/teventov5/))
 
-## Version History
-
-* 0.2
-    * Various bug fixes and optimizations
-    * See [commit change]() or See [release history]()
-* 0.1
-    * Initial Release
 
 ## License
 
