@@ -1,0 +1,46 @@
+//---------------initial configuration-----------------
+
+git init 
+git add readme.md
+git commit -m "first commit"
+git branch  -M main
+git remote add origin  https://github.com/teventov5/Go-Good_React-Native.git		//just once
+git push -u origin main
+git status
+
+_________________________________________________________________________________________________________________________________
+
+//--------------routine updates of the repository:----------------------------
+
+ --------------------------creating a new branch-----------------------------------------------------
+
+
+//creating a new branch for the update (will need to compare and pullRequest later)
+git branch  -M newBranchName
+
+git add .// adding new files to the git tracking
+
+
+git commit -m "commit text example"
+
+
+ git push origin files_update// this will create a new branch on github
+ 
+ 
+ --------------------------merging into existing main branch-----------------------------------------------------
+
+git add .// adding new files to the git tracking
+git commit -m "commit text example"
+
+
+git push origin main//this will merge the new changes to the main branch
+
+__________________________________________________________________________________________________________________________________
+
+to remove android folder from being tracked by git 
+
+git rm --cached -f android
+
+or by using the gitignore file
+
+

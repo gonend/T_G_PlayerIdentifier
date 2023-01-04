@@ -1,0 +1,33 @@
+https://reactnative.dev/docs/environment-setup
+
+
+הקמת פרויקט חדש:
+
+
+npx react-native init frontend --template react-native-template-typescript
+
+
+הרצת המטרו:
+
+cd לתוך התיקייה ואז:
+
+npx react-native start
+
+
+הרצת הפרויקט 
+
+npx react-native run-android
+
+
+
+הרצת prettier:
+npm run prettier:write
+npm run lint
+
+
+
+
+
+
+
+
