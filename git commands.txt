@@ -16,7 +16,7 @@ ________________________________________________________________________________
 
 
 //creating a new branch for the update (will need to compare and pullRequest later)
-git branch  -M newBranchName
+git branch  -M frontend
 
 git add .// adding new files to the git tracking
 

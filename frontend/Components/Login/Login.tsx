@@ -283,7 +283,7 @@ var styles = StyleSheet.create({
   },
   googleSignInbutton: {
     alignItems: 'center',
-    backgroundColor: '#d9304c',
+    backgroundColor: '#234567',
     borderRadius: height * 0.0388198,
     marginHorizontal: width * 0.0533333333,
     // marginTop: height * 0.0335403,
