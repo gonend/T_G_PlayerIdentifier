@@ -7,6 +7,11 @@ https://reactnative.dev/docs/environment-setup
 npx react-native init frontend --template react-native-template-typescript
 
 
+//if theres an error while creating we might have an out of date version,
+//in that case:
+npm uninstall -g react-native-cli
+
+
 הרצת המטרו:
 
 cd לתוך התיקייה ואז:
