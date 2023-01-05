@@ -16,15 +16,15 @@ ________________________________________________________________________________
 
 
 //creating a new branch for the update (will need to compare and pullRequest later)
-git branch  -M frontend
+git branch  -M loginPage
 
 git add .// adding new files to the git tracking
 
 
-git commit -m "commit text example"
+git commit -m "login color test"
 
 
- git push origin files_update// this will create a new branch on github
+ git push origin loginPage// this will create a new branch on github
  
  
  --------------------------merging into existing main branch-----------------------------------------------------
