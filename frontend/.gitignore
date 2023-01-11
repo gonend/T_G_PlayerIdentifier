@@ -32,6 +32,9 @@ local.properties
 *.hprof
 .cxx/
 
+app/google-services.json
+
+
 # node.js
 #
 node_modules/
