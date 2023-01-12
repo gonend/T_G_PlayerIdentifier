@@ -24,6 +24,7 @@ import {
 
 import LinearGradient from 'react-native-linear-gradient';
 import Login from './Components/Login/Login';
+import Home from './Components/Home/Home';
 // import { I_userProfileObject } from './Interfaces/I_userProfileObject';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -31,6 +32,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { User } from '@react-native-google-signin/google-signin';
 import SplashComponent from './Components/Splash/SplashComponent';
+import HamburgerMenu from './Components/HamburgerMenu/HamburgerMenu';
+import Navbar from './Components/Navbar/Navbar';
 
 LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state'
@@ -41,6 +44,8 @@ const Stack = createStackNavigator();
 export const UserContext = React.createContext<{
     userObject: User;
     setUserObject: Function;
+    isUserAuthorized: boolean;
+    setIsUserAuthorized: Function;
 }>({
     userObject: {
         user: {
@@ -54,7 +59,9 @@ export const UserContext = React.createContext<{
         idToken: '-1',
         serverAuthCode: '-1'
     },
-    setUserObject: () => {}
+    setUserObject: () => {},
+    isUserAuthorized: false,
+    setIsUserAuthorized: () => {}
 });
 
 const App = (props: { children: any }) => {
@@ -72,6 +79,8 @@ const App = (props: { children: any }) => {
         serverAuthCode: '-1'
     });
 
+    const [isUserAutorized, setIsUserAuthorized] = useState(false);
+
     // useEffect(() => {
     //     AsyncStorage.clear();
     // }, []);
@@ -80,7 +89,9 @@ const App = (props: { children: any }) => {
         <UserContext.Provider
             value={{
                 userObject: userTemp,
-                setUserObject: setUserTemp
+                setUserObject: setUserTemp,
+                isUserAuthorized: isUserAutorized,
+                setIsUserAuthorized: setIsUserAuthorized
             }}
         >
             <NavigationContainer>
@@ -90,6 +101,11 @@ const App = (props: { children: any }) => {
                 >
                     <Stack.Screen name="Login" component={Login} />
                     <Stack.Screen name="Splash" component={SplashComponent} />
+                    <Stack.Screen name="Home" component={Home} />
+                    <Stack.Screen
+                        name="HamburgerMenu"
+                        component={HamburgerMenu}
+                    />
                 </Stack.Navigator>
             </NavigationContainer>
         </UserContext.Provider>

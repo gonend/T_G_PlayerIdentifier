@@ -22,10 +22,10 @@ GoogleSignin.configure({
     offlineAccess: true
 });
 
-const Login = () => {
-    const [authorizedUser, setAuthorizedUser] = useState<boolean>(false);
-    const [user, setUser] = useState<User | null>();
+const Login = (props: any) => {
+    // const [user, setUser] = useState<User | null>();
     let userContext = React.useContext(UserContext);
+    const navigation = props.navigation;
 
     // const [credentials, setCredentials] =
     //     useState<FirebaseAuthTypes.UserCredential>();
@@ -54,15 +54,15 @@ const Login = () => {
                 if (credentials?.user) {
                     let tempUser = await GoogleSignin.getCurrentUser();
                     console.log(tempUser);
-
-                    setUser(tempUser);
+                    userContext.setUserObject(tempUser);
 
                     // set access token in AsyncStorage storage
                     AsyncStorage.setItem(
                         'accessToken',
                         tempUser?.idToken as string
                     );
-                    setAuthorizedUser(true);
+                    userContext.setIsUserAuthorized(true);
+                    navigation.navigate('Home', {});
                 }
             }
 
@@ -76,41 +76,25 @@ const Login = () => {
 
     async function logoutUser() {
         GoogleSignin.signOut();
-        console.log('before:');
+        // console.log('before:');
 
-        console.log(await AsyncStorage.getItem('accessToken'));
+        // console.log(await AsyncStorage.getItem('accessToken'));
         AsyncStorage.clear();
-        console.log('after:');
-        console.log(await AsyncStorage.getItem('accessToken'));
-        setUser(null);
+        // console.log('after:');
+        // console.log(await AsyncStorage.getItem('accessToken'));
+        userContext.setUserObject(null);
 
-        console.log('logged out');
-        setAuthorizedUser(false);
+        // console.log('logged out');
+        userContext.setIsUserAuthorized(false);
     }
 
     useEffect(() => {
         (async () => {
-            let storageIdToken = await AsyncStorage.getItem('accessToken');
-
-            if (storageIdToken) {
-                let tempUser = await GoogleSignin.getCurrentUser();
-                console.log('====================================');
-                console.log(tempUser);
-                if (tempUser) {
-                    setAuthorizedUser(true);
-                }
-                console.log('====================================');
+            if (userContext.userObject.idToken !== '-1') {
+                userContext.setIsUserAuthorized(true);
             }
         })();
     }, []);
-    useEffect(() => {
-        (async () => {
-            if (authorizedUser) {
-                let myUser = await GoogleSignin.getCurrentUser();
-                userContext.setUserObject(myUser);
-            }
-        })();
-    }, [authorizedUser]);
 
     return (
         <LinearGradient
@@ -125,11 +109,11 @@ const Login = () => {
                     <View style={styles.imgView}>
                         <Image
                             style={styles.kobePic}
-                            source={require('../../img/login_kobe_logo.png')}
+                            source={require('../../assets/img/login_kobe_logo.png')}
                         />
                     </View>
                     <Text style={styles.mainText}>Welcome!</Text>
-                    {authorizedUser === true ? (
+                    {userContext.isUserAuthorized === true ? (
                         <Text style={{ color: '#FFFFFF', fontSize: 20 }}>
                             {userContext.userObject?.user.name}
                         </Text>
@@ -138,7 +122,7 @@ const Login = () => {
                     )}
                 </View>
                 <View style={styles.bottomContent}>
-                    {authorizedUser ? (
+                    {userContext.isUserAuthorized ? (
                         <TouchableOpacity
                             onPress={logoutUser}
                             style={styles.googleButton}

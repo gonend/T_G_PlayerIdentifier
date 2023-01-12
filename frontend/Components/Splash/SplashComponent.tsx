@@ -1,9 +1,15 @@
-import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+// import { useNavigation } from '@react-navigation/native';
+import React from 'react';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native-animatable';
+import { UserContext } from '../../App';
 import Splash from './Splash';
 
 const SplashComponent = (props: any) => {
+    let userContext = React.useContext(UserContext);
+
     const [splashIsVisible, setSplashIsVisible] = useState(true);
 
     const tempSplash = new Splash({});
@@ -20,15 +26,34 @@ const SplashComponent = (props: any) => {
     useEffect(() => {
         setTimeout(function () {
             setSplashIsVisible(false);
-        }, 3000);
+        }, 5000);
     }, []);
 
     useEffect(() => {
         if (splashIsVisible === false) {
-            // if()
-            navigation.navigate('Login', { undefined });
+            if (userContext.isUserAuthorized === false) {
+                navigation.navigate('Login', { undefined });
+            } else {
+                navigation.navigate('Home', { undefined });
+            }
         }
     }, [splashIsVisible]);
+
+    useEffect(() => {
+        (async () => {
+            let storageIdToken = await AsyncStorage.getItem('accessToken');
+
+            if (storageIdToken) {
+                let tempUser = await GoogleSignin.getCurrentUser();
+                if (tempUser) {
+                    userContext.setUserObject(tempUser);
+                    userContext.setIsUserAuthorized(true);
+                    // console.log(tempUser);
+                }
+            }
+        })();
+    }, []);
+
     return tempSplash.render();
 };
 export default SplashComponent;

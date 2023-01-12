@@ -40,21 +40,21 @@ export default class Splash extends Component<{}, { isVisible: boolean }> {
         let Splash_Screen = (
             <View>
                 <Image
-                    source={require('../../img/login_kobe_logo.png')}
+                    source={require('../../assets/img/login_kobe_logo.png')}
                     style={styles.kobePic}
                 />
                 <Image
-                    source={require('../../img/playerIdentifierText.png')}
+                    source={require('../../assets/img/playerIdentifierText.png')}
                     style={styles.playerIdentifierSymbol}
                 />
 
                 <Animatable.View>
                     <Animatable.Image
                         style={styles.loadingBar}
-                        animation="rotate"
+                        animation="bounce"
                         iterationCount={'infinite'}
-                        direction="reverse"
-                        source={require('../../img/loadingBar.png')}
+                        direction="normal"
+                        source={require('../../assets/img/basketball.png')}
                     ></Animatable.Image>
                 </Animatable.View>
             </View>
