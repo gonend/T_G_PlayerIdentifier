@@ -13,6 +13,8 @@ import auth from '@react-native-firebase/auth';
 import { GoogleSignin, User } from '@react-native-google-signin/google-signin';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { UserContext } from '../../App';
+import LinearGradient from 'react-native-linear-gradient';
 
 GoogleSignin.configure({
     webClientId:
@@ -23,6 +25,8 @@ GoogleSignin.configure({
 const Login = () => {
     const [authorizedUser, setAuthorizedUser] = useState<boolean>(false);
     const [user, setUser] = useState<User | null>();
+    let userContext = React.useContext(UserContext);
+
     // const [credentials, setCredentials] =
     //     useState<FirebaseAuthTypes.UserCredential>();
 
@@ -103,20 +107,31 @@ const Login = () => {
         (async () => {
             if (authorizedUser) {
                 let myUser = await GoogleSignin.getCurrentUser();
-                setUser(myUser);
+                userContext.setUserObject(myUser);
             }
         })();
     }, [authorizedUser]);
 
     return (
-        <SafeAreaView style={styles.safeArea}>
+        <LinearGradient
+            start={{ x: 0, y: 0 }}
+            end={{ x: 0, y: 1 }}
+            colors={['#28449C', '#0064C3']}
+            style={styles.linearGradient}
+        >
             <StatusBar barStyle="light-content" />
             <View style={styles.container}>
                 <View style={styles.topContent}>
-                    <Text style={styles.mainText}>Social Auth</Text>
+                    <View style={styles.imgView}>
+                        <Image
+                            style={styles.kobePic}
+                            source={require('../../img/login_kobe_logo.png')}
+                        />
+                    </View>
+                    <Text style={styles.mainText}>Welcome!</Text>
                     {authorizedUser === true ? (
-                        <Text style={{ color: '#FFFFFF' }}>
-                            welcome {user?.user.name}
+                        <Text style={{ color: '#FFFFFF', fontSize: 20 }}>
+                            {userContext.userObject?.user.name}
                         </Text>
                     ) : (
                         <></>
@@ -154,22 +169,35 @@ const Login = () => {
                     )}
                 </View>
             </View>
-        </SafeAreaView>
+        </LinearGradient>
     );
 };
+const { height, width } = Dimensions.get('window');
+
 const styles = StyleSheet.create({
-    safeArea: {
-        backgroundColor: '#262b2f'
+    linearGradient: {
+        flex: 1
     },
     container: {
-        height: Dimensions.get('window').height,
-        backgroundColor: '#262b2f'
+        height: height
     },
     topContent: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center'
     },
+    imgView: {
+        flex: 1,
+        marginTop: height * 0.0427795,
+        maxHeight: height * 0.210559
+    },
+    kobePic: {
+        flex: 1,
+        Width: null,
+        Height: null,
+        resizeMode: 'contain'
+        // alignSelf: 'center',
+    }, //the calculation is: marginFromTop/appHeight based on zigit (644)
     bottomContent: {
         flex: 1,
         alignItems: 'center',

@@ -24,11 +24,13 @@ import {
 
 import LinearGradient from 'react-native-linear-gradient';
 import Login from './Components/Login/Login';
-import { I_userProfileObject } from './Interfaces/I_userProfileObject';
+// import { I_userProfileObject } from './Interfaces/I_userProfileObject';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { User } from '@react-native-google-signin/google-signin';
+import SplashComponent from './Components/Splash/SplashComponent';
 
 LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state'
@@ -37,40 +39,38 @@ LogBox.ignoreLogs([
 const Stack = createStackNavigator();
 
 export const UserContext = React.createContext<{
-    userProfileObject: I_userProfileObject;
-    setUserProfileObject: Function | null;
+    userObject: User;
+    setUserObject: Function;
 }>({
-    userProfileObject: {
-        id: -1,
-        userId: -1,
-        firstName: '',
-        mobilePhone: '',
-        imgUrl: '',
-        address: '',
-        rewardPoint: -1,
-        user_AppRole: '',
-        lat: '-1',
-        lng: '-1'
+    userObject: {
+        user: {
+            id: '-1',
+            name: null,
+            email: 'empty@empty.com',
+            photo: null,
+            familyName: null,
+            givenName: null
+        },
+        idToken: '-1',
+        serverAuthCode: '-1'
     },
-    setUserProfileObject: null
+    setUserObject: () => {}
 });
 
 const App = (props: { children: any }) => {
     // const value = React.useContext(UserContext);
-    const [userProfileTemp, setUserProfileTemp] = useState<I_userProfileObject>(
-        {
-            id: -1,
-            userId: -1,
-            firstName: '',
-            mobilePhone: '',
-            imgUrl: '',
-            address: '',
-            rewardPoint: -1,
-            user_AppRole: '',
-            lat: '-1',
-            lng: '-1'
-        }
-    );
+    const [userTemp, setUserTemp] = useState<User>({
+        user: {
+            id: '-1',
+            name: null,
+            email: 'empty@empty.com',
+            photo: null,
+            familyName: null,
+            givenName: null
+        },
+        idToken: '-1',
+        serverAuthCode: '-1'
+    });
 
     // useEffect(() => {
     //     AsyncStorage.clear();
@@ -79,16 +79,17 @@ const App = (props: { children: any }) => {
     return (
         <UserContext.Provider
             value={{
-                userProfileObject: userProfileTemp,
-                setUserProfileObject: setUserProfileTemp
+                userObject: userTemp,
+                setUserObject: setUserTemp
             }}
         >
             <NavigationContainer>
                 <Stack.Navigator
                     screenOptions={{ headerShown: false }}
-                    initialRouteName="Login"
+                    initialRouteName="Splash"
                 >
                     <Stack.Screen name="Login" component={Login} />
+                    <Stack.Screen name="Splash" component={SplashComponent} />
                 </Stack.Navigator>
             </NavigationContainer>
         </UserContext.Provider>
