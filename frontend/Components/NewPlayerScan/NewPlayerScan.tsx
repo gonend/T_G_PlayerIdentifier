@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
+    Alert,
     Dimensions,
     Image,
     ImageSourcePropType,
@@ -9,22 +10,75 @@ import {
     TouchableOpacity,
     View
 } from 'react-native';
-import { ImagePickerResponse } from 'react-native-image-picker';
+import { Asset, ImagePickerResponse } from 'react-native-image-picker';
 import LinearGradient from 'react-native-linear-gradient';
 import CameraButtons from '../CameraButtons/CameraButtons';
 
 export default function NewPlayerScan() {
     const [pickerResponse, setPickerResponse] = useState<ImagePickerResponse>();
     const [playerNumber, setPlayerNumber] = useState('');
+    const [selectedPicture, setSelectedPicture] = useState<Asset>();
+    const [formDataTest, setFormDataTest] = useState<FormData>();
+
     useEffect(() => {
         if (pickerResponse) {
+            const formData = new FormData();
+
             pickerResponse.assets?.map((img) => {
-                console.log(img.uri);
+                setSelectedPicture(img);
+                formData.append('photo', {
+                    uri: img.uri,
+                    type: img.type,
+                    name: img.fileName
+                });
             });
+            setFormDataTest(formData);
         }
     }, [pickerResponse]);
 
-    function submitPlayerForIdentification() {}
+    async function submitPlayerForIdentification() {
+        const data = new FormData();
+        data.append('photo', {
+            uri: selectedPicture?.uri,
+            name: 'image' + selectedPicture?.fileName,
+            type: selectedPicture?.type
+        });
+        // console.log(data.getParts());
+
+        // const setting = {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'multipart/form-data'
+        //     },
+        //     body: data
+        // };
+        try {
+            console.log('sharmuta');
+            console.log(formDataTest?.getParts());
+
+            let res = await fetch(
+                `http://192.168.1.57:8080/api/uploadPicture`,
+                {
+                    method: 'post',
+                    body: formDataTest
+                }
+            );
+
+            // const fetchResponse = await fetch(
+            //     'http://192.168.1.57:8080/api/uploadPicture',
+            //     setting
+            // );
+            const dr = await res.json();
+
+            console.log('====================================');
+            console.log(dr);
+            console.log('====================================');
+            // const response = await fetchResponse.json();
+            // console.log(response);
+        } catch (e) {
+            console.log(e);
+        }
+    }
     return (
         <LinearGradient
             start={{ x: 0, y: 0 }}
@@ -55,7 +109,6 @@ export default function NewPlayerScan() {
                                     style={{
                                         color: 'white',
                                         textAlign: 'center',
-                                        marginTop: 10,
                                         marginBottom: 10
                                     }}
                                 >
@@ -86,6 +139,7 @@ export default function NewPlayerScan() {
                 onChangeText={(newText) => setPlayerNumber(newText)}
                 defaultValue={playerNumber}
                 placeholderTextColor={'#132D42'}
+                keyboardType="numeric"
             />
 
             <TouchableOpacity
@@ -107,19 +161,18 @@ const { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
     linearGradient: { flex: 1, justifyContent: 'space-between' },
     topContent: {
-        flex: 0.66,
-        marginTop: 20,
+        flex: 0.55,
         alignItems: 'center'
     },
     logoImgView: {
-        flex: 0.66,
+        flex: 0.9,
         marginTop: height * 0.0427795,
         maxHeight: height * 0.210559
     },
     logoPic: { flex: 1, Width: null, Height: null, resizeMode: 'contain' },
     descriptionText: {
         color: '#FFFFFF',
-        fontSize: 21,
+        fontSize: 18,
         marginTop: 20,
         textAlign: 'center'
     },

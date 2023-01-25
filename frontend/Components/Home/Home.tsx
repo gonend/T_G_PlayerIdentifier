@@ -21,6 +21,9 @@ function Home(props: any) {
     return (
         <View style={styles.container}>
             <Navbar navigation={navigation} />
+            <Text style={{ textAlign: 'center' }}>
+                Welcome {userContext.userObject.user.name} to your home screen!
+            </Text>
 
             <TouchableOpacity
                 onPress={takePicture}
