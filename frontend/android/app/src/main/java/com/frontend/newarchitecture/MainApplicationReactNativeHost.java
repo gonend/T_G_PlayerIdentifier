@@ -1,4 +1,4 @@
-package com.playerIdentifier.newarchitecture;
+package com.playerIdentifierV2.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.playerIdentifier.BuildConfig;
-import com.playerIdentifier.newarchitecture.components.MainComponentsRegistry;
-import com.playerIdentifier.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.playerIdentifierV2.BuildConfig;
+import com.playerIdentifierV2.newarchitecture.components.MainComponentsRegistry;
+import com.playerIdentifierV2.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 
