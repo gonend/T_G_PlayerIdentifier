@@ -34,6 +34,7 @@ import { User } from '@react-native-google-signin/google-signin';
 import SplashComponent from './Components/Splash/SplashComponent';
 import HamburgerMenu from './Components/HamburgerMenu/HamburgerMenu';
 import Navbar from './Components/Navbar/Navbar';
+import NewPlayerScan from './Components/NewPlayerScan/NewPlayerScan';
 
 LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state'
@@ -105,6 +106,10 @@ const App = (props: { children: any }) => {
                     <Stack.Screen
                         name="HamburgerMenu"
                         component={HamburgerMenu}
+                    />
+                    <Stack.Screen
+                        name="NewPlayerScan"
+                        component={NewPlayerScan}
                     />
                 </Stack.Navigator>
             </NavigationContainer>
