@@ -37,12 +37,12 @@ export default function NewPlayerScan() {
     }, [pickerResponse]);
 
     async function submitPlayerForIdentification() {
-        const data = new FormData();
-        data.append('photo', {
-            uri: selectedPicture?.uri,
-            name: 'image' + selectedPicture?.fileName,
-            type: selectedPicture?.type
-        });
+        // const data = new FormData();
+        // data.append('photo', {
+        //     uri: selectedPicture?.uri,
+        //     name: 'image' + selectedPicture?.fileName,
+        //     type: selectedPicture?.type
+        // });
         // console.log(data.getParts());
 
         // const setting = {

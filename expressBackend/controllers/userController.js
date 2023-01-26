@@ -22,7 +22,10 @@ const receiveImage = async (req, res, next) => {
     // console.log(req);
     // console.log(req.file);
 
-    const playerSeasonStats = await getPlayerSeasonStats("LeBron James");
+    const playerSeasonStats = await getPlayerSeasonStats(
+      "LeBron James",
+      "2022"
+    );
     console.log("sharmotaaaaa");
     // console.log(req.body.type);
     // console.log(req.body.uri);
