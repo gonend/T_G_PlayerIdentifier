@@ -57,7 +57,7 @@ export default function NewPlayerScan() {
             console.log(formDataTest?.getParts());
 
             let res = await fetch(
-                `http://192.168.1.57:8080/api/uploadPicture`,
+                `http://192.168.56.1:8080/api/uploadPicture`, //gonen: 192.168.56.1 //tom: 192.168.1.57
                 {
                     method: 'post',
                     body: formDataTest
