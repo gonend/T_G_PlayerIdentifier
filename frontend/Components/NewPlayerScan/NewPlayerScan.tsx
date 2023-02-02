@@ -15,12 +15,13 @@ import LinearGradient from 'react-native-linear-gradient';
 import CameraButtons from '../CameraButtons/CameraButtons';
 import Spinner from 'react-native-loading-spinner-overlay';
 
-export default function NewPlayerScan() {
+export default function NewPlayerScan(props: any) {
     const [pickerResponse, setPickerResponse] = useState<ImagePickerResponse>();
     const [playerNumber, setPlayerNumber] = useState('');
     const [formDataTest, setFormDataTest] = useState<FormData>();
     const [isWaitingForResponse, setIsWaitingForResponse] = useState(false);
     const [showLoadingSpinner, setShowLoadingSpinner] = useState(false);
+    const navigation = props.navigation;
 
     useEffect(() => {
         if (pickerResponse) {
@@ -67,6 +68,7 @@ export default function NewPlayerScan() {
             console.log('====================================');
             // const response = await fetchResponse.json();
             // console.log(response);
+            navigation.navigate('PlayerInfoScreen');
         } catch (e) {
             console.log(e);
         }
