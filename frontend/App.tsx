@@ -35,6 +35,7 @@ import SplashComponent from './Components/Splash/SplashComponent';
 import HamburgerMenu from './Components/HamburgerMenu/HamburgerMenu';
 import Navbar from './Components/Navbar/Navbar';
 import NewPlayerScan from './Components/NewPlayerScan/NewPlayerScan';
+import PlayerInfoScreen from './Components/PlayerInfoScreen/PlayerInfoScreen';
 
 LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state'
@@ -98,7 +99,7 @@ const App = (props: { children: any }) => {
             <NavigationContainer>
                 <Stack.Navigator
                     screenOptions={{ headerShown: false }}
-                    initialRouteName="Splash"
+                    initialRouteName="NewPlayerScan"
                 >
                     <Stack.Screen name="Login" component={Login} />
                     <Stack.Screen name="Splash" component={SplashComponent} />
@@ -110,6 +111,10 @@ const App = (props: { children: any }) => {
                     <Stack.Screen
                         name="NewPlayerScan"
                         component={NewPlayerScan}
+                    />
+                    <Stack.Screen
+                        name="PlayerInfoScreen"
+                        component={PlayerInfoScreen}
                     />
                 </Stack.Navigator>
             </NavigationContainer>
