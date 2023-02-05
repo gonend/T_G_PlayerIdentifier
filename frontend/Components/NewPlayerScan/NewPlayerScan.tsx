@@ -14,6 +14,7 @@ import { Asset, ImagePickerResponse } from 'react-native-image-picker';
 import LinearGradient from 'react-native-linear-gradient';
 import CameraButtons from '../CameraButtons/CameraButtons';
 import Spinner from 'react-native-loading-spinner-overlay';
+import { PORT, SERVER_IP_ADDRESS } from '@env';
 
 export default function NewPlayerScan(props: any) {
     const [pickerResponse, setPickerResponse] = useState<ImagePickerResponse>();
@@ -51,24 +52,26 @@ export default function NewPlayerScan(props: any) {
 
         try {
             console.log(formDataTest?.getParts());
-
+            console.log(
+                `http://${SERVER_IP_ADDRESS}:${PORT}/api/uploadPicture`
+            );
             let res = await fetch(
-                `http://192.168.56.1:8080/api/uploadPicture`, //gonen: 192.168.56.1 //tom: 192.168.1.57
+                `http://${SERVER_IP_ADDRESS}:${PORT}/api/uploadPicture`,
                 {
                     method: 'post',
                     body: formDataTest
                 }
             );
 
-            const dr = await res.json();
+            const playerData = await res.json();
             setIsWaitingForResponse(false);
 
             console.log('====================================');
-            console.log(dr);
+            console.log(playerData);
             console.log('====================================');
             // const response = await fetchResponse.json();
             // console.log(response);
-            navigation.navigate('PlayerInfoScreen');
+            navigation.navigate('PlayerInfoScreen', { playerData });
         } catch (e) {
             console.log(e);
         }
