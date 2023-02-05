@@ -13,19 +13,22 @@ import {
 import { Asset, ImagePickerResponse } from 'react-native-image-picker';
 import LinearGradient from 'react-native-linear-gradient';
 import CameraButtons from '../CameraButtons/CameraButtons';
+import Spinner from 'react-native-loading-spinner-overlay';
+import { PORT, SERVER_IP_ADDRESS } from '@env';
 
-export default function NewPlayerScan() {
+export default function NewPlayerScan(props: any) {
     const [pickerResponse, setPickerResponse] = useState<ImagePickerResponse>();
     const [playerNumber, setPlayerNumber] = useState('');
-    const [selectedPicture, setSelectedPicture] = useState<Asset>();
     const [formDataTest, setFormDataTest] = useState<FormData>();
+    const [isWaitingForResponse, setIsWaitingForResponse] = useState(false);
+    const [showLoadingSpinner, setShowLoadingSpinner] = useState(false);
+    const navigation = props.navigation;
 
     useEffect(() => {
         if (pickerResponse) {
             const formData = new FormData();
 
             pickerResponse.assets?.map((img) => {
-                setSelectedPicture(img);
                 formData.append('photo', {
                     uri: img.uri,
                     type: img.type,
@@ -36,45 +39,39 @@ export default function NewPlayerScan() {
         }
     }, [pickerResponse]);
 
+    useEffect(() => {
+        if (isWaitingForResponse === true) {
+            setShowLoadingSpinner(true);
+        } else {
+            setShowLoadingSpinner(false);
+        }
+    }, [isWaitingForResponse]);
+
     async function submitPlayerForIdentification() {
-        // const data = new FormData();
-        // data.append('photo', {
-        //     uri: selectedPicture?.uri,
-        //     name: 'image' + selectedPicture?.fileName,
-        //     type: selectedPicture?.type
-        // });
-        // console.log(data.getParts());
+        setIsWaitingForResponse(true);
 
-        // const setting = {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'multipart/form-data'
-        //     },
-        //     body: data
-        // };
         try {
-            console.log('sharmuta');
             console.log(formDataTest?.getParts());
-
+            console.log(
+                `http://${SERVER_IP_ADDRESS}:${PORT}/api/uploadPicture`
+            );
             let res = await fetch(
-                `http://192.168.56.1:8080/api/uploadPicture`, //gonen: 192.168.56.1 //tom: 192.168.1.57
+                `http://${SERVER_IP_ADDRESS}:${PORT}/api/uploadPicture`,
                 {
                     method: 'post',
                     body: formDataTest
                 }
             );
 
-            // const fetchResponse = await fetch(
-            //     'http://192.168.1.57:8080/api/uploadPicture',
-            //     setting
-            // );
-            const dr = await res.json();
+            const playerData = await res.json();
+            setIsWaitingForResponse(false);
 
             console.log('====================================');
-            console.log(dr);
+            console.log(playerData);
             console.log('====================================');
             // const response = await fetchResponse.json();
             // console.log(response);
+            navigation.navigate('PlayerInfoScreen', { playerData });
         } catch (e) {
             console.log(e);
         }
@@ -86,74 +83,85 @@ export default function NewPlayerScan() {
             colors={['#28449C', '#0064C3']}
             style={styles.linearGradient}
         >
-            <View style={styles.topContent}>
-                <View style={styles.logoImgView}>
-                    <Image
-                        style={styles.logoPic}
-                        source={require('../../assets/img/newPlayerScanLogo.png')}
+            {showLoadingSpinner === true ? (
+                <>
+                    <Spinner
+                        visible={showLoadingSpinner}
+                        textContent={'Identifying...'}
+                        textStyle={styles.spinnerTextStyle}
                     />
-                </View>
-                <Text style={styles.descriptionText}>
-                    {
-                        'Please upload a picture of a player.\nThe picture has to be as clear as possible'
-                    }
-                </Text>
-            </View>
-
-            {pickerResponse !== null ? (
-                <View style={{ alignItems: 'center' }}>
-                    {pickerResponse?.assets?.map((img) => {
-                        return (
-                            <View key={1}>
-                                <Text
-                                    style={{
-                                        color: 'white',
-                                        textAlign: 'center',
-                                        marginBottom: 10
-                                    }}
-                                >
-                                    Selected picture:
-                                </Text>
-                                <Image
-                                    style={{
-                                        width: 250,
-                                        height: 250
-                                    }}
-                                    source={{ uri: img.uri }}
-                                />
-                            </View>
-                        );
-                    })}
-                </View>
+                </>
             ) : (
-                <></>
+                <>
+                    <View style={styles.topContent}>
+                        <View style={styles.logoImgView}>
+                            <Image
+                                style={styles.logoPic}
+                                source={require('../../assets/img/newPlayerScanLogo.png')}
+                            />
+                        </View>
+                        <Text style={styles.descriptionText}>
+                            {
+                                'Please upload a picture of a player.\nThe picture has to be as clear as possible'
+                            }
+                        </Text>
+                    </View>
+
+                    {pickerResponse !== null ? (
+                        <View style={{ alignItems: 'center' }}>
+                            {pickerResponse?.assets?.map((img) => {
+                                return (
+                                    <View key={1}>
+                                        <Text
+                                            style={{
+                                                color: 'white',
+                                                textAlign: 'center',
+                                                marginBottom: 10
+                                            }}
+                                        >
+                                            Selected picture:
+                                        </Text>
+                                        <Image
+                                            style={{
+                                                width: 250,
+                                                height: 250
+                                            }}
+                                            source={{ uri: img.uri }}
+                                        />
+                                    </View>
+                                );
+                            })}
+                        </View>
+                    ) : (
+                        <></>
+                    )}
+
+                    <CameraButtons
+                        pickerResponse={pickerResponse}
+                        setPickerResponse={setPickerResponse}
+                    />
+                    <TextInput
+                        style={styles.numberInput}
+                        placeholder="Shirt number (Optional)"
+                        onChangeText={(newText) => setPlayerNumber(newText)}
+                        defaultValue={playerNumber}
+                        placeholderTextColor={'#132D42'}
+                        keyboardType="numeric"
+                    />
+
+                    <TouchableOpacity
+                        onPress={submitPlayerForIdentification}
+                        style={styles.submitButton}
+                    >
+                        <Image
+                            style={styles.submitButtonIcon}
+                            source={{
+                                uri: 'https://icon-library.com/images/submit-button-icon-png/submit-button-icon-png-0.jpg'
+                            }}
+                        />
+                    </TouchableOpacity>
+                </>
             )}
-
-            <CameraButtons
-                pickerResponse={pickerResponse}
-                setPickerResponse={setPickerResponse}
-            />
-            <TextInput
-                style={styles.numberInput}
-                placeholder="Shirt number (Optional)"
-                onChangeText={(newText) => setPlayerNumber(newText)}
-                defaultValue={playerNumber}
-                placeholderTextColor={'#132D42'}
-                keyboardType="numeric"
-            />
-
-            <TouchableOpacity
-                onPress={submitPlayerForIdentification}
-                style={styles.submitButton}
-            >
-                <Image
-                    style={styles.submitButtonIcon}
-                    source={{
-                        uri: 'https://icon-library.com/images/submit-button-icon-png/submit-button-icon-png-0.jpg'
-                    }}
-                />
-            </TouchableOpacity>
-            {/* <Text>asfsa</Text> */}
         </LinearGradient>
     );
 }
@@ -193,6 +201,6 @@ const styles = StyleSheet.create({
     //     color: '#b97272',
     //     fontSize: 20
     // },
-    submitButtonIcon: { flex: 0.95, resizeMode: 'contain' }
-    // picturePreviewView: { flex: 1 }
+    submitButtonIcon: { flex: 0.95, resizeMode: 'contain' },
+    spinnerTextStyle: { color: '#FFFFFF' }
 });

@@ -3,7 +3,7 @@ const axios = require("axios");
 const playerApi = "https://balldontlie.io/api/v1/players/?search=";
 const seasonalStatsApi = `https://www.balldontlie.io/api/v1/season_averages?season=`;
 
-const getPlayerId = async (playerName) => {
+const getPlayerInfo = async (playerName) => {
   let config = {
     method: "get",
     url: playerApi + playerName,
@@ -11,9 +11,9 @@ const getPlayerId = async (playerName) => {
   };
   try {
     let response = await axios(config);
-    let playerId = JSON.stringify(response.data.data[0].id);
+    let playerInfo = JSON.stringify(response.data.data[0]);
     // console.log(playerId);
-    return playerId;
+    return playerInfo;
   } catch (error) {
     console.log(error);
   }
@@ -21,38 +21,39 @@ const getPlayerId = async (playerName) => {
 
 const getPlayerSeasonStats = async (playerName, seasonYear) => {
   try {
-    let playerId = await getPlayerId(playerName);
-    console.log(playerId);
+    let playerInfo = await getPlayerInfo(playerName);
+    let parsedPlayerInfo = JSON.parse(playerInfo);
+
     let config = {
       method: "get",
-      url: `${seasonalStatsApi}${seasonYear}&player_ids[]=${playerId}`,
+      url: `${seasonalStatsApi}${seasonYear}&player_ids[]=${parsedPlayerInfo.id}`,
       headers: {},
     };
 
     let response = await axios(config);
-    let playerStats = JSON.stringify(response.data);
-    console.log(playerStats);
+    let playerStats = response.data.data[0];
+    const {
+      first_name,
+      last_name,
+      height_feet,
+      height_inches,
+      position,
+      team,
+    } = parsedPlayerInfo;
+    const finalPlayerJson = {
+      playerInfo: {
+        fullName: first_name + " " + last_name,
+        height: `${height_feet}'${height_inches}`,
+        position: position,
+        teamFullName: team.full_name,
+      },
+      playerStats: playerStats,
+    };
+    // console.log(playerStats);
+    return finalPlayerJson;
   } catch (error) {
     console.log(error);
   }
 };
-//   console.log("====================================");
-//   console.log(playerId);
-//   console.log("====================================");
-//   var config = {
-//     method: "get",
-//     url: seasonalStatsApi + playerId,
-//     headers: {},
-//   };
-//   let playerStats = {};
-//   axios(config)
-//     .then(function (response) {
-//       playerStats = JSON.stringify(response.data);
-//       console.log(playerStats);
-//     })
-//     .catch(function (error) {
-//       console.log(error);
-//     });
-//playerStats;
 
 module.exports = { getPlayerSeasonStats };

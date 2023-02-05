@@ -16,25 +16,25 @@ const addUser = async (req, res, next) => {
 };
 
 const receiveImage = async (req, res, next) => {
-  console.log("sharmuta");
+  console.log("sharmuta at year");
   try {
     // console.log(req.body.file);
     // console.log(req);
     // console.log(req.file);
 
-    const playerSeasonStats = await getPlayerSeasonStats(
-      "LeBron James",
-      "2022"
-    );
-    console.log("sharmotaaaaa");
+    const playerObject = await getPlayerSeasonStats("LeBron James", "2022");
+    // console.log(playerSeasonStats);
     // console.log(req.body.type);
     // console.log(req.body.uri);
     const img = req.body;
     if (!img) {
       console.log("no image");
     }
-
-    res.send({ congrats: "data recieved" });
+    console.log(playerObject);
+    res.send({
+      congrats: "data recieved",
+      playerObject: playerObject,
+    });
   } catch (error) {
     console.log(error);
   }
