@@ -15,6 +15,17 @@ import LinearGradient from 'react-native-linear-gradient';
 import CameraButtons from '../CameraButtons/CameraButtons';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { PORT, SERVER_IP_ADDRESS } from '@env';
+import { UserContext } from '../../App';
+
+//to shorten time to get a timeout from the server////////////
+
+export const Timeout = (time: number) => {
+    let controller = new AbortController();
+    setTimeout(() => controller.abort(), time * 1000);
+    return controller;
+};
+
+///////////////////////////////////////////////////////////////
 
 export default function NewPlayerScan(props: any) {
     const [pickerResponse, setPickerResponse] = useState<ImagePickerResponse>();
@@ -23,6 +34,7 @@ export default function NewPlayerScan(props: any) {
     const [isWaitingForResponse, setIsWaitingForResponse] = useState(false);
     const [showLoadingSpinner, setShowLoadingSpinner] = useState(false);
     const navigation = props.navigation;
+    let userContext = React.useContext(UserContext);
 
     useEffect(() => {
         if (pickerResponse) {
@@ -52,14 +64,19 @@ export default function NewPlayerScan(props: any) {
 
         try {
             console.log(formDataTest?.getParts());
-            console.log(
-                `http://${SERVER_IP_ADDRESS}:${PORT}/api/uploadPicture`
-            );
+            // console.log(
+            //     `http://${SERVER_IP_ADDRESS}:${PORT}/api/uploadPicture`
+            // );
+
             let res = await fetch(
                 `http://${SERVER_IP_ADDRESS}:${PORT}/api/uploadPicture`,
                 {
                     method: 'post',
-                    body: formDataTest
+                    body: formDataTest,
+                    headers: {
+                        Authorization: `Bearer ${userContext.userObject.idToken}`
+                    },
+                    signal: Timeout(5).signal
                 }
             );
 
@@ -71,9 +88,12 @@ export default function NewPlayerScan(props: any) {
             console.log('====================================');
             // const response = await fetchResponse.json();
             // console.log(response);
+
             navigation.navigate('PlayerInfoScreen', { playerData });
         } catch (e) {
             console.log(e);
+            Alert.alert('bad/no response from server');
+            setIsWaitingForResponse(false);
         }
     }
     return (

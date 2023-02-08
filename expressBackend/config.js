@@ -15,6 +15,7 @@ const {
   storageBucket,
   messagingSenderId,
   appId,
+  audience,
 } = process.env;
 
 assert(PORT, "PORT IS REQUIRED");
@@ -24,6 +25,7 @@ module.exports = {
   port: PORT,
   host: HOST,
   url: HOST_URL,
+  audience: audience,
   firebaseConfig: {
     apiKey: apiKey,
     authDomain: authDomain,
