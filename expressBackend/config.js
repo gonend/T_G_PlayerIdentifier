@@ -16,6 +16,7 @@ const {
   messagingSenderId,
   appId,
   audience,
+  tempPicturePath,
 } = process.env;
 
 assert(PORT, "PORT IS REQUIRED");
@@ -26,6 +27,8 @@ module.exports = {
   host: HOST,
   url: HOST_URL,
   audience: audience,
+  tempPicturePath: tempPicturePath,
+
   firebaseConfig: {
     apiKey: apiKey,
     authDomain: authDomain,

@@ -76,7 +76,7 @@ export default function NewPlayerScan(props: any) {
                     headers: {
                         Authorization: `Bearer ${userContext.userObject.idToken}`
                     },
-                    signal: Timeout(5).signal
+                    signal: Timeout(10).signal
                 }
             );
 
