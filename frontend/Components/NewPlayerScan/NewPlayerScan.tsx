@@ -36,6 +36,8 @@ export default function NewPlayerScan(props: any) {
     const navigation = props.navigation;
     let userContext = React.useContext(UserContext);
 
+    const [freshStart, setFreshStart] = useState(false);
+
     useEffect(() => {
         if (pickerResponse) {
             const formData = new FormData();
@@ -59,6 +61,18 @@ export default function NewPlayerScan(props: any) {
         }
     }, [isWaitingForResponse]);
 
+    useEffect(() => {
+        console.log('freshStart is: ' + freshStart);
+        if (freshStart === true) {
+            //clean all data at this page
+            setPickerResponse(undefined);
+            setPlayerNumber('');
+            setFormDataTest(undefined);
+            setIsWaitingForResponse(false);
+            setShowLoadingSpinner(false);
+        }
+    }, [freshStart]);
+
     async function submitPlayerForIdentification() {
         setIsWaitingForResponse(true);
 
@@ -81,7 +95,6 @@ export default function NewPlayerScan(props: any) {
             );
 
             const playerData = await res.json();
-            setIsWaitingForResponse(false);
 
             console.log('====================================');
             console.log(playerData);
@@ -89,7 +102,10 @@ export default function NewPlayerScan(props: any) {
             // const response = await fetchResponse.json();
             // console.log(response);
 
-            navigation.navigate('PlayerInfoScreen', { playerData });
+            navigation.navigate('PlayerInfoScreen', {
+                playerData,
+                setFreshStart
+            });
         } catch (e) {
             console.log(e);
             Alert.alert('bad/no response from server');

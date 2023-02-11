@@ -11,15 +11,19 @@ import { filterConfig } from 'react-native-gesture-handler/lib/typescript/handle
 import LinearGradient from 'react-native-linear-gradient';
 import Navbar from '../Navbar/Navbar';
 import GenericStatComponent from './GenericStatComponent';
+import PlayerInfoComponent from './PlayerInfoComponent';
 
 export default function PlayerInfoScreen(props: {
     navigation: NavigationProp<ParamListBase>;
     route: any;
 }) {
     const { navigation } = props;
-    const { playerData } = props.route.params;
+    const { playerData, setFreshStart } = props.route.params;
+
+    const playerInfo = playerData.playerObject.playerInfo;
 
     function identifyAgain() {
+        setFreshStart(true);
         navigation.navigate('NewPlayerScan');
     }
 
@@ -82,12 +86,16 @@ export default function PlayerInfoScreen(props: {
             <Text style={styles.playerNameText}>{playerName}</Text>
 
             <ScrollView>
-                <Image
-                    style={styles.playerPicture}
-                    source={{
-                        uri: 'https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png'
-                    }}
-                />
+                <View style={styles.playerInfoView}>
+                    <Image
+                        style={styles.playerPicture}
+                        source={{
+                            uri: 'https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png'
+                        }}
+                    />
+                    <PlayerInfoComponent playerInfo={playerInfo} />
+                </View>
+
                 {showPlayerStats === true ? (
                     <View style={styles.playerStatsScrollView}>
                         {Object.keys(playerStats).map((statObjectKey: any) => {
@@ -133,11 +141,17 @@ const styles = StyleSheet.create({
         fontSize: 30,
         marginTop: 10
     },
+    playerInfoView: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
     playerPicture: {
         height: 150,
         width: 150,
         alignSelf: 'center',
-        marginTop: 10
+        marginTop: 10,
+        marginRight: 20
     },
     playerStatsScrollView: {
         flex: 0.5,
@@ -156,7 +170,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         // flexWrap: 'wrap',
         justifyContent: 'center',
-        marginTop: 60
+        marginTop: 50
     },
     identifyAgainButton: {
         // flex: 0.5,

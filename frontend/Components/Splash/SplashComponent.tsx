@@ -50,7 +50,7 @@ const SplashComponent = (props: any) => {
 
             // console.log('logged out');
             userContext.setIsUserAuthorized(false);
-            navigation.navigate('Login', {});
+            // navigation.navigate('Login', {});
         }
     }
 

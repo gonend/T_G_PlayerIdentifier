@@ -39,6 +39,7 @@ const Login = (props: any) => {
             );
             return credentials;
         } catch (error) {
+            console.log('error authenticationg ur token');
             console.log(error);
         }
     }
@@ -163,7 +164,8 @@ const styles = StyleSheet.create({
         flex: 1
     },
     container: {
-        height: height
+        height: height,
+        flex: 1
     },
     topContent: {
         flex: 1,

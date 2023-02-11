@@ -23,13 +23,13 @@ const addUser = async (req, res, next) => {
     res.status(400).send(error.message);
   }
 };
-
+//this is where we change player for testing
 const sendImgToClassificationModel = (imgUrl) => {
   //function that sends the picture to the model and returns a player Name
 
   console.log("img path is:" + imgUrl);
 
-  return "Kyrie Irving";
+  return "Lebron James";
 };
 
 const receiveImage = async (req, res, next) => {
