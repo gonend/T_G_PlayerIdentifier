@@ -17,7 +17,7 @@ const fileFilter = (req, file, cb) => {
 const uploads = multer({ storage, fileFilter });
 
 router.post("/user", addUser);
-router.put("/user", updateUserName);
+// router.put("/user", updateUserName);
 router.post("/uploadPicture", uploads.single("photo"), receiveImage);
 
 router.get("/tasks", (req, res) => {

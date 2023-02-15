@@ -16,6 +16,7 @@ import CameraButtons from '../CameraButtons/CameraButtons';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { PORT, SERVER_IP_ADDRESS } from '@env';
 import { UserContext } from '../../App';
+import Navbar from '../Navbar/Navbar';
 
 //to shorten time to get a timeout from the server////////////
 
@@ -35,6 +36,8 @@ export default function NewPlayerScan(props: any) {
     const [showLoadingSpinner, setShowLoadingSpinner] = useState(false);
     const navigation = props.navigation;
     let userContext = React.useContext(UserContext);
+
+    const [freshStart, setFreshStart] = useState(true);
 
     useEffect(() => {
         if (pickerResponse) {
@@ -59,6 +62,19 @@ export default function NewPlayerScan(props: any) {
         }
     }, [isWaitingForResponse]);
 
+    useEffect(() => {
+        console.log('freshStart is: ' + freshStart);
+        if (freshStart === true) {
+            //clean all data at this page
+            setPickerResponse(undefined);
+            setPlayerNumber('');
+            setFormDataTest(undefined);
+            setIsWaitingForResponse(false);
+            setShowLoadingSpinner(false);
+            setFreshStart(false);
+        }
+    }, [freshStart]);
+
     async function submitPlayerForIdentification() {
         setIsWaitingForResponse(true);
 
@@ -76,12 +92,11 @@ export default function NewPlayerScan(props: any) {
                     headers: {
                         Authorization: `Bearer ${userContext.userObject.idToken}`
                     },
-                    signal: Timeout(5).signal
+                    signal: Timeout(10).signal
                 }
             );
 
             const playerData = await res.json();
-            setIsWaitingForResponse(false);
 
             console.log('====================================');
             console.log(playerData);
@@ -89,7 +104,10 @@ export default function NewPlayerScan(props: any) {
             // const response = await fetchResponse.json();
             // console.log(response);
 
-            navigation.navigate('PlayerInfoScreen', { playerData });
+            navigation.navigate('PlayerInfoScreen', {
+                playerData,
+                setFreshStart
+            });
         } catch (e) {
             console.log(e);
             Alert.alert('bad/no response from server');
@@ -113,6 +131,7 @@ export default function NewPlayerScan(props: any) {
                 </>
             ) : (
                 <>
+                    <Navbar navigation={navigation} />
                     <View style={styles.topContent}>
                         <View style={styles.logoImgView}>
                             <Image
@@ -160,14 +179,14 @@ export default function NewPlayerScan(props: any) {
                         pickerResponse={pickerResponse}
                         setPickerResponse={setPickerResponse}
                     />
-                    <TextInput
+                    {/* <TextInput
                         style={styles.numberInput}
                         placeholder="Shirt number (Optional)"
                         onChangeText={(newText) => setPlayerNumber(newText)}
                         defaultValue={playerNumber}
                         placeholderTextColor={'#132D42'}
                         keyboardType="numeric"
-                    />
+                    /> */}
 
                     <TouchableOpacity
                         onPress={submitPlayerForIdentification}
@@ -193,7 +212,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     logoImgView: {
-        flex: 0.9,
+        flex: 1,
         marginTop: height * 0.0427795,
         maxHeight: height * 0.210559
     },

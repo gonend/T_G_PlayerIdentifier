@@ -1,5 +1,7 @@
 const { db, firestore } = require("../db");
 
+const config = require("../config");
+
 const { firebaseUserId } = require("../middleware/index");
 
 const { getPlayerSeasonStats } = require("./extApi");
@@ -21,6 +23,14 @@ const addUser = async (req, res, next) => {
     res.status(400).send(error.message);
   }
 };
+//this is where we change player for testing
+const sendImgToClassificationModel = (imgUrl) => {
+  //function that sends the picture to the model and returns a player Name
+
+  console.log("img path is:" + imgUrl);
+
+  return "Lebron james";
+};
 
 const receiveImage = async (req, res, next) => {
   let prevYear = new Date().getFullYear() - 1;
@@ -32,7 +42,12 @@ const receiveImage = async (req, res, next) => {
 
     //TODO: this is where we are supposed to call the classification model that will return the playerName from Img
 
-    const playerObject = await getPlayerSeasonStats("lebron james", prevYear);
+    const playerName = sendImgToClassificationModel(
+      `${config.tempPicturePath}${req.file.filename}`
+    );
+
+    //after getting playerNamefrom model==> use firebase/API for playerInfonba AND use Api to get player stats
+    const playerObject = await getPlayerSeasonStats(playerName, prevYear);
 
     //if getting stats for that player succeeded==> save that playerName in firestore database.
 
@@ -42,22 +57,12 @@ const receiveImage = async (req, res, next) => {
 
     let objectFromFirestore = await searchHistoryRef.get();
 
-    // console.log(objectFromFirestore.data());
-
-    ////temp/////
-
-    // await firestore
-    //   .collection("players_history")
-    //   .doc(res.locals.firebaseUserId)
-    //   .set({ players: [playerObject.playerInfo] });
-
-    /////end temp///////////////
     objectFromFirestore = objectFromFirestore.data();
 
     if (objectFromFirestore === undefined) {
-      let playerName = playerObject.playerInfo.fullName;
+      // let playerName = playerObject.playerInfo.fullName;
       let objToSend = { players: {} };
-      objToSend.players[playerName] = playerObject.playerInfo;
+      objToSend.players[playerObject.playerInfo.id] = playerName;
       await firestore
         .collection("usersSearchHistory")
         .doc(res.locals.firebaseUserId)
@@ -65,7 +70,7 @@ const receiveImage = async (req, res, next) => {
     } else {
       let playersInfoObject = objectFromFirestore.players;
       playersInfoObject[playerObject.playerInfo.fullName] =
-        playerObject.playerInfo;
+        playerObject.playerInfo.id;
       objectFromFirestore.players = playersInfoObject;
 
       await firestore
@@ -73,16 +78,10 @@ const receiveImage = async (req, res, next) => {
         .doc(res.locals.firebaseUserId)
         .set(objectFromFirestore);
     }
-    // console.log(objectFromFirestore);
 
-    // console.log(playerSeasonStats);
-    // console.log(req.body.type);
-    // console.log(req.body.uri);
-    const img = req.body;
-    if (!img) {
-      console.log("no image");
-    }
-    // console.log(playerObject);
+    // console.log(req.file);
+
+    console.log(playerObject);
     res.send({
       congrats: "data recieved",
       playerObject: playerObject,
@@ -92,24 +91,4 @@ const receiveImage = async (req, res, next) => {
   }
 };
 
-const updateUserName = async (req, res, next) => {
-  const data = req.body;
-  console.log("sharmit");
-  console.log(data);
-
-  await setDoc(doc(usersRef, "SF"), {
-    name: "San Francisco",
-    state: "CA",
-    country: "USA",
-    capital: false,
-    population: 860000,
-    regions: ["west_coast", "norcal"],
-  });
-
-  await firestore.collection("users").doc(doc.email).update({ name: "bar" });
-
-  // await firestore.collection("users").doc().update(data);
-  res.send("user was updated on firebase store");
-};
-
-module.exports = { addUser, receiveImage, updateUserName };
+module.exports = { addUser, receiveImage };

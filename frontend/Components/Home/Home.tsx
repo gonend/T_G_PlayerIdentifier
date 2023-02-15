@@ -19,8 +19,11 @@ function Home(props: any) {
     };
 
     useEffect(() => {
+        console.log('token for this user is:');
+        console.log('//////////////Start of token//////////////');
         console.log(userContext.userObject.idToken);
-        console.log(userContext.userObject.user);
+        console.log('//////////////End of token//////////////');
+        // console.log(userContext.userObject.user);
     }, []);
 
     return (
