@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     View,
     Text,
@@ -17,6 +17,11 @@ function Home(props: any) {
     const takePicture = () => {
         navigation.navigate('NewPlayerScan');
     };
+
+    useEffect(() => {
+        console.log(userContext.userObject.idToken);
+        console.log(userContext.userObject.user);
+    }, []);
 
     return (
         <View style={styles.container}>

@@ -99,7 +99,7 @@ const App = (props: { children: any }) => {
             <NavigationContainer>
                 <Stack.Navigator
                     screenOptions={{ headerShown: false }}
-                    initialRouteName="NewPlayerScan"
+                    initialRouteName="Splash"
                 >
                     <Stack.Screen name="Login" component={Login} />
                     <Stack.Screen name="Splash" component={SplashComponent} />
