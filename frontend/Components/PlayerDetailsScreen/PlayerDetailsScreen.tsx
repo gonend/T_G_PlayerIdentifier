@@ -5,13 +5,22 @@ import {
     ParamListBase
 } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+    Dimensions,
+    Image,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
+} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { filterConfig } from 'react-native-gesture-handler/lib/typescript/handlers/gestureHandlerCommon';
 import LinearGradient from 'react-native-linear-gradient';
 import Navbar from '../Navbar/Navbar';
-import GenericStatComponent from './GenericStatComponent';
+import UserRoleNavbar from './StatsNavbarComponent/StatsNavbarComponent';
+import GenericStatComponent from './GenericExpertStatComponent';
 import PlayerInfoComponent from './PlayerInfoComponent';
+import PlayerSimpleStatsComponent from './PlayerSimpleStatsComponent';
 
 export default function PlayerInfoScreen(props: {
     navigation: NavigationProp<ParamListBase>;
@@ -20,60 +29,28 @@ export default function PlayerInfoScreen(props: {
     const { navigation } = props;
     const { playerData, setFreshStart } = props.route.params;
 
-    const playerInfo = playerData.playerObject.playerInfo;
+    const playerInfo = playerData?.playerObject.playerInfo;
+
+    const [playerStats, setPlayerStats] = useState(
+        playerData?.playerObject.playerStats
+    );
+
+    const [simpleStatsView, setSimpleStatsView] = useState(false);
 
     function identifyAgain() {
         setFreshStart(true);
         navigation.navigate('NewPlayerScan');
     }
 
-    const [playerStats, setPlayerStats] = useState(
-        playerData.playerObject.playerStats
-    );
-
     const playerName =
         playerData.playerObject.playerInfo.first_name +
         ' ' +
         playerData.playerObject.playerInfo.last_name;
 
-    const { ast, blk, dreb } = playerStats;
-
-    const [showPlayerStats, setShowPlayerStats] = useState(false);
+    //const { ast, blk, dreb } = playerStats;
 
     let key = 1;
 
-    const [statsBoolean, setStatsBoolean] = useState({
-        ast: true,
-        blk: true,
-        dreb: true,
-        fg3_pct: true,
-        fg3a: true,
-        fg3m: true,
-        fg_pct: true,
-        fga: true,
-        fgm: true,
-        ft_pct: true,
-        fta: true,
-        ftm: true,
-        games_played: true,
-        min: true,
-        oreb: true
-    });
-
-    useEffect(() => {
-        console.log('sharmutaaa');
-        if (playerStats) {
-            console.log(playerStats);
-
-            setShowPlayerStats(true);
-        }
-    }, [playerStats]);
-
-    useEffect(() => {
-        // console.log('check type for navigation');
-        // navigation.navigate('Home');
-        // setPlayerStats({ dreb, blk, ast });
-    }, []);
     return (
         <LinearGradient
             start={{ x: 0, y: 0 }}
@@ -83,9 +60,14 @@ export default function PlayerInfoScreen(props: {
         >
             {/* <Text>{JSON.stringify(playerData)}</Text> */}
             <Navbar navigation={navigation} />
+
             <Text style={styles.playerNameText}>{playerName}</Text>
 
             <ScrollView>
+                <UserRoleNavbar
+                    setSimpleStatsView={setSimpleStatsView}
+                    simpleStatsView={simpleStatsView}
+                />
                 <View style={styles.playerInfoView}>
                     <Image
                         style={styles.playerPicture}
@@ -96,8 +78,12 @@ export default function PlayerInfoScreen(props: {
                     <PlayerInfoComponent playerInfo={playerInfo} />
                 </View>
 
-                {showPlayerStats === true ? (
-                    <View style={styles.playerStatsScrollView}>
+                {simpleStatsView === true ? (
+                    <View style={styles.playerSimpleStatsView}>
+                        <PlayerSimpleStatsComponent playerStats={playerStats} />
+                    </View>
+                ) : (
+                    <View style={styles.playerExpertStatsScrollView}>
                         {Object.keys(playerStats).map((statObjectKey: any) => {
                             return (
                                 <GenericStatComponent
@@ -108,13 +94,8 @@ export default function PlayerInfoScreen(props: {
                             );
                         })}
                     </View>
-                ) : (
-                    <></>
                 )}
 
-                {/* {playerData.playerObject.playerStats.map((statObject: any) => {
-                <GenericStatComponent key={key} statObject={statObject} />;
-            })} */}
                 <View style={styles.buttonView}>
                     <TouchableOpacity
                         onPress={identifyAgain}
@@ -132,6 +113,11 @@ export default function PlayerInfoScreen(props: {
         </LinearGradient>
     );
 }
+const { height, width } = Dimensions.get('window');
+
+console.log('height is: ' + height);
+console.log('width is: ' + width);
+
 const styles = StyleSheet.create({
     linearGradient: { flex: 1 },
 
@@ -153,7 +139,8 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginRight: 20
     },
-    playerStatsScrollView: {
+    playerSimpleStatsView: { alignItems: 'center' },
+    playerExpertStatsScrollView: {
         flex: 0.5,
         flexWrap: 'wrap',
         flexDirection: 'row',
@@ -170,7 +157,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         // flexWrap: 'wrap',
         justifyContent: 'center',
-        marginTop: 50
+        marginTop: 20
     },
     identifyAgainButton: {
         // flex: 0.5,
@@ -181,8 +168,8 @@ const styles = StyleSheet.create({
     identifyAgainButtonIcon: {
         // flex: 0.8,
         // resizeMode: 'contain',
-        height: 130,
-        width: 130
+        height: height * 0.1563354,
+        width: width * 0.33333333
         // flexWrap: 'wrap'
     }
 });

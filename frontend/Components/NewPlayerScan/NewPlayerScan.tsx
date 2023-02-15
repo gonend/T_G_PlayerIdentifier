@@ -16,6 +16,7 @@ import CameraButtons from '../CameraButtons/CameraButtons';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { PORT, SERVER_IP_ADDRESS } from '@env';
 import { UserContext } from '../../App';
+import Navbar from '../Navbar/Navbar';
 
 //to shorten time to get a timeout from the server////////////
 
@@ -36,7 +37,7 @@ export default function NewPlayerScan(props: any) {
     const navigation = props.navigation;
     let userContext = React.useContext(UserContext);
 
-    const [freshStart, setFreshStart] = useState(false);
+    const [freshStart, setFreshStart] = useState(true);
 
     useEffect(() => {
         if (pickerResponse) {
@@ -70,6 +71,7 @@ export default function NewPlayerScan(props: any) {
             setFormDataTest(undefined);
             setIsWaitingForResponse(false);
             setShowLoadingSpinner(false);
+            setFreshStart(false);
         }
     }, [freshStart]);
 
@@ -129,6 +131,7 @@ export default function NewPlayerScan(props: any) {
                 </>
             ) : (
                 <>
+                    <Navbar navigation={navigation} />
                     <View style={styles.topContent}>
                         <View style={styles.logoImgView}>
                             <Image
@@ -176,14 +179,14 @@ export default function NewPlayerScan(props: any) {
                         pickerResponse={pickerResponse}
                         setPickerResponse={setPickerResponse}
                     />
-                    <TextInput
+                    {/* <TextInput
                         style={styles.numberInput}
                         placeholder="Shirt number (Optional)"
                         onChangeText={(newText) => setPlayerNumber(newText)}
                         defaultValue={playerNumber}
                         placeholderTextColor={'#132D42'}
                         keyboardType="numeric"
-                    />
+                    /> */}
 
                     <TouchableOpacity
                         onPress={submitPlayerForIdentification}
@@ -209,7 +212,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     logoImgView: {
-        flex: 0.9,
+        flex: 1,
         marginTop: height * 0.0427795,
         maxHeight: height * 0.210559
     },

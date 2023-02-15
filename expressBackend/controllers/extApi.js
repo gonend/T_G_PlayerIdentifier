@@ -112,6 +112,7 @@ const getPlayerSeasonStats = async (playerName, seasonYear) => {
     playerName = playerName.toLowerCase();
     console.log(playerName);
     let playerInfo = await getPlayerInfo(playerName);
+    console.log(playerInfo);
 
     let config = {
       method: "get",

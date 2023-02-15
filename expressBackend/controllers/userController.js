@@ -29,7 +29,7 @@ const sendImgToClassificationModel = (imgUrl) => {
 
   console.log("img path is:" + imgUrl);
 
-  return "Lebron James";
+  return "Lebron james";
 };
 
 const receiveImage = async (req, res, next) => {

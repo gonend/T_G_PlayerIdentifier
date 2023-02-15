@@ -35,7 +35,7 @@ import SplashComponent from './Components/Splash/SplashComponent';
 import HamburgerMenu from './Components/HamburgerMenu/HamburgerMenu';
 import Navbar from './Components/Navbar/Navbar';
 import NewPlayerScan from './Components/NewPlayerScan/NewPlayerScan';
-import PlayerInfoScreen from './Components/PlayerInfoScreen/PlayerInfoScreen';
+import PlayerInfoScreen from './Components/PlayerDetailsScreen/PlayerDetailsScreen';
 
 LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state'
