@@ -69,8 +69,7 @@ const receiveImage = async (req, res, next) => {
         .set(objToSend);
     } else {
       let playersInfoObject = objectFromFirestore.players;
-      playersInfoObject[playerObject.playerInfo.fullName] =
-        playerObject.playerInfo.id;
+      playersInfoObject[playerObject.playerInfo.id] = playerName;
       objectFromFirestore.players = playersInfoObject;
 
       await firestore
@@ -87,8 +86,56 @@ const receiveImage = async (req, res, next) => {
       playerObject: playerObject,
     });
   } catch (error) {
+    console.log("error getting stats from picture: ");
     console.log(error);
   }
 };
 
-module.exports = { addUser, receiveImage };
+const getStatsByplayerName = async (req, res, next) => {
+  try {
+    let prevYear = new Date().getFullYear() - 1;
+    let playerName = req.query.playerName;
+
+    const playerObject = await getPlayerSeasonStats(playerName, prevYear);
+
+    var searchHistoryRef = firestore
+      .collection("usersSearchHistory")
+      .doc(res.locals.firebaseUserId);
+
+    let objectFromFirestore = await searchHistoryRef.get();
+
+    objectFromFirestore = objectFromFirestore.data();
+
+    if (objectFromFirestore === undefined) {
+      // let playerName = playerObject.playerInfo.fullName;
+      let objToSend = { players: {} };
+      objToSend.players[playerObject.playerInfo.id] = playerName;
+      await firestore
+        .collection("usersSearchHistory")
+        .doc(res.locals.firebaseUserId)
+        .set(objToSend);
+    } else {
+      let playersInfoObject = objectFromFirestore.players;
+      playersInfoObject[playerObject.playerInfo.id] = playerName;
+      objectFromFirestore.players = playersInfoObject;
+
+      await firestore
+        .collection("usersSearchHistory")
+        .doc(res.locals.firebaseUserId)
+        .set(objectFromFirestore);
+    }
+
+    // console.log(req.file);
+
+    console.log(playerObject);
+    res.send({
+      congrats: "data recieved",
+      playerObject: playerObject,
+    });
+  } catch (error) {
+    console.log("error getting stats from playerName: ");
+    console.log(error);
+  }
+};
+
+module.exports = { addUser, receiveImage, getStatsByplayerName };

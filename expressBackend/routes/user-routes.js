@@ -1,7 +1,10 @@
 const express = require("express");
 
 const { addUser, updateUserName } = require("../controllers/userController");
-const { receiveImage } = require("../controllers/userController");
+const {
+  receiveImage,
+  getStatsByplayerName,
+} = require("../controllers/userController");
 
 const multer = require("multer");
 const storage = multer.diskStorage({});
@@ -19,6 +22,8 @@ const uploads = multer({ storage, fileFilter });
 router.post("/user", addUser);
 // router.put("/user", updateUserName);
 router.post("/uploadPicture", uploads.single("photo"), receiveImage);
+
+router.get("/getStatsByPlayerName", getStatsByplayerName);
 
 router.get("/tasks", (req, res) => {
   return res.json({
