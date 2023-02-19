@@ -5,9 +5,10 @@ import {
     ParamListBase
 } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Pressable } from 'react-native';
 import { filterConfig } from 'react-native-gesture-handler/lib/typescript/handlers/gestureHandlerCommon';
 import LinearGradient from 'react-native-linear-gradient';
+import CategoryPickerModal from '../CategoryPickerModal/CategoryPickerModal';
 
 export default function PlayerInfoScreen(props: {
     navigation: NavigationProp<ParamListBase>;
@@ -16,27 +17,15 @@ export default function PlayerInfoScreen(props: {
     const { navigation } = props;
     const { playerData } = props.route.params;
 
-    const [stats, setStats] = useState({
-        ast: true,
-        blk: true,
-        dreb: true,
-        fg3_pct: true,
-        fg3a: true,
-        fg3m: true,
-        fg_pct: true,
-        fga: true,
-        fgm: true,
-        ft_pct: true,
-        fta: true,
-        ftm: true,
-        games_played: true,
-        min: true,
-        oreb: true
-    });
+    const [statsModalVisible, setStatsModalVisible] = useState(false);
 
-    useEffect(() => {
-        /// map to true list
-    }, [stats]);
+    // useEffect(() => {
+    //     console.log('get ');
+    //     let shownStats = { ...stats };
+    //     // navigation.navigate('Home');
+    // }, [stats]);
+
+    // setCheckBox = (()=)
 
     useEffect(() => {
         // console.log('check type for navigation');
@@ -50,6 +39,16 @@ export default function PlayerInfoScreen(props: {
             style={styles.linearGradient}
         >
             <Text>{JSON.stringify(playerData)}</Text>
+            <Pressable
+                onPress={() => {
+                    setStatsModalVisible(!statsModalVisible);
+                }}
+            ></Pressable>
+
+            <CategoryPickerModal
+                statsModalVisible={statsModalVisible}
+                setStatsModalVisible={setStatsModalVisible}
+            />
         </LinearGradient>
     );
 }

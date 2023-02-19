@@ -1,43 +1,53 @@
-# import cv2
-# import numpy as np
-#
-# net = cv2.dnn.readNet("yolov8.weights", "yolov8.cfg")
-# classes = []
-# with open("coco.names", "r") as f:
-#     classes = [line.strip() for line in f.readlines()]
-# layer_names = net.getLayerNames()
-# output_layers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
-#
-# for i in range(1,7):
-#     test_image_filename = f'./test/test{i}.jpeg'
-#     print('image #',i)
-#     # load the image
-#     img = cv2.imread(test_image_filename)
-#     height, width, channels = img.shape
-#
-#     # detect objects in the image
-#     blob = cv2.dnn.blobFromImage(img, 0.00392, (416, 416), (0, 0, 0), True, crop=False)
-#     net.setInput(blob)
-#     outs = net.forward(output_layers)
-#
-#     # show information on the detected objects
-#     class_ids = []
-#     confidences = []
-#     boxes = []
-#     for out in outs:
-#         for detection in out:
-#             scores = detection[5:]
-#             class_id = np.argmax(scores)
-#             confidence = scores[class_id]
-#             if confidence > 0.5:
-#                 # Object detected
-#                 center_x = int(detection[0] * width)
-#                 center_y = int(detection[1] * height)
-#                 w = int(detection[2] * width)
-#                 h = int(detection[3] * height)
-#                 # Rectangle coordinates
-#                 x = int(center_x - w / 2)
-#                 y = int(center_y - h / 2)
-#                 boxes.append([x, y, w, h])
-#                 confidences.append(float(confidence))
-#                 class_ids.append(class_id)
+
+from IPython import display
+from ultralytics import YOLO
+import ultralytics
+ultralytics.checks()
+from IPython.display import display, Image
+import os
+
+def load_model(model_path):
+    model = YOLO(model_path)
+    return model, model.names
+
+# def import_roboflow_dataset(api_key):
+#     # !mkdir {HOME} / datasets
+#     # % cd {HOME} / datasets
+#     if os.path
+#     from roboflow import Roboflow
+#     rf = Roboflow(api_key=api_key)
+#     project = rf.workspace("gonen-davidi").project("playeridentifier")
+#     dataset = project.version(2).download("yolov8")
+
+
+def predict_player(model_path,image_path):
+    predictions = {}
+    try:
+        model, labels = load_model(model_path)
+        try:
+            results = model.predict(source=image_path,conf=0.3, save=True) #save=True
+            print(model.val())
+            for i, result in enumerate(results,start=1):
+                name_conf_list = []
+                conf = [float(conf) for conf in result.boxes.conf]
+                name = [model.names[int(cls)] for cls in result.boxes.cls]
+                for name_conf in zip(name,conf):
+                    name_conf_list.append(name_conf)
+                predictions[i] = name_conf_list
+        except:
+            raise Exception("Could Not Predict Image")
+    except:
+        raise Exception("Coulde Not Load Model")
+    finally:
+        return predictions
+
+path = 'best(2).pt'
+source = 'michael jordan_40.png'#'test'#'michael jordan_40.png'
+
+
+preds = predict_player(path,source)
+for pred in preds.values():
+    print(pred)
+
+
+
