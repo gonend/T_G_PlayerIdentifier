@@ -4,6 +4,7 @@ import {
     Dimensions,
     Image,
     ImageSourcePropType,
+    ScrollView,
     StyleSheet,
     Text,
     TextInput,
@@ -17,6 +18,8 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { PORT, SERVER_IP_ADDRESS } from '@env';
 import { UserContext } from '../../App';
 import Navbar from '../Navbar/Navbar';
+import PictureOrNameSelector from './PictureOrNameSelector/PictureOrNameSelector';
+import axios from 'axios';
 
 //to shorten time to get a timeout from the server////////////
 
@@ -30,14 +33,65 @@ export const Timeout = (time: number) => {
 
 export default function NewPlayerScan(props: any) {
     const [pickerResponse, setPickerResponse] = useState<ImagePickerResponse>();
-    const [playerNumber, setPlayerNumber] = useState('');
+    const [playerName, setPlayerName] = useState('');
     const [formDataTest, setFormDataTest] = useState<FormData>();
     const [isWaitingForResponse, setIsWaitingForResponse] = useState(false);
     const [showLoadingSpinner, setShowLoadingSpinner] = useState(false);
     const navigation = props.navigation;
     let userContext = React.useContext(UserContext);
 
-    const [freshStart, setFreshStart] = useState(true);
+    const [freshStart, setFreshStart] = useState(false);
+
+    const [identifyWithPicture, setIdentifyWithPicture] = useState(true);
+
+    async function getPlayerStatsAndNavigate(pictureOrName: string) {
+        let response = undefined;
+        let playerData = undefined;
+        try {
+            switch (pictureOrName) {
+                case 'picture':
+                    response = await fetch(
+                        `http://${SERVER_IP_ADDRESS}:${PORT}/api/uploadPicture`,
+                        {
+                            method: 'post',
+                            body: formDataTest,
+                            headers: {
+                                Authorization: `Bearer ${userContext.userObject.idToken}`
+                            },
+                            signal: Timeout(10).signal
+                        }
+                    );
+
+                    playerData = await response.json();
+                    break;
+
+                case 'playerName':
+                    response = await axios({
+                        method: 'get',
+                        url: `http://${SERVER_IP_ADDRESS}:${PORT}/api/getStatsByPlayerName`,
+                        headers: {
+                            Authorization: `Bearer ${userContext.userObject.idToken}`
+                        },
+                        params: { playerName: playerName },
+                        signal: Timeout(10).signal
+
+                        // data: { playerName: playerName }
+                    });
+                    playerData = response?.data;
+
+                default:
+                    break;
+            }
+            navigation.navigate('PlayerInfoScreen', {
+                playerData,
+                setFreshStart
+            });
+        } catch (error) {
+            console.log(error);
+            Alert.alert('bad/no response from server');
+            setIsWaitingForResponse(false);
+        }
+    }
 
     useEffect(() => {
         if (pickerResponse) {
@@ -65,9 +119,9 @@ export default function NewPlayerScan(props: any) {
     useEffect(() => {
         console.log('freshStart is: ' + freshStart);
         if (freshStart === true) {
-            //clean all data at this page
+            //clean all data at this screen
             setPickerResponse(undefined);
-            setPlayerNumber('');
+            setPlayerName('');
             setFormDataTest(undefined);
             setIsWaitingForResponse(false);
             setShowLoadingSpinner(false);
@@ -78,41 +132,9 @@ export default function NewPlayerScan(props: any) {
     async function submitPlayerForIdentification() {
         setIsWaitingForResponse(true);
 
-        try {
-            console.log(formDataTest?.getParts());
-            // console.log(
-            //     `http://${SERVER_IP_ADDRESS}:${PORT}/api/uploadPicture`
-            // );
-
-            let res = await fetch(
-                `http://${SERVER_IP_ADDRESS}:${PORT}/api/uploadPicture`,
-                {
-                    method: 'post',
-                    body: formDataTest,
-                    headers: {
-                        Authorization: `Bearer ${userContext.userObject.idToken}`
-                    },
-                    signal: Timeout(10).signal
-                }
-            );
-
-            const playerData = await res.json();
-
-            console.log('====================================');
-            console.log(playerData);
-            console.log('====================================');
-            // const response = await fetchResponse.json();
-            // console.log(response);
-
-            navigation.navigate('PlayerInfoScreen', {
-                playerData,
-                setFreshStart
-            });
-        } catch (e) {
-            console.log(e);
-            Alert.alert('bad/no response from server');
-            setIsWaitingForResponse(false);
-        }
+        identifyWithPicture === true
+            ? getPlayerStatsAndNavigate('picture')
+            : getPlayerStatsAndNavigate('playerName');
     }
     return (
         <LinearGradient
@@ -132,73 +154,113 @@ export default function NewPlayerScan(props: any) {
             ) : (
                 <>
                     <Navbar navigation={navigation} />
-                    <View style={styles.topContent}>
-                        <View style={styles.logoImgView}>
+                    <ScrollView>
+                        <View style={styles.topContent}>
+                            {/*//////////////////////if we want to put in a logo image uncomment the folowing:///////////////////////////// */}
+                            {/* <View style={{ maxHeight: 100 }}>
                             <Image
-                                style={styles.logoPic}
+                                style={{
+                                    resizeMode: 'contain',
+                                    maxHeight: 80,
+                                    maxWidth: 80,
+                                    alignSelf: 'center'
+                                }}
                                 source={require('../../assets/img/newPlayerScanLogo.png')}
                             />
-                        </View>
-                        <Text style={styles.descriptionText}>
-                            {
-                                'Please upload a picture of a player.\nThe picture has to be as clear as possible'
-                            }
-                        </Text>
-                    </View>
+                        </View> */}
+                            {/*//////////////////////End of logo code snippet///////////////////////////// */}
 
-                    {pickerResponse !== null ? (
-                        <View style={{ alignItems: 'center' }}>
-                            {pickerResponse?.assets?.map((img) => {
-                                return (
-                                    <View key={1}>
-                                        <Text
-                                            style={{
-                                                color: 'white',
-                                                textAlign: 'center',
-                                                marginBottom: 10
-                                            }}
-                                        >
-                                            Selected picture:
-                                        </Text>
-                                        <Image
-                                            style={{
-                                                width: 250,
-                                                height: 250
-                                            }}
-                                            source={{ uri: img.uri }}
-                                        />
+                            <PictureOrNameSelector
+                                identifyWithPicture={identifyWithPicture}
+                                setIdentifyWithPicture={setIdentifyWithPicture}
+                                setFreshStart={setFreshStart}
+                            />
+                        </View>
+
+                        {identifyWithPicture === true ? (
+                            <>
+                                <Text style={styles.descriptionText}>
+                                    {
+                                        'Please upload a picture of a player.\nThe picture has to be as clear as possible'
+                                    }
+                                </Text>
+                                {pickerResponse !== null ? (
+                                    <View style={{ alignItems: 'center' }}>
+                                        {pickerResponse?.assets?.map((img) => {
+                                            return (
+                                                <View key={1}>
+                                                    <Text
+                                                        style={{
+                                                            color: 'white',
+                                                            textAlign: 'center',
+                                                            marginBottom: 10
+                                                        }}
+                                                    >
+                                                        Selected picture:
+                                                    </Text>
+                                                    <Image
+                                                        style={{
+                                                            width: 250,
+                                                            height: 250,
+                                                            resizeMode:
+                                                                'contain'
+                                                        }}
+                                                        source={{
+                                                            uri: img.uri
+                                                        }}
+                                                    />
+                                                </View>
+                                            );
+                                        })}
                                     </View>
-                                );
-                            })}
-                        </View>
-                    ) : (
-                        <></>
-                    )}
+                                ) : (
+                                    <></>
+                                )}
 
-                    <CameraButtons
-                        pickerResponse={pickerResponse}
-                        setPickerResponse={setPickerResponse}
-                    />
-                    {/* <TextInput
-                        style={styles.numberInput}
-                        placeholder="Shirt number (Optional)"
-                        onChangeText={(newText) => setPlayerNumber(newText)}
-                        defaultValue={playerNumber}
-                        placeholderTextColor={'#132D42'}
-                        keyboardType="numeric"
-                    /> */}
+                                <CameraButtons
+                                    pickerResponse={pickerResponse}
+                                    setPickerResponse={setPickerResponse}
+                                />
+                            </>
+                        ) : (
+                            <>
+                                {/**View if user wants to upload playerName */}
+                                <Text style={styles.descriptionText}>
+                                    {
+                                        'Please Enter name of a player to get stats'
+                                    }
+                                </Text>
 
-                    <TouchableOpacity
-                        onPress={submitPlayerForIdentification}
-                        style={styles.submitButton}
+                                <TextInput
+                                    style={styles.nameInput}
+                                    placeholder="NBA player name"
+                                    onChangeText={(newText) =>
+                                        setPlayerName(newText)
+                                    }
+                                    defaultValue={playerName}
+                                    placeholderTextColor={'#132D42'}
+                                />
+                            </>
+                        )}
+                    </ScrollView>
+                    <View
+                        style={{
+                            alignItems: 'center',
+                            flex: 1
+                        }}
                     >
-                        <Image
-                            style={styles.submitButtonIcon}
-                            source={{
-                                uri: 'https://icon-library.com/images/submit-button-icon-png/submit-button-icon-png-0.jpg'
-                            }}
-                        />
-                    </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={submitPlayerForIdentification}
+                            style={styles.submitButton}
+                        >
+                            <Image
+                                style={styles.submitButtonIcon}
+                                source={{
+                                    uri: 'https://icon-library.com/images/submit-button-icon-png/submit-button-icon-png-0.jpg'
+                                }}
+                            />
+                        </TouchableOpacity>
+                    </View>
                 </>
             )}
         </LinearGradient>
@@ -208,22 +270,23 @@ const { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
     linearGradient: { flex: 1, justifyContent: 'space-between' },
     topContent: {
-        flex: 0.55,
-        alignItems: 'center'
+        flex: 1
+        // alignItems: 'center'
     },
-    logoImgView: {
-        flex: 1,
-        marginTop: height * 0.0427795,
-        maxHeight: height * 0.210559
-    },
-    logoPic: { flex: 1, Width: null, Height: null, resizeMode: 'contain' },
+    // logoImgView: {
+    //     flex: 0.3,
+    //     marginTop: height * 0.0427795,
+    //     maxHeight: height * 0.210559
+    // },
+    // logoPic: { flex: 0.5, Width: null, Height: null, resizeMode: 'contain' },
     descriptionText: {
         color: '#FFFFFF',
         fontSize: 18,
         marginTop: 20,
-        textAlign: 'center'
+        textAlign: 'center',
+        marginHorizontal: 10
     },
-    numberInput: {
+    nameInput: {
         backgroundColor: 'white',
         borderBottomColor: '#000000',
         borderBottomWidth: 1,
@@ -232,14 +295,22 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginHorizontal: width * 0.0533333333,
         fontSize: height * 0.02484472,
-        textAlign: 'center'
+        textAlign: 'center',
+        marginTop: 20
         // paddingRight: width * 0.03733333,
     },
-    submitButton: { flex: 0.2 },
+    submitButton: {
+        flex: 1
+    },
     // submitButtonText: {
     //     color: '#b97272',
     //     fontSize: 20
     // },
-    submitButtonIcon: { flex: 0.95, resizeMode: 'contain' },
+    submitButtonIcon: {
+        flex: 1,
+        resizeMode: 'contain',
+        height: 250,
+        width: 250
+    },
     spinnerTextStyle: { color: '#FFFFFF' }
 });
