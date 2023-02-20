@@ -14,6 +14,7 @@ import {
     launchImageLibrary,
     OptionsCommon
 } from 'react-native-image-picker';
+
 import LinearGradient from 'react-native-linear-gradient';
 
 export default function Camera(props: any) {

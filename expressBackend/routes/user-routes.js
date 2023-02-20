@@ -11,6 +11,11 @@ const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "../../uploads");
   },
+  filename: function (req, file, cb) {
+    const fileExtension = file.mimetype.split("/")[1]; // get the file extension
+    const fileName = file.originalname; // set the file name with timestamp
+    cb(null, fileName);
+  },
 });
 const router = express.Router();
 
@@ -21,6 +26,7 @@ const fileFilter = (req, file, cb) => {
     cb("invalid image file!", false);
   }
 };
+
 const uploads = multer({ storage, fileFilter });
 // const os = require("os");
 // console.log(os.tmpdir());

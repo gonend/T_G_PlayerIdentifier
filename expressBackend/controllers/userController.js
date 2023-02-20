@@ -25,19 +25,25 @@ const addUser = async (req, res, next) => {
   }
 };
 //this is where we change player for testing
-const sendImgToClassificationModel = (imgUrl) => {
+const sendImgToClassificationModel = async (imgUrl) => {
   //function that sends the picture to the model and returns a player Name
+  // console.log("../../uploads/" + imgUrl + ".png");
   console.log(imgUrl);
-  // const config = {
-  //   method: "get",
-  //   url: `http://127.0.0.1:5000/predictPlayer/` + imgUrl,
-  //   headers: {},
-  // };
-  // let preds = axios.get(config);
+  // imgUrl = "../../uploads/5de3a605e2740a0c407cd3c1004c81db.png";
+  const config = {
+    method: "post",
+    url: `http://127.0.0.1:5000/predictPlayer`,
+    data: { imgUrl: imgUrl },
+  };
+  let preds = await axios(config);
   // // console.log("img path is:" + imgUrl);
-  // preds = JSON.parse(preds);
-  // console.log(preds);
-  return "Lebron james";
+  console.log(preds.data[1]);
+  let playerName = preds.data[1][0][0];
+  console.log(playerName);
+
+  // // preds = JSON.parse(preds);
+  // // console.log(preds);
+  return playerName;
 };
 
 const receiveImage = async (req, res, next) => {
@@ -49,10 +55,11 @@ const receiveImage = async (req, res, next) => {
     // console.log(req.file);
 
     //TODO: this is where we are supposed to call the classification model that will return the playerName from Img
-    console.log(`${config.tempPicturePath}${req.file.filename}`);
-    const playerName = sendImgToClassificationModel(
-      `${config.tempPicturePath}${req.file.filename}`
+    console.log(`${req.file.filename}`); //${config.tempPicturePath}
+    const playerName = await sendImgToClassificationModel(
+      `${req.file.filename}` //${config.tempPicturePath}$
     );
+    console.log("shrmota");
 
     //after getting playerNamefrom model==> use firebase/API for playerInfonba AND use Api to get player stats
     const playerObject = await getPlayerSeasonStats(playerName, prevYear);

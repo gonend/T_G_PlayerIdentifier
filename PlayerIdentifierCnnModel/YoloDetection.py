@@ -21,6 +21,7 @@ def load_model(model_path):
 
 
 def predict_player(model_path,image_path):
+    print(image_path)
     predictions = {}
     try:
         model, labels = load_model(model_path)
