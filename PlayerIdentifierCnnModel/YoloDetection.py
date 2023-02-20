@@ -25,12 +25,11 @@ def predict_player(model_path,image_path):
     try:
         model, labels = load_model(model_path)
         try:
-            results = model.predict(source=image_path,conf=0.3, save=True) #save=True
-            print(model.val())
+            results = model.predict(source=image_path,conf=0.3) #save=True
             for i, result in enumerate(results,start=1):
                 name_conf_list = []
                 conf = [float(conf) for conf in result.boxes.conf]
-                name = [model.names[int(cls)] for cls in result.boxes.cls]
+                name = [labels[int(cls)] for cls in result.boxes.cls]
                 for name_conf in zip(name,conf):
                     name_conf_list.append(name_conf)
                 predictions[i] = name_conf_list
@@ -41,13 +40,14 @@ def predict_player(model_path,image_path):
     finally:
         return predictions
 
-path = 'best(2).pt'
-source = 'michael jordan_40.png'#'test'#'michael jordan_40.png'
-
-
-preds = predict_player(path,source)
-for pred in preds.values():
-    print(pred)
+# path = 'best(2).pt'
+# source = 'michaeljordan_40.png'#'test'#'michaeljordan_40.png'
+#
+# #
+# # preds = predict_player(path,source)
+# # for pred in preds.values():
+# #     print(pred)
+# print(predict_player(path,source))
 
 
 

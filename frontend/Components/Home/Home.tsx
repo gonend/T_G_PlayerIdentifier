@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     View,
     Text,
@@ -17,6 +17,14 @@ function Home(props: any) {
     const takePicture = () => {
         navigation.navigate('NewPlayerScan');
     };
+
+    useEffect(() => {
+        console.log('token for this user is:');
+        console.log('//////////////Start of token//////////////');
+        console.log(userContext.userObject.idToken);
+        console.log('//////////////End of token//////////////');
+        // console.log(userContext.userObject.user);
+    }, []);
 
     return (
         <View style={styles.container}>
