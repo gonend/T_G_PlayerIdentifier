@@ -1,5 +1,5 @@
-from flask import Flask, request
 from YoloDetection import predict_player
+from flask import Flask, request
 import os
 
 app = Flask(__name__)
