@@ -1,10 +1,8 @@
 
-from IPython import display
 from ultralytics import YOLO
 import ultralytics
 ultralytics.checks()
-from IPython.display import display, Image
-import os
+
 
 def load_model(model_path):
     model = YOLO(model_path)
@@ -39,6 +37,7 @@ def predict_player(model_path,image_path):
     except:
         raise Exception("Coulde Not Load Model")
     finally:
+        print(predictions)
         return predictions
 
 # path = 'best(2).pt'
@@ -49,6 +48,6 @@ def predict_player(model_path,image_path):
 # # for pred in preds.values():
 # #     print(pred)
 # print(predict_player(path,source))
-
+#
 
 
