@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
 
 export default function GenericStatComponent(props: any) {
     const { statObjectKey, statObjectValue } = props;
@@ -11,6 +11,8 @@ export default function GenericStatComponent(props: any) {
         </View>
     );
 }
+const { height, width } = Dimensions.get('window');
+
 const styles = StyleSheet.create({
     container: {
         // flex: 0.3
@@ -18,7 +20,8 @@ const styles = StyleSheet.create({
         // flexDirection: 'row'
         // paddingRight: 5
         borderColor: 'white',
-        borderWidth: 1
+        borderWidth: 1,
+        width: 0.13888888 * width
         // padding: 5
         // marginHorizontal: 1
     },

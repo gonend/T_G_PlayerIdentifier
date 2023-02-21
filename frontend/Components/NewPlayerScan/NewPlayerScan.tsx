@@ -20,6 +20,8 @@ import { UserContext } from '../../App';
 import Navbar from '../Navbar/Navbar';
 import PictureOrNameSelector from './PictureOrNameSelector/PictureOrNameSelector';
 import axios from 'axios';
+import Autocomplete from 'react-native-autocomplete-input';
+import { SearchBar } from '../SearchBar/SearchBar';
 
 //to shorten time to get a timeout from the server////////////
 
@@ -32,19 +34,32 @@ export const Timeout = (time: number) => {
 ///////////////////////////////////////////////////////////////
 
 export default function NewPlayerScan(props: any) {
-    const [pickerResponse, setPickerResponse] = useState<ImagePickerResponse>();
-    const [playerName, setPlayerName] = useState('');
+    const [imagePickerResponse, setImagePickerResponse] =
+        useState<ImagePickerResponse>();
+    // const [playerName, setPlayerName] = useState('');
     const [formDataTest, setFormDataTest] = useState<FormData>();
     const [isWaitingForResponse, setIsWaitingForResponse] = useState(false);
     const [showLoadingSpinner, setShowLoadingSpinner] = useState(false);
     const navigation = props.navigation;
     let userContext = React.useContext(UserContext);
-
     const [freshStart, setFreshStart] = useState(false);
-
     const [identifyWithPicture, setIdentifyWithPicture] = useState(true);
 
+    //////////////////////////autoComplete test/////////////////////////////////////////////
+    const [allPlayersNames, setAllPlayersNames] = useState([]);
+    const [filteredPlayerNames, setFilteredPlayerNames] = useState<
+        Array<string>
+    >([]);
+
+    const [playerNameSearchValue, setPlayerNameSearchValue] = useState('');
+
+    let autoCompleteKey = 1;
+
+    //////////////////////////autoComplete test/////////////////////////////////////////////
+
     async function getPlayerStatsAndNavigate(pictureOrName: string) {
+        setIsWaitingForResponse(true);
+
         let response = undefined;
         let playerData = undefined;
 
@@ -67,13 +82,18 @@ export default function NewPlayerScan(props: any) {
                     break;
 
                 case 'playerName':
+                    console.log(
+                        '/////////////playerName is:////////////////////'
+                    );
+                    console.log(playerNameSearchValue);
+
                     response = await axios({
                         method: 'get',
                         url: `http://${SERVER_IP_ADDRESS}:${PORT}/api/getStatsByPlayerName`,
                         headers: {
                             Authorization: `Bearer ${userContext.userObject.idToken}`
                         },
-                        params: { playerName: playerName },
+                        params: { playerName: playerNameSearchValue },
                         signal: Timeout(10).signal
 
                         // data: { playerName: playerName }
@@ -94,11 +114,23 @@ export default function NewPlayerScan(props: any) {
         }
     }
 
+    async function submitPlayerForIdentification() {
+        if (identifyWithPicture) {
+            if (formDataTest) {
+                getPlayerStatsAndNavigate('picture');
+            } else Alert.alert('please add picture in order to submit');
+        } else {
+            if (playerNameSearchValue.length < 3)
+                Alert.alert('player name must include at least 3 letters');
+            else getPlayerStatsAndNavigate('playerName');
+        }
+    }
+
     useEffect(() => {
-        if (pickerResponse) {
+        if (imagePickerResponse) {
             const formData = new FormData();
 
-            pickerResponse.assets?.map((img) => {
+            imagePickerResponse.assets?.map((img) => {
                 formData.append('photo', {
                     uri: img.uri,
                     type: img.type,
@@ -107,7 +139,7 @@ export default function NewPlayerScan(props: any) {
             });
             setFormDataTest(formData);
         }
-    }, [pickerResponse]);
+    }, [imagePickerResponse]);
 
     useEffect(() => {
         if (isWaitingForResponse === true) {
@@ -121,8 +153,9 @@ export default function NewPlayerScan(props: any) {
         console.log('freshStart is: ' + freshStart);
         if (freshStart === true) {
             //clean all data at this screen
-            setPickerResponse(undefined);
-            setPlayerName('');
+            setImagePickerResponse(undefined);
+            // setPlayerName('');
+            setPlayerNameSearchValue('');
             setFormDataTest(undefined);
             setIsWaitingForResponse(false);
             setShowLoadingSpinner(false);
@@ -130,13 +163,32 @@ export default function NewPlayerScan(props: any) {
         }
     }, [freshStart]);
 
-    async function submitPlayerForIdentification() {
-        setIsWaitingForResponse(true);
+    useEffect(() => {
+        const getPlayerNamesFunction = async () => {
+            try {
+                let response = await axios({
+                    method: 'get',
+                    url: `http://${SERVER_IP_ADDRESS}:${PORT}/api/autoCompleteNames`,
+                    headers: {
+                        Authorization: `Bearer ${userContext.userObject.idToken}`
+                    },
+                    signal: Timeout(10).signal
 
-        identifyWithPicture === true
-            ? getPlayerStatsAndNavigate('picture')
-            : getPlayerStatsAndNavigate('playerName');
-    }
+                    // data: { playerName: playerName }
+                });
+                // console.log(response?.data);
+                setAllPlayersNames(response?.data.playerNames);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        getPlayerNamesFunction();
+    }, []);
+
+    useEffect(() => {
+        if (playerNameSearchValue.length === 0) setFilteredPlayerNames([]);
+    }, [playerNameSearchValue]);
+
     return (
         <LinearGradient
             start={{ x: 0, y: 0 }}
@@ -180,47 +232,51 @@ export default function NewPlayerScan(props: any) {
 
                         {identifyWithPicture === true ? (
                             <>
+                                {/**View if user wants to upload playerPicture */}
                                 <Text style={styles.descriptionText}>
                                     {
                                         'Please upload a picture of a player.\nThe picture has to be as clear as possible'
                                     }
                                 </Text>
-                                {pickerResponse !== null ? (
+                                {imagePickerResponse !== null ? (
                                     <View style={{ alignItems: 'center' }}>
-                                        {pickerResponse?.assets?.map((img) => {
-                                            return (
-                                                <View key={1}>
-                                                    <Text
-                                                        style={{
-                                                            color: 'white',
-                                                            textAlign: 'center',
-                                                            marginBottom: 10
-                                                        }}
-                                                    >
-                                                        Selected picture:
-                                                    </Text>
-                                                    <Image
-                                                        style={{
-                                                            width: 250,
-                                                            height: 250,
-                                                            resizeMode:
-                                                                'contain'
-                                                        }}
-                                                        source={{
-                                                            uri: img.uri
-                                                        }}
-                                                    />
-                                                </View>
-                                            );
-                                        })}
+                                        {imagePickerResponse?.assets?.map(
+                                            (img) => {
+                                                return (
+                                                    <View key={1}>
+                                                        <Text
+                                                            style={{
+                                                                color: 'white',
+                                                                textAlign:
+                                                                    'center',
+                                                                marginBottom: 10
+                                                            }}
+                                                        >
+                                                            Selected picture:
+                                                        </Text>
+                                                        <Image
+                                                            style={{
+                                                                width: 250,
+                                                                height: 250,
+                                                                resizeMode:
+                                                                    'contain'
+                                                            }}
+                                                            source={{
+                                                                uri: img.uri
+                                                            }}
+                                                        />
+                                                    </View>
+                                                );
+                                            }
+                                        )}
                                     </View>
                                 ) : (
                                     <></>
                                 )}
 
                                 <CameraButtons
-                                    pickerResponse={pickerResponse}
-                                    setPickerResponse={setPickerResponse}
+                                    pickerResponse={imagePickerResponse}
+                                    setPickerResponse={setImagePickerResponse}
                                 />
                             </>
                         ) : (
@@ -232,7 +288,7 @@ export default function NewPlayerScan(props: any) {
                                     }
                                 </Text>
 
-                                <TextInput
+                                {/* <TextInput
                                     style={styles.nameInput}
                                     placeholder="NBA player name"
                                     onChangeText={(newText) =>
@@ -240,7 +296,43 @@ export default function NewPlayerScan(props: any) {
                                     }
                                     defaultValue={playerName}
                                     placeholderTextColor={'#132D42'}
+                                /> */}
+
+                                <SearchBar
+                                    allNamesArray={allPlayersNames}
+                                    setAllNamesArray={setAllPlayersNames}
+                                    filteredPlayerNames={filteredPlayerNames}
+                                    setFilteredPlayerNames={
+                                        setFilteredPlayerNames
+                                    }
+                                    playerNameSearchValue={
+                                        playerNameSearchValue
+                                    }
+                                    setPlayerNameSearchValue={
+                                        setPlayerNameSearchValue
+                                    }
                                 />
+
+                                <View>
+                                    {filteredPlayerNames.map((playerName) => {
+                                        return (
+                                            <TouchableOpacity
+                                                key={autoCompleteKey++}
+                                                onPress={async () => {
+                                                    setPlayerNameSearchValue(
+                                                        playerName
+                                                    );
+                                                    setFilteredPlayerNames([]);
+                                                    // setPlayerName(playerName);
+                                                }}
+                                            >
+                                                <Text style={styles.itemText}>
+                                                    {playerName}
+                                                </Text>
+                                            </TouchableOpacity>
+                                        );
+                                    })}
+                                </View>
                             </>
                         )}
                     </ScrollView>
@@ -313,5 +405,21 @@ const styles = StyleSheet.create({
         height: 250,
         width: 250
     },
-    spinnerTextStyle: { color: '#FFFFFF' }
+    spinnerTextStyle: { color: '#FFFFFF' },
+    autocompleteContainer: {
+        backgroundColor: '#ffffff',
+        borderWidth: 0
+    },
+    itemText: {
+        backgroundColor: 'white',
+        borderBottomColor: '#000000',
+        borderBottomWidth: 1,
+        fontFamily: 'OpenSans-Regular',
+        color: '#132D42',
+        borderRadius: 10,
+        marginHorizontal: width * 0.0533333333,
+        fontSize: height * 0.02484472,
+        textAlign: 'center',
+        marginTop: 0.5
+    }
 });
