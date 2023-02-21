@@ -7,6 +7,30 @@ const { firebaseUserId } = require("../middleware/index");
 const { getPlayerSeasonStats } = require("./extApi");
 const { default: axios } = require("axios");
 
+async function saveNameInHistoryCollection(playerObject, userId, playerName) {
+  var searchHistoryRef = firestore.collection("usersSearchHistory").doc(userId);
+
+  let objectFromFirestore = await searchHistoryRef.get();
+
+  objectFromFirestore = objectFromFirestore.data();
+
+  if (objectFromFirestore === undefined) {
+    // let playerName = playerObject.playerInfo.fullName;
+    let objToSend = { players: {} };
+    objToSend.players[playerObject.playerInfo.id] = playerName;
+    await firestore.collection("usersSearchHistory").doc(userId).set(objToSend);
+  } else {
+    let playersInfoObject = objectFromFirestore.players;
+    playersInfoObject[playerObject.playerInfo.id] = playerName;
+    objectFromFirestore.players = playersInfoObject;
+
+    await firestore
+      .collection("usersSearchHistory")
+      .doc(userId)
+      .set(objectFromFirestore);
+  }
+}
+
 const addUser = async (req, res, next) => {
   try {
     const data = req.body;
@@ -66,32 +90,11 @@ const receiveImage = async (req, res, next) => {
 
     //if getting stats for that player succeeded==> save that playerName in firestore database.
 
-    var searchHistoryRef = firestore
-      .collection("usersSearchHistory")
-      .doc(res.locals.firebaseUserId);
-
-    let objectFromFirestore = await searchHistoryRef.get();
-
-    objectFromFirestore = objectFromFirestore.data();
-
-    if (objectFromFirestore === undefined) {
-      // let playerName = playerObject.playerInfo.fullName;
-      let objToSend = { players: {} };
-      objToSend.players[playerObject.playerInfo.id] = playerName;
-      await firestore
-        .collection("usersSearchHistory")
-        .doc(res.locals.firebaseUserId)
-        .set(objToSend);
-    } else {
-      let playersInfoObject = objectFromFirestore.players;
-      playersInfoObject[playerObject.playerInfo.id] = playerName;
-      objectFromFirestore.players = playersInfoObject;
-
-      await firestore
-        .collection("usersSearchHistory")
-        .doc(res.locals.firebaseUserId)
-        .set(objectFromFirestore);
-    }
+    await saveNameInHistoryCollection(
+      playerObject,
+      res.locals.firebaseUserId,
+      playerName
+    );
 
     // console.log(req.file);
 
@@ -113,33 +116,11 @@ const getStatsByplayerName = async (req, res, next) => {
 
     const playerObject = await getPlayerSeasonStats(playerName, prevYear);
 
-    var searchHistoryRef = firestore
-      .collection("usersSearchHistory")
-      .doc(res.locals.firebaseUserId);
-
-    let objectFromFirestore = await searchHistoryRef.get();
-
-    objectFromFirestore = objectFromFirestore.data();
-
-    if (objectFromFirestore === undefined) {
-      // let playerName = playerObject.playerInfo.fullName;
-      let objToSend = { players: {} };
-      objToSend.players[playerObject.playerInfo.id] = playerName;
-      await firestore
-        .collection("usersSearchHistory")
-        .doc(res.locals.firebaseUserId)
-        .set(objToSend);
-    } else {
-      let playersInfoObject = objectFromFirestore.players;
-      playersInfoObject[playerObject.playerInfo.id] = playerName;
-      objectFromFirestore.players = playersInfoObject;
-
-      await firestore
-        .collection("usersSearchHistory")
-        .doc(res.locals.firebaseUserId)
-        .set(objectFromFirestore);
-    }
-
+    await saveNameInHistoryCollection(
+      playerObject,
+      res.locals.firebaseUserId,
+      playerName
+    );
     // console.log(req.file);
 
     console.log(playerObject);
@@ -153,4 +134,23 @@ const getStatsByplayerName = async (req, res, next) => {
   }
 };
 
-module.exports = { addUser, receiveImage, getStatsByplayerName };
+const getNamesForAutoComplete = async (req, res, next) => {
+  let playerNameRef = firestore
+    .collection("allPlayersNames")
+    .doc("allPlayersNames");
+
+  let namesArrFromFirestore = await playerNameRef.get();
+
+  namesArrFromFirestore = namesArrFromFirestore.data();
+
+  console.log(namesArrFromFirestore);
+
+  res.send(namesArrFromFirestore);
+};
+
+module.exports = {
+  addUser,
+  receiveImage,
+  getStatsByplayerName,
+  getNamesForAutoComplete,
+};
