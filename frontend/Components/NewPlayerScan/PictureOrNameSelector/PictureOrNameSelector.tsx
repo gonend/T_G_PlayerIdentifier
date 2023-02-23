@@ -11,11 +11,6 @@ export default function PictureOrNameSelector(props: any) {
     const [identifyWithNameButtonStyle, setIdentifyWithNameButtonStyle] =
         useState<object>(styles.disabledButton);
 
-    //defines if the underline should go under Simple View||Expret View
-    // const [statsNavbarRectangleStyle, setStatsNavbarRectangleStyle] =
-    //     useState<object>(styles.rectangleRight);
-
-    //monitors the simpleStatsView useState and changes the style acordingly
     useEffect(() => {
         if (identifyWithPicture === true) {
             setIdentifyWithPictureButtonStyle(styles.enabledButton);
@@ -25,18 +20,14 @@ export default function PictureOrNameSelector(props: any) {
             setIdentifyWithPictureButtonStyle(styles.disabledButton);
         }
         setFreshStart(true);
-        // setMyMissionsIsFocused(!myMissionsIsFocused);
     }, [identifyWithPicture]);
 
     return (
         <View
             style={{
-                // backgroundColor: '#FFFFFF',
                 marginHorizontal: width * 0.1,
                 marginTop: 10,
                 flexWrap: 'wrap'
-
-                // justifyContent: 'center'
             }}
         >
             <View style={styles.statsNavbarContainer}>
@@ -45,7 +36,6 @@ export default function PictureOrNameSelector(props: any) {
                         onPress={() => {
                             console.log('pressed on pictureView');
                             setIdentifyWithPicture(true);
-                            // setMyMissionsIsFocused(false);
                         }}
                         style={styles.StatsNavbarText}
                     >
@@ -57,7 +47,6 @@ export default function PictureOrNameSelector(props: any) {
                         onPress={() => {
                             console.log('pressed on nameView');
                             setIdentifyWithPicture(false);
-                            // setMyMissionsIsFocused(true);
                         }}
                         style={styles.StatsNavbarText}
                     >
@@ -65,8 +54,6 @@ export default function PictureOrNameSelector(props: any) {
                     </Text>
                 </View>
             </View>
-
-            {/* <View style={statsNavbarRectangleStyle} /> */}
         </View>
     );
 }
@@ -89,8 +76,6 @@ var styles = StyleSheet.create({
         flex: 0.5,
         backgroundColor: 'green',
         borderRadius: 50
-        // alignContent: 'center',
-        // alignItems: 'center',}
     },
     disabledButton: { flex: 0.5, opacity: 0.3 }
 });

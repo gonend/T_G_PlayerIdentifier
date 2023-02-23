@@ -13,30 +13,35 @@ class Middleware {
     // console.log(token);
 
     const authHeader = req.headers.authorization;
-    var serviceAccount = require("../serviceAccountJson/playeridentifierv2-firebase-adminsdk.json");
+    // var serviceAccount = require("../serviceAccountJson/playeridentifierv2-firebase-adminsdk.json");
     // console.log(PROJECT_ID);
 
     ///start testing part///////////////////////////
     try {
       if (authHeader) {
-        const client = new OAuth2Client(serviceAccount.project_id);
-        // console.log(client);
-        const ticket = await client.verifyIdToken({
-          idToken: token,
-          audience: config.audience,
-        });
-        if (ticket) {
-          const firebaseUserId = ticket.getUserId();
-          res.locals.firebaseUserId = firebaseUserId;
-          // console.log(firebaseUserId);
-          // console.log(`userId: ${JSON.stringify(ticket.getUserId())}`);
-          // console.log(`payload: ${JSON.stringify(ticket.getPayload())}`);
-          // console.log(`envelope: ${JSON.stringify(ticket.getEnvelope())}`);
-          // console.log(`attributes: ${JSON.stringify(ticket.getAttributes())}`);
-          return next();
-        }
-        return res.json({ message: "unauthorized! wrong token" });
+        db;
+        let decodedTicket = await db.auth().verifyIdToken(token);
+        console.log(decodedTicket);
+        res.locals.firebaseUserId = decodedTicket.user_id;
+
+        // const client = new OAuth2Client(config.firebaseConfig.projectId);
+        // // console.log(client);
+        // const ticket = await client.verifyIdToken({
+        //   idToken: token,
+        //   audience: config.audience,
+        // });
+        // console.log("sharmit");
+        // if (ticket) {
+        //   const firebaseUserId = ticket.getUserId();
+        //   res.locals.firebaseUserId = firebaseUserId;
+        // console.log(firebaseUserId);
+        // console.log(`userId: ${JSON.stringify(ticket.getUserId())}`);
+        // console.log(`payload: ${JSON.stringify(ticket.getPayload())}`);
+        // console.log(`envelope: ${JSON.stringify(ticket.getEnvelope())}`);
+        // console.log(`attributes: ${JSON.stringify(ticket.getAttributes())}`);
+        return next();
       }
+      return res.json({ message: "unauthorized! wrong token" });
     } catch (e) {
       ///////////////////////end testing part///////////////////
 

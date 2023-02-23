@@ -1,9 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { View } from 'react-native-animatable';
 
 export default function PlayerInfoComponent(props: any) {
     const { playerInfo } = props;
+    const [playerHeight, setPlayerHeight] = useState('');
+
+    //this useEffect will check if playerHeight information is avaliable.
+    //if playerHeight!==null==> convert height into cm and present to the user
+    //else==> present unknown as player height
+
+    useEffect(() => {
+        if (
+            playerInfo.height_feet !== null &&
+            playerInfo.height_inches !== null
+        ) {
+            let heigtInCm =
+                (eval(playerInfo.height_feet) * 12 +
+                    eval(playerInfo.height_inches)) *
+                2.54;
+            setPlayerHeight('' + heigtInCm + ' Cm');
+        }
+    }, []);
     return (
         <View style={styles.container}>
             <View style={styles.positionView}>
@@ -12,9 +30,12 @@ export default function PlayerInfoComponent(props: any) {
             </View>
             <View style={styles.heightView}>
                 <Text style={styles.textKey}>{'Height:'}</Text>
-                <Text style={styles.textValue}>
-                    {playerInfo.height_feet + `\'` + playerInfo.height_inches}
-                </Text>
+
+                {playerHeight.length === 0 ? (
+                    <Text style={styles.textValue}>{'Unknown'}</Text>
+                ) : (
+                    <Text style={styles.textValue}>{playerHeight}</Text>
+                )}
             </View>
         </View>
     );
