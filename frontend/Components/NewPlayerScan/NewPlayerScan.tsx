@@ -71,7 +71,7 @@ export default function NewPlayerScan(props: any) {
                             method: 'post',
                             body: formDataTest,
                             headers: {
-                                Authorization: `Bearer ${userContext.userObject.idToken}`
+                                Authorization: `Bearer ${userContext.idToken}`
                             },
                             signal: Timeout(10).signal
                         }
@@ -90,7 +90,7 @@ export default function NewPlayerScan(props: any) {
                         method: 'get',
                         url: `http://${SERVER_IP_ADDRESS}:${PORT}/api/getStatsByPlayerName`,
                         headers: {
-                            Authorization: `Bearer ${userContext.userObject.idToken}`
+                            Authorization: `Bearer ${userContext.idToken}`
                         },
                         params: { playerName: playerNameSearchValue },
                         signal: Timeout(10).signal
@@ -153,7 +153,6 @@ export default function NewPlayerScan(props: any) {
         if (freshStart === true) {
             //clean all data at this screen
             setImagePickerResponse(undefined);
-            // setPlayerName('');
             setPlayerNameSearchValue('');
             setFormDataTest(undefined);
             setIsWaitingForResponse(false);
@@ -169,15 +168,13 @@ export default function NewPlayerScan(props: any) {
                     method: 'get',
                     url: `http://${SERVER_IP_ADDRESS}:${PORT}/api/autoCompleteNames`,
                     headers: {
-                        Authorization: `Bearer ${userContext.userObject.idToken}`
+                        Authorization: `Bearer ${userContext.idToken}`
                     },
                     signal: Timeout(10).signal
-
-                    // data: { playerName: playerName }
                 });
-                // console.log(response?.data);
                 setAllPlayersNames(response?.data.playerNames);
             } catch (error) {
+                console.log('error while getting player names');
                 console.log(error);
             }
         };
@@ -287,16 +284,6 @@ export default function NewPlayerScan(props: any) {
                                     }
                                 </Text>
 
-                                {/* <TextInput
-                                    style={styles.nameInput}
-                                    placeholder="NBA player name"
-                                    onChangeText={(newText) =>
-                                        setPlayerName(newText)
-                                    }
-                                    defaultValue={playerName}
-                                    placeholderTextColor={'#132D42'}
-                                /> */}
-
                                 <SearchBar
                                     allNamesArray={allPlayersNames}
                                     setAllNamesArray={setAllPlayersNames}
@@ -312,8 +299,8 @@ export default function NewPlayerScan(props: any) {
                                     }
                                 />
 
-                                <View>
-                                    {filteredPlayerNames.map((playerName) => {
+                                <ScrollView style={{ maxHeight: 150 }}>
+                                    {filteredPlayerNames?.map((playerName) => {
                                         return (
                                             <TouchableOpacity
                                                 key={autoCompleteKey++}
@@ -331,7 +318,7 @@ export default function NewPlayerScan(props: any) {
                                             </TouchableOpacity>
                                         );
                                     })}
-                                </View>
+                                </ScrollView>
                             </>
                         )}
                     </ScrollView>

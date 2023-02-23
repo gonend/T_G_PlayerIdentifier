@@ -1,9 +1,0 @@
-.searchBarWrapper .searchDiv {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-.searchBarWrapper .searchBar {
-    width: 40%;
-    height: 30px;
-}

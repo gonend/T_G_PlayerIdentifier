@@ -47,8 +47,6 @@ export default function PlayerInfoScreen(props: {
         ' ' +
         playerData.playerObject.playerInfo.last_name;
 
-    //const { ast, blk, dreb } = playerStats;
-
     let key = 1;
 
     return (
@@ -58,7 +56,6 @@ export default function PlayerInfoScreen(props: {
             colors={['#28449C', '#0064C3']}
             style={styles.linearGradient}
         >
-            {/* <Text>{JSON.stringify(playerData)}</Text> */}
             <Navbar navigation={navigation} />
 
             <Text style={styles.playerNameText}>{playerName}</Text>
@@ -145,31 +142,19 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         flexDirection: 'row',
         justifyContent: 'center',
-        // borderColor: 'white',
-        // borderWidth: 2,
+
         marginTop: 10,
         paddingTop: 20,
         marginHorizontal: 10
     },
     buttonView: {
-        // flex: 1,
-        // backgroundColor: 'red',
         flexDirection: 'row',
-        // flexWrap: 'wrap',
         justifyContent: 'center',
         marginTop: 20
     },
-    identifyAgainButton: {
-        // flex: 0.5,
-        // backgroundColor: 'red'
-        // flexDirection: 'row',
-        // flexWrap: 'wrap'
-    },
+    identifyAgainButton: {},
     identifyAgainButtonIcon: {
-        // flex: 0.8,
-        // resizeMode: 'contain',
         height: height * 0.1563354,
         width: width * 0.33333333
-        // flexWrap: 'wrap'
     }
 });

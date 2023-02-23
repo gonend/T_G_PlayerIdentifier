@@ -23,12 +23,8 @@ GoogleSignin.configure({
 });
 
 const Login = (props: any) => {
-    // const [user, setUser] = useState<User | null>();
     let userContext = React.useContext(UserContext);
     const navigation = props.navigation;
-
-    // const [credentials, setCredentials] =
-    //     useState<FirebaseAuthTypes.UserCredential>();
 
     async function getUserCredentialsWithToken(idToken: string) {
         try {
@@ -53,15 +49,11 @@ const Login = (props: any) => {
             if (idToken) {
                 credentials = await getUserCredentialsWithToken(idToken);
                 if (credentials?.user) {
-                    let tempUser = await GoogleSignin.getCurrentUser();
-                    console.log(tempUser);
-                    userContext.setUserObject(tempUser);
+                    userContext.setUserObject(credentials?.user);
+                    userContext.setIdToken(idToken);
 
                     // set access token in AsyncStorage storage
-                    AsyncStorage.setItem(
-                        'accessToken',
-                        tempUser?.idToken as string
-                    );
+                    AsyncStorage.setItem('accessToken', idToken as string);
                     userContext.setIsUserAuthorized(true);
                     navigation.navigate('Home', {});
                 }
@@ -77,25 +69,13 @@ const Login = (props: any) => {
 
     async function logoutUser() {
         GoogleSignin.signOut();
-        // console.log('before:');
 
-        // console.log(await AsyncStorage.getItem('accessToken'));
         AsyncStorage.clear();
-        // console.log('after:');
-        // console.log(await AsyncStorage.getItem('accessToken'));
+
         userContext.setUserObject(null);
 
-        // console.log('logged out');
         userContext.setIsUserAuthorized(false);
     }
-
-    useEffect(() => {
-        (async () => {
-            if (userContext.userObject.idToken !== '-1') {
-                userContext.setIsUserAuthorized(true);
-            }
-        })();
-    }, []);
 
     return (
         <LinearGradient
@@ -116,7 +96,7 @@ const Login = (props: any) => {
                     <Text style={styles.mainText}>Welcome!</Text>
                     {userContext.isUserAuthorized === true ? (
                         <Text style={{ color: '#FFFFFF', fontSize: 20 }}>
-                            {userContext.userObject?.user.name}
+                            {userContext.userObject?.displayName}
                         </Text>
                     ) : (
                         <></>

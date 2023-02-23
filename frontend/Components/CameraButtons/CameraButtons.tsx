@@ -38,55 +38,50 @@ export default function Camera(props: any) {
     }, []);
 
     return (
-        <View style={styles.buttonsContainer}>
+        <View style={styles.ViewWrapper}>
             <TouchableOpacity
                 onPress={onImageLibraryPress}
-                style={styles.takePictureButton}
+                style={styles.ButtonContainer}
             >
                 <Image
-                    style={styles.buttonIcon}
+                    style={styles.ButtonIcon}
                     source={require('../../assets/img/photoAddPic.png')}
                 />
-                <Text style={styles.takePictureButtonText}>
-                    {'Use Gallery'}
-                </Text>
+                <Text style={styles.ButtonText}>{'Use Gallery'}</Text>
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={onCameraPress}
-                style={styles.takePictureButton}
+                style={styles.ButtonContainer}
             >
                 <Image
-                    style={styles.buttonIcon}
+                    style={styles.ButtonIcon}
                     source={{
                         uri: 'https://freeiconshop.com/wp-content/uploads/edd/camera-outline-filled.png'
                     }}
                 />
 
-                <Text style={styles.takePictureButtonText}>{'Use Camera'}</Text>
+                <Text style={styles.ButtonText}>{'Use Camera'}</Text>
             </TouchableOpacity>
         </View>
     );
 }
 const styles = StyleSheet.create({
-    buttonsContainer: {
+    ViewWrapper: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginHorizontal: 20
     },
-    takePictureButton: {
-        // backgroundColor: 'white',
+    ButtonContainer: {
         borderRadius: 4,
-        // paddingHorizontal: 34,
         paddingVertical: 16,
-        flexDirection: 'row'
-        // justifyContent: 'center',
-        // alignItems: 'center'
+        flexDirection: 'row',
+        alignItems: 'center'
     },
-    takePictureButtonText: {
+    ButtonText: {
         color: '#b97272',
         fontSize: 20
     },
-    buttonIcon: {
+    ButtonIcon: {
         height: 40,
         width: 40,
         marginRight: 5
