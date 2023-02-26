@@ -93,14 +93,14 @@ const getPlayerInfo = async (playerName) => {
       // playerInfo = JSON.stringify(response.data.data[0]);
       playerInfo = response.data.data[0];
 
-      playerInfo = parsePlayerInfo(playerInfo);
-
-      await firestore
-        .collection("playersInfo")
-        .doc("" + playerInfo.id)
-        .set(playerInfo);
+      if (playerInfo) {
+        playerInfo = parsePlayerInfo(playerInfo);
+        await firestore
+          .collection("playersInfo")
+          .doc("" + playerInfo.id)
+          .set(playerInfo);
+      }
     }
-
     return playerInfo;
   } catch (error) {
     console.log(error);
@@ -113,6 +113,9 @@ const getPlayerSeasonStats = async (playerName, seasonYear) => {
     console.log(playerName);
     let playerInfo = await getPlayerInfo(playerName);
     console.log(playerInfo);
+    if (playerInfo === undefined) {
+      throw new Error("couldnt get playerInfo using API or Firebase");
+    }
 
     let config = {
       method: "get",

@@ -59,7 +59,6 @@ const { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
     searchDiv: {
         flex: 1,
-        // flexWrap: 'wrap',
         justifyContent: 'center'
     },
     textInput: {

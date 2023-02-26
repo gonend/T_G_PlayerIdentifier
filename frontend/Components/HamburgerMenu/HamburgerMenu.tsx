@@ -6,6 +6,8 @@ import { Text } from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import { UserContext } from '../../App';
 
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+
 export default function HamburgerMenu(props: any) {
     const navigation = props.navigation;
     let userContext = React.useContext(UserContext);
@@ -23,48 +25,17 @@ export default function HamburgerMenu(props: any) {
         navigation.navigate('UserProfileComponent', {});
     }
 
-    function clickedOnMyRequests() {
-        navigation.navigate('CompletedPostsForBothRoles', {});
-    }
-
-    function clickedOnGiftShop() {
-        navigation.navigate('GiftShop', {});
-    }
-
-    function clickedOnSettings() {
-        console.log('Clicked on Settings');
-    }
-
-    function clickedOnAboutUs() {
-        console.log('Clicked on AboutUs');
-    }
-    function clickedOnContactUs() {
-        console.log('Clicked on ContactUs');
-    }
     function clickedOnLogout() {
-        GoogleSignin.signOut();
-        // console.log('before:');
-
-        // console.log(await AsyncStorage.getItem('accessToken'));
-        AsyncStorage.clear();
-        // console.log('after:');
-        // console.log(await AsyncStorage.getItem('accessToken'));
-        userContext.setUserObject({
-            user: {
-                id: '-1',
-                name: null,
-                email: 'empty@empty.com',
-                photo: null,
-                familyName: null,
-                givenName: null
-            },
-            idToken: '-1',
-            serverAuthCode: '-1'
-        });
-
-        // console.log('logged out');
-        userContext.setIsUserAuthorized(false);
-        navigation.navigate('Login', {});
+        try {
+            auth().signOut();
+            GoogleSignin.signOut();
+            AsyncStorage.removeItem('accessToken');
+            userContext.setIsUserAuthorized(false);
+            navigation.navigate('Login', {});
+        } catch (error) {
+            console.log('error in hamburgerMenu. Error details:');
+            console.log(error);
+        }
     }
 
     return (
@@ -81,7 +52,7 @@ export default function HamburgerMenu(props: any) {
                 {userContext.isUserAuthorized ? (
                     <Text
                         style={styles.userNameText}
-                    >{`Hello ${userContext.userObject.user.name} :)`}</Text>
+                    >{`Hello ${userContext.userObject?.displayName} :)`}</Text>
                 ) : (
                     <></>
                 )}

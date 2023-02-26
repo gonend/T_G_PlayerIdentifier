@@ -18,19 +18,25 @@ function Home(props: any) {
         navigation.navigate('NewPlayerScan');
     };
 
-    useEffect(() => {
-        console.log('token for this user is:');
-        console.log('//////////////Start of token//////////////');
-        console.log(userContext.userObject.idToken);
-        console.log('//////////////End of token//////////////');
-        // console.log(userContext.userObject.user);
-    }, []);
+    // const getCurrentTokenForUser = async () => {
+    //     // let token = await userContext.userObject?.getIdToken(true);
+    //     console.log('token for this user is:');
+    //     console.log('//////////////Start of token//////////////');
+    //     console.log(userContext.idToken);
+    //     console.log('//////////////End of token//////////////');
+    //     // console.log(userContext.userObject.user);
+    // };
+
+    // useEffect(() => {
+    //     getCurrentTokenForUser();
+    // }, []);
 
     return (
         <View style={styles.container}>
             <Navbar navigation={navigation} />
             <Text style={{ textAlign: 'center' }}>
-                Welcome {userContext.userObject.user.name} to your home screen!
+                Welcome {userContext.userObject?.displayName} to your home
+                screen!
             </Text>
 
             <TouchableOpacity
