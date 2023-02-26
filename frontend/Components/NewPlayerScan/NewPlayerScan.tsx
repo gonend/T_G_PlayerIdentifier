@@ -20,7 +20,6 @@ import { UserContext } from '../../App';
 import Navbar from '../Navbar/Navbar';
 import PictureOrNameSelector from './PictureOrNameSelector/PictureOrNameSelector';
 import axios from 'axios';
-import Autocomplete from 'react-native-autocomplete-input';
 import { SearchBar } from '../SearchBar/SearchBar';
 
 //to shorten time to get a timeout from the server////////////
@@ -73,7 +72,7 @@ export default function NewPlayerScan(props: any) {
                             headers: {
                                 Authorization: `Bearer ${userContext.userObject.idToken}`
                             },
-                            signal: Timeout(10).signal
+                            signal: Timeout(15).signal
                         }
                     );
 
@@ -93,7 +92,7 @@ export default function NewPlayerScan(props: any) {
                             Authorization: `Bearer ${userContext.userObject.idToken}`
                         },
                         params: { playerName: playerNameSearchValue },
-                        signal: Timeout(10).signal
+                        signal: Timeout(15).signal
 
                         // data: { playerName: playerName }
                     });
