@@ -6,6 +6,8 @@ from flask import Flask, jsonify, request
 # from flask_jwt_extended import JWTManager, create_access_token, jwt_required,get_jwt_identity
 
 from dotenv import load_dotenv
+load_dotenv()
+
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import auth
@@ -14,7 +16,6 @@ from firebase_admin import auth
 app = Flask(__name__)
 # app.config['JWT_SECRET_KEY'] = 'your_secret_key'
 # jwt = JWTManager(app)
-
 cred = credentials.Certificate(os.getenv('ADMIN_CRED_JSON'))
 firebase_admin.initialize_app(cred)
 
