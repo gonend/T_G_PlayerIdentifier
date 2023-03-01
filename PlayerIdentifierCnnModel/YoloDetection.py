@@ -3,7 +3,6 @@ from ultralytics.yolo.v8.detect.predict import DetectionPredictor
 import ultralytics
 ultralytics.checks()
 
-
 def load_model(model_path):
     model = YOLO(model_path)
     return model, model.names
