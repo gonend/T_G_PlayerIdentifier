@@ -17,6 +17,7 @@ const {
   appId,
   audience,
   tempPicturePath,
+  FLASK_SERVER_URL,
 } = process.env;
 
 assert(PORT, "PORT IS REQUIRED");
@@ -28,6 +29,7 @@ module.exports = {
   url: HOST_URL,
   audience: audience,
   tempPicturePath: tempPicturePath,
+  flaskServerUrl: FLASK_SERVER_URL,
 
   firebaseConfig: {
     apiKey: apiKey,

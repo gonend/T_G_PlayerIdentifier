@@ -8,11 +8,11 @@ class Middleware {
       req.headers.authorization === null
     )
       return res.json({ message: "no token means unauthorized" });
-
     const token = req.headers.authorization.split(" ")[1];
-    // console.log(token);
+    // console.log("\\\\\\\\\\\\\\\\\\\\\\\ntoken:", token);
 
     const authHeader = req.headers.authorization;
+    // console.log("\\\\\\\\\\\\\\\\\\\\\\\\\nauthHeader", authHeader);
     // var serviceAccount = require("../serviceAccountJson/playeridentifierv2-firebase-adminsdk.json");
     // console.log(PROJECT_ID);
 
@@ -21,8 +21,10 @@ class Middleware {
       if (authHeader) {
         db;
         let decodedTicket = await db.auth().verifyIdToken(token);
-        console.log(decodedTicket);
+        // console.log("decodedTicket: ", decodedTicket);
         res.locals.firebaseUserId = decodedTicket.user_id;
+        res.locals.token = token;
+        // console.log("locals", res.locals);
 
         // const client = new OAuth2Client(config.firebaseConfig.projectId);
         // // console.log(client);
