@@ -5,7 +5,7 @@ Android App used to get NBA player statistics data from image recognition.
 This is an aducational project.
 ### Goals 
 gain hand-on expirience and knowledge in new technologies, methodologies and platforms.
-We aim to publish an app running on android OS and can be used 
+We aim to deploy this app to a running environment so users can download and use it on their android OS. 
 
 ## Technologies
 * Frontend: React Native
@@ -16,6 +16,15 @@ We aim to publish an app running on android OS and can be used
 
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+
+## To Do:
+[v] Set Up Client, Express, Flask.
+[v] User Authentication.
+[v] Database Connection.
+[] Improve UI design.
+[] Improve model predictions.
+[] Deploy Servers to working environment.
+[] 
 
 ## Prerequisites
 Before you can run this project on your local machine, you'll need to have the following software installed:
