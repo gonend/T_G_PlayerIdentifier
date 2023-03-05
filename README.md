@@ -41,17 +41,21 @@ Deployment
 Add additional notes about how to deploy this on a live system
 
 ## Built With
-[React Native](https://reactnative.dev/) - Frontend framework
-[Express.js](https://expressjs.com/) - Backend framework
-Flask - Backend framework
-Firebase - Database
-Google Auth - Authentication
-Authors
-Author Name - Initial work - GitHub profile link
-License
+* [React Native](https://reactnative.dev/) - Frontend framework
+* [Express.js](https://expressjs.com/) - Backend framework
+* [Flask](https://flask.palletsprojects.com/en/2.2.x/) - Backend framework
+* [Firebase](https://firebase.google.com/) - Database
+* [Google Auth](https://developers.google.com/identity/protocols/oauth2) - Authentication
+* [Yolo V8](https://github.com/ultralytics/ultralytics) - CV Model
+
+## Authors
+* [Gonen Davidi](https://github.com/gonend)
+* [Tom Eventov](https://github.com/teventov5/)
+
+## License
 This project is licensed under the MIT License - see the LICENSE.md file for details.
 
-Acknowledgments
+## Acknowledgments
 Hat tip to anyone whose code was used
 Inspiration
 etc.
