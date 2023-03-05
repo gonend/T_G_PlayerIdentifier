@@ -1,16 +1,16 @@
-#Project Name
+# Project Name
 A brief description of the project goes here.
 
-##Technologies
+## Technologies
 * Frontend: React Native
 * Backend: Express.js and Flask
 * Database: Firebase
 * Authentication: Google Auth
 
-##Getting Started
+## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-##Prerequisites
+## Prerequisites
 Before you can run this project on your local machine, you'll need to have the following software installed:
 * Node.js
 * npm
@@ -18,13 +18,13 @@ Before you can run this project on your local machine, you'll need to have the f
 * Flask
 * Firebase CLI
 
-##Installing
+## Installing
 Clone the repository to your local machine
 Install the project dependencies by running npm install in the project root directory
 Start the frontend by running npm start in the frontend directory
 Start the backend by running python app.py in the backend directory
 
-##Running the tests
+## Running the tests
 Explain how to run the automated tests for this system
 
 Break down into end to end tests
@@ -40,7 +40,7 @@ Give an example
 Deployment
 Add additional notes about how to deploy this on a live system
 
-#Built With
+## Built With
 [React Native](https://reactnative.dev/) - Frontend framework
 [Express.js](https://expressjs.com/) - Backend framework
 Flask - Backend framework
