@@ -1,62 +1,57 @@
-# T_G_PlayerIdentifier
+#Project Name
+A brief description of the project goes here.
 
+##Technologies
+* Frontend: React Native
+* Backend: Express.js and Flask
+* Database: Firebase
+* Authentication: Google Auth
 
-Android App used to get player statistic data from facial recognition 
+#Getting Started
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-## Description
+#Prerequisites
+Before you can run this project on your local machine, you'll need to have the following software installed:
+* Node.js
+* npm
+* Python
+* Flask
+* Firebase CLI
 
-This is an aducational project, made for the following reasons: gain hand-on expirience and knowledge in new technologies, methodologies and platforms.
-We aim to publish an app running on android OS and can be used 
+#Installing
+Clone the repository to your local machine
+Install the project dependencies by running npm install in the project root directory
+Start the frontend by running npm start in the frontend directory
+Start the backend by running python app.py in the backend directory
 
-## Getting Started
+#Running the tests
+Explain how to run the automated tests for this system
 
-### Dependencies
+Break down into end to end tests
+Explain what these tests test and why
 
-* Frontend- React-Native 
-* Backend- Node.js
-* Ml model- Python
+Copy code
+Give an example
+And coding style tests
+Explain what these tests test and why
 
-* Describe any prerequisites, libraries, OS version, etc., needed before installing program.
-* ex. Windows 10
-* (enter libraries)
+Copy code
+Give an example
+Deployment
+Add additional notes about how to deploy this on a live system
 
-### Installing
+#Built With
+(https://reactnative.dev/) - Frontend framework
+Express.js - Backend framework
+Flask - Backend framework
+Firebase - Database
+Google Auth - Authentication
+Authors
+Author Name - Initial work - GitHub profile link
+License
+This project is licensed under the MIT License - see the LICENSE.md file for details.
 
-* How/where to download your program (App store, etc...)
-* Any modifications needed to be made to files/folders
-
-### Executing program
-
-* How to run the program
-* Step-by-step bullets
-```
-code blocks for commands
-```
-
-## Help
-
-Any advise for common problems or issues.
-```
-command to run if program contains helper info
-```
-
-## Authors
-
-Contributors names and contact info
-
-ex. Gonen Davidi ([gonend](https://github.com/gonend))
-ex. Tom Eventov ([(teventov5)](https://github.com/teventov5/))
-
-
-## License
-
-This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
-
-## Acknowledgments
-
-Inspiration, code snippets, etc.
-* [awesome-readme](https://github.com/matiassingers/awesome-readme)
-* [PurpleBooth](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
-* [dbader](https://github.com/dbader/readme-template)
-* [zenorocha](https://gist.github.com/zenorocha/4526327)
-* [fvcproductions](https://gist.github.com/fvcproductions/1bfc2d4aecb01a834b46)
+Acknowledgments
+Hat tip to anyone whose code was used
+Inspiration
+etc.
