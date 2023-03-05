@@ -21,7 +21,7 @@ These instructions will get you a copy of the project up and running on your loc
 - ✔️ Set Up Client, Express, Flask.
 - ✔️ User Authentication.
 - ✔️  Database Connection.
-- ✔️  Improve UI design.
+- 🔲  Improve UI design.
 - 🔲  Improve model predictions.
 - 🔲 Deploy Servers to working environment.
 - 🔲 Etc.
