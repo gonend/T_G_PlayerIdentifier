@@ -1,9 +1,16 @@
-# Project Name
-A brief description of the project goes here.
+# PlayerIdentifier
+Android App used to get NBA player statistics data from image recognition.
+
+## Description
+This is an aducational project.
+### Goals 
+gain hand-on expirience and knowledge in new technologies, methodologies and platforms.
+We aim to publish an app running on android OS and can be used 
 
 ## Technologies
 * Frontend: React Native
 * Backend: Express.js and Flask
+* Machine Learning: Ultralitics (Yolo v8)
 * Database: Firebase
 * Authentication: Google Auth
 
@@ -15,8 +22,9 @@ Before you can run this project on your local machine, you'll need to have the f
 * Node.js
 * npm
 * Python
+* pip
 * Flask
-* Firebase CLI
+* Android Studio
 
 ## Installing
 Clone the repository to your local machine
@@ -28,11 +36,6 @@ Start the backend by running python app.py in the backend directory
 Explain how to run the automated tests for this system
 
 Break down into end to end tests
-Explain what these tests test and why
-
-Copy code
-Give an example
-And coding style tests
 Explain what these tests test and why
 
 Copy code
@@ -56,6 +59,6 @@ Add additional notes about how to deploy this on a live system
 This project is licensed under the MIT License - see the LICENSE.md file for details.
 
 ## Acknowledgments
-Hat tip to anyone whose code was used
-Inspiration
+[balldontlie](https://www.balldontlie.io/home.html#introduction)
+
 etc.
