@@ -18,10 +18,10 @@ We aim to deploy this app to a running environment so users can download and use
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ## To Do:
-- ✅ Set Up Client, Express, Flask.
-- ✅ User Authentication.
-- ✅ Database Connection.
-- ✅ Improve UI design.
+- ✔️ Set Up Client, Express, Flask.
+- ✔️ User Authentication.
+- ✔️ Database Connection.
+- ✔️ Improve UI design.
 - 🔲 Improve model predictions.
 - 🔲 Deploy Servers to working environment.
 - 🔲 Etc.
