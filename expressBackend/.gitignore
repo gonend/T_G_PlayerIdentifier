@@ -65,5 +65,10 @@ buck-out/
 
 serviceAccountJson
 .env
+<<<<<<< HEAD
+
+uploads/
+=======
 uploads/
 
+>>>>>>> 65777af3c6ce1e6c3576dd820596fe0320ade8fa
