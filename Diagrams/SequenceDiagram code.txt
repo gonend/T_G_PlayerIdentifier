@@ -1,0 +1,114 @@
+title Get player stats by image
+participant React-Native
+
+participant Express.js
+
+participant Local Storage
+participant Flask
+
+participant Firebase
+
+participant Players-API
+
+
+
+entryspacing 1.2
+
+
+
+
+React-Native->Express.js:/uploadPicture(accessToken)
+activate React-Native
+
+par #red valid token? (No)
+
+Express.js->Firebase:Verify Token(accessToken)
+activate Express.js
+
+Firebase-->Express.js:401 Unauthorized (Invalid token)
+
+Express.js-->React-Native:401 Unauthorized (Invalid token)
+
+
+deactivate Express.js
+deactivate React-Native
+end
+
+activate React-Native
+
+
+par #7CFC00 valid token? (Yes)
+
+Express.js->Firebase:Verify Token(accessToken)
+activate Express.js
+
+Firebase-->Express.js:200 OK(Verified)
+deactivate Express.js
+end
+
+Express.js->Local Storage:Store picture
+activate Express.js
+Local Storage-->Express.js: imageSaved (imgPath)
+deactivate Express.js
+
+
+Express.js->Flask:/PredictPlayer(accessToken,imgPath)
+activate Express.js
+
+Flask->Firebase:Verify Token(accessToken)
+activate Flask
+Firebase-->Flask:200 OK(Verified)
+deactivate Flask
+
+
+Flask->Flask:predictPlayer(modelPath,imgPath)
+activate Flask
+
+
+Flask-->Express.js:200 OK (playerName)
+deactivate Express.js
+deactivate Flask
+
+par#red  PlayerInfoExistInFirebase? (NO)
+
+Express.js->Firebase:CheckPlayerInfo(playerName)
+activate Express.js
+
+Firebase-->Express.js: 401 Not found
+
+Express.js->Players-API:getPlayerInfo(playerName)
+Players-API-->Express.js:200 OK(playerInfo)
+deactivate Express.js
+
+end
+
+par#7CFC00 PlayerInfoExistInFirebase? (Yes)
+
+Express.js->Firebase:CheckPlayerInfo(playerName)
+activate Express.js
+
+Firebase-->Express.js: 200 OK (playerInfo)
+deactivate Express.js
+
+end
+
+
+
+Express.js->Players-API:getPlayerStats(playerName)
+activate Express.js
+Players-API-->Express.js:200 OK(playerStats)
+
+deactivate Express.js
+
+
+
+
+
+Express.js-->React-Native:200 OK(playerStats)
+
+deactivate React-Native
+
+
+
+
+
