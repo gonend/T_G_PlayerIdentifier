@@ -2,7 +2,6 @@
 runs/
 test/
 test2/
-.env
 best.pt
 best(1).pt
 best(2).pt
