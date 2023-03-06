@@ -2,7 +2,7 @@
 Android App used to get NBA player statistics data from image recognition.
 
 ## Description
-This is an aducational project.
+This is an educational project.
 ### Goals 
 gain hand-on expirience and knowledge in new technologies, methodologies and platforms.
 We aim to deploy this app to a running environment so users can download and use it on their android OS. 
