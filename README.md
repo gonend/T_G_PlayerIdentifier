@@ -68,7 +68,7 @@ Add additional notes about how to deploy this on a live system
 This project is licensed under the MIT License - see the LICENSE.md file for details.
 
 ## Acknowledgments
-[balldontlie](https://www.balldontlie.io/home.html#introduction)
-[Roboflow](https://universe.roboflow.com/)
+- [balldontlie](https://www.balldontlie.io/home.html#introduction)
+- [Roboflow](https://universe.roboflow.com/)
 
 etc.
