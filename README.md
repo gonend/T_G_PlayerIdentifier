@@ -69,5 +69,6 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 
 ## Acknowledgments
 [balldontlie](https://www.balldontlie.io/home.html#introduction)
+[Roboflow](https://universe.roboflow.com/)
 
 etc.
