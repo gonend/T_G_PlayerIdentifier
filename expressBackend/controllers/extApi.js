@@ -9,15 +9,26 @@ async function checkPlayerInfoFromFirestore(playerName) {
   var playerInfoRef = firestore.collection("playersInfo").doc(playerName);
 
   let objectFromFirestore = await playerInfoRef.get();
+  console.log(objectFromFirestore.exists);
+  if (objectFromFirestore.exists) {
+    playerInfoFromFirebase = objectFromFirestore.data();
+    console.log(playerInfoFromFirebase);
 
-  playerInfoFromFirebase = objectFromFirestore.data();
-
-  return playerInfoFromFirebase;
+    return playerInfoFromFirebase;
+  }
+  return undefined;
 }
 
 function parsePlayerInfo(playerInfo) {
-  const { id, first_name, last_name, height_feet, height_inches, position } =
-    playerInfo;
+  const {
+    id,
+    first_name,
+    last_name,
+    height_feet,
+    height_inches,
+    position,
+    // img_uri,
+  } = playerInfo;
   const parsedPlayerInfo = {
     id: id,
     first_name: first_name,
@@ -25,6 +36,7 @@ function parsePlayerInfo(playerInfo) {
     height_feet: height_feet,
     height_inches: height_inches,
     position: position,
+    // img_uri: img_uri,
   };
   return parsedPlayerInfo;
 }
@@ -83,21 +95,20 @@ const getPlayerInfo = async (playerName) => {
   };
   try {
     //check if we have the info for that specific player in firestore
-
     let playerInfo = await checkPlayerInfoFromFirestore(playerName);
-
+    // console.log(playerInfo);
     if (playerInfo === undefined) {
       //if playerInfo doesnt exist in firestore ==>use to API to import playerInfo
       let response = await axios(config);
       // console.log(response.data.data[0]);
       // playerInfo = JSON.stringify(response.data.data[0]);
       playerInfo = response.data.data[0];
-
+      console.log(playerInfo);
       if (playerInfo) {
         playerInfo = parsePlayerInfo(playerInfo);
         await firestore
           .collection("playersInfo")
-          .doc("" + playerInfo.id)
+          .doc("" + playerName)
           .set(playerInfo);
       }
     }
@@ -110,7 +121,7 @@ const getPlayerInfo = async (playerName) => {
 const getPlayerSeasonStats = async (playerName, seasonYear) => {
   try {
     playerName = playerName.toLowerCase();
-    console.log(playerName);
+    console.log("before info: ", playerName);
     let playerInfo = await getPlayerInfo(playerName);
     console.log(playerInfo);
     if (playerInfo === undefined) {

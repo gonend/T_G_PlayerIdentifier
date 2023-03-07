@@ -8,13 +8,7 @@ const { getPlayerSeasonStats } = require("./extApi");
 const { default: axios } = require("axios");
 // const { config } = require("dotenv");
 
-const jwt = require("jsonwebtoken");
-
-const secretKey = "your_secret_key";
-
-function generateToken(payload) {
-  return jwt.sign(payload, secretKey);
-}
+const fs = require("fs");
 
 async function saveNameInHistoryCollection(playerObject, userId, playerName) {
   var searchHistoryRef = firestore.collection("usersSearchHistory").doc(userId);
@@ -77,38 +71,14 @@ const checkAuthFlask = async (req, res) => {
   }
 };
 
-// const connectFlask = async (req, res) => {
-//   console.log("Flask");
-//   const { username, password } = { username: "admin", password: "admin" };
-
-//   console.log(config.flaskServerUrl);
-//   try {
-//     let response = await axios.post(`${config.flaskServerUrl}/login`, {
-//       username,
-//       password,
-//     });
-//     const token = response.data.access_token;
-//     // const jwtToken = generateToken({ username: "your_username" });
-//     // console.log("jwtoken: ", jwtToken);
-
-//     // return the JWT token to the client
-//     console.log("token: ", token);
-
-//     res.json({ token: token });
-//   } catch (error) {
-//     // handle error response from the Flask server
-//     res.status(401).json({ message: "Authentication failed" });
-//   }
-// };
-
 //this is where we change player for testing
 const sendImgToClassificationModel = async (res, req) => {
   //function that sends the picture to the model and returns a player Name
   // console.log("../../uploads/" + imgUrl + ".png");
   // console.log(imgUrl);
-  console.log("\n\nupload picture using token");
-  console.log("\n\nreq", req);
-  console.log("\n\nres sendImgToClassificationModel: ", res.locals);
+  // console.log("\n\nupload picture using token");
+  // console.log("\n\nreq", req);
+  // console.log("\n\nres sendImgToClassificationModel: ", res.locals);
   // imgUrl = "../../uploads/5de3a605e2740a0c407cd3c1004c81db.png";
   // console.log("token", res.locals.token);
   const utils = {
@@ -141,11 +111,20 @@ const receiveImage = async (req, res, next) => {
 
     //TODO: this is where we are supposed to call the classification model that will return the playerName from Img
     console.log(`${req.file.filename}`); //${config.tempPicturePath}
+    let fileName = req.file.filename;
     const playerName = await sendImgToClassificationModel(
       res,
-      `${req.file.filename}` //${config.tempPicturePath}$
+      `${fileName}` //${config.tempPicturePath}$
     );
-    console.log("shrmota");
+    console.log(`delete from uploads:${fileName} `);
+    const filePath = `./uploads/${fileName}`;
+    if (fs.existsSync(filePath)) {
+      // Delete the file
+      fs.unlinkSync(filePath);
+      console.log(`File ${fileName} deleted successfully`);
+    } else {
+      console.log(`File ${fileName} not found`);
+    }
 
     //after getting playerNamefrom model==> use firebase/API for playerInfonba AND use Api to get player stats
     const playerObject = await getPlayerSeasonStats(playerName, prevYear);
