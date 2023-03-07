@@ -34,7 +34,6 @@ export default function PlayerInfoScreen(props: {
     const [playerStats, setPlayerStats] = useState(
         playerData?.playerObject.playerStats
     );
-
     const [simpleStatsView, setSimpleStatsView] = useState(false);
 
     function identifyAgain() {
@@ -69,7 +68,7 @@ export default function PlayerInfoScreen(props: {
                     <Image
                         style={styles.playerPicture}
                         source={{
-                            uri: 'https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png'
+                            uri: playerData.playerObject.playerInfo.img_uri //'https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png'
                         }}
                     />
                     <PlayerInfoComponent playerInfo={playerInfo} />

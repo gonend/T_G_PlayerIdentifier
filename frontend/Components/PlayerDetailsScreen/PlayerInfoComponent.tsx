@@ -19,7 +19,8 @@ export default function PlayerInfoComponent(props: any) {
                 (eval(playerInfo.height_feet) * 12 +
                     eval(playerInfo.height_inches)) *
                 2.54;
-            setPlayerHeight('' + heigtInCm + ' Cm');
+            heigtInCm = parseInt(String(heigtInCm));
+            setPlayerHeight('' + heigtInCm + ' cm');
         }
     }, []);
     return (

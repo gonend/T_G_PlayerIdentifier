@@ -37,34 +37,6 @@ router.post("/user", addUser);
 
 // router.post("/login", connectFlask);
 
-// function authenticateUser(req, res, next) {
-//   const jwtToken = req.headers.authorization?.split(" ")[1];
-
-//   if (!jwtToken) {
-//     return res.status(401).json({ message: "Missing authorization header" });
-//   }
-
-//   // verify the JWT token
-//   jwt.verify(jwtToken, secretKey, (err, decoded) => {
-//     if (err) {
-//       return res.status(401).json({ message: "Invalid token" });
-//     }
-
-//     // the token is valid, attach the decoded username to the request object
-//     req.body.username = decoded.username;
-
-//     next();
-//   });
-// }
-// router.get("/protected", authenticateUser, (req, res) => {
-//   const { username } = req.body;
-//   console.log("protected");
-//   // the user is authenticated, return the protected data to the client
-//   res.json({ message: "Protected data", username });
-// });
-
-// router.post("/activate", checkAuthFlask);
-
 router.post("/uploadPicture", uploads.single("photo"), receiveImage);
 
 router.get("/getStatsByPlayerName", getStatsByplayerName);
