@@ -30,10 +30,13 @@ export default function HamburgerMenu(props: any) {
             auth().signOut();
             GoogleSignin.signOut();
             AsyncStorage.removeItem('accessToken');
+            //clearing all userObject values
             userContext.setIsUserAuthorized(false);
+            userContext.setUserObject(null);
+            // userContext.setUserHistoryPlayersArr([]);
             navigation.navigate('Login', {});
         } catch (error) {
-            console.log('error in hamburgerMenu. Error details:');
+            console.log('error in hamburgerMenu->logout. Error details:');
             console.log(error);
         }
     }

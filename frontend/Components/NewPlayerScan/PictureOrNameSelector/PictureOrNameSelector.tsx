@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { UserContext } from '../../../App';
 
 export default function PictureOrNameSelector(props: any) {
     //gets the useState from playerInfoScreen so that pressing on the navbar make a diffrence in there
-    const { identifyWithPicture, setIdentifyWithPicture, setFreshStart } =
-        props;
+    const { identifyWithPicture, setIdentifyWithPicture } = props;
+
+    let userContext = React.useContext(UserContext);
 
     const [identifyWithPictureButtonStyle, setIdentifyWithPictureButtonStyle] =
         useState<object>(styles.enabledButton);
@@ -19,7 +21,7 @@ export default function PictureOrNameSelector(props: any) {
             setIdentifyWithNameButtonStyle(styles.enabledButton);
             setIdentifyWithPictureButtonStyle(styles.disabledButton);
         }
-        setFreshStart(true);
+        userContext.setFreshStart(true);
     }, [identifyWithPicture]);
 
     return (

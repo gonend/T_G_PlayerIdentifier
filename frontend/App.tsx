@@ -35,9 +35,10 @@ import SplashComponent from './Components/Splash/SplashComponent';
 import HamburgerMenu from './Components/HamburgerMenu/HamburgerMenu';
 import Navbar from './Components/Navbar/Navbar';
 import NewPlayerScan from './Components/NewPlayerScan/NewPlayerScan';
-import PlayerInfoScreen from './Components/PlayerDetailsScreen/PlayerDetailsScreen';
+import PlayerInfoScreen from './Components/PlayerDetailsScreen/PlayerInfoScreen';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import GenericPlayerHistoryButton from './Components/PlayersHistoryModal/GenericPlayerHistoryButton';
 
 LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state'
@@ -52,13 +53,21 @@ export const UserContext = React.createContext<{
     setIsUserAuthorized: Function;
     idToken: string;
     setIdToken: Function;
+    freshStart: boolean;
+    setFreshStart: Function;
+    userHistoryPlayersArr: string[];
+    setUserHistoryPlayersArr: Function;
 }>({
     userObject: null,
     setUserObject: () => {},
     isUserAuthorized: false,
     setIsUserAuthorized: () => {},
     idToken: '',
-    setIdToken: () => {}
+    setIdToken: () => {},
+    freshStart: false,
+    setFreshStart: () => {},
+    userHistoryPlayersArr: [],
+    setUserHistoryPlayersArr: () => {}
 });
 
 // const [refreshToken, setRefreshToken] = useState(null);
@@ -71,6 +80,11 @@ const App = (props: { children: any }) => {
 
     const [isUserAutorized, setIsUserAuthorized] = useState(false);
     const [idToken, setIdToken] = useState('');
+    const [freshStart, setFreshStart] = useState(false);
+
+    const [userHistoryPlayersArr, setUserHistoryPlayersArr] = useState<
+        string[]
+    >([]);
 
     const getCurrentTokenForUser = async (user: FirebaseAuthTypes.User) => {
         try {
@@ -156,7 +170,11 @@ const App = (props: { children: any }) => {
                 isUserAuthorized: isUserAutorized,
                 setIsUserAuthorized: setIsUserAuthorized,
                 idToken: idToken,
-                setIdToken: setIdToken
+                setIdToken: setIdToken,
+                freshStart: freshStart,
+                setFreshStart: setFreshStart,
+                userHistoryPlayersArr: userHistoryPlayersArr,
+                setUserHistoryPlayersArr: setUserHistoryPlayersArr
             }}
         >
             <NavigationContainer>
@@ -179,6 +197,10 @@ const App = (props: { children: any }) => {
                         name="PlayerInfoScreen"
                         component={PlayerInfoScreen}
                     />
+                    {/* <Stack.Screen
+                        name="GenericPlayerHistoryButton"
+                        component={GenericPlayerHistoryButton}
+                    /> */}
                 </Stack.Navigator>
             </NavigationContainer>
         </UserContext.Provider>

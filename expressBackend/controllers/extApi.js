@@ -5,7 +5,7 @@ const { db, firestore } = require("../db");
 const playerApi = "https://balldontlie.io/api/v1/players/?search=";
 const seasonalStatsApi = `https://www.balldontlie.io/api/v1/season_averages?season=`;
 
-async function checkPlayerInfoFromFirestore(playerName) {
+async function getPlayerInfoFromFirestore(playerName) {
   var playerInfoRef = firestore.collection("playersInfo").doc(playerName);
 
   let objectFromFirestore = await playerInfoRef.get();
@@ -95,7 +95,7 @@ const getPlayerInfo = async (playerName) => {
   };
   try {
     //check if we have the info for that specific player in firestore
-    let playerInfo = await checkPlayerInfoFromFirestore(playerName);
+    let playerInfo = await getPlayerInfoFromFirestore(playerName);
     // console.log(playerInfo);
     if (playerInfo === undefined) {
       //if playerInfo doesnt exist in firestore ==>use to API to import playerInfo

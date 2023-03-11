@@ -41,7 +41,8 @@ export default function NewPlayerScan(props: any) {
     const [showLoadingSpinner, setShowLoadingSpinner] = useState(false);
     const navigation = props.navigation;
     let userContext = React.useContext(UserContext);
-    const [freshStart, setFreshStart] = useState(false);
+    // const [freshStart, setFreshStart] = useState(false);
+
     const [identifyWithPicture, setIdentifyWithPicture] = useState(true);
 
     //////////////////////////autoComplete test/////////////////////////////////////////////
@@ -101,9 +102,39 @@ export default function NewPlayerScan(props: any) {
                 default:
                     break;
             }
+            //Adding player to history array if its a new entery.
+            //this method saves us axios calls to our backend and the history array stays updated.
+            let playerNameAdditionToHistory =
+                playerData.playerObject.playerInfo.first_name +
+                ' ' +
+                playerData.playerObject.playerInfo.last_name;
+
+            let playerIndexInHistoryArr =
+                userContext.userHistoryPlayersArr.indexOf(
+                    playerNameAdditionToHistory
+                );
+
+            if (playerIndexInHistoryArr === -1) {
+                userContext.setUserHistoryPlayersArr([
+                    playerNameAdditionToHistory,
+                    ...userContext.userHistoryPlayersArr
+                ]);
+
+                console.log(
+                    'History array was updated with a new player entery.'
+                );
+            } else {
+                //getting the last searched value to be the first in history
+                let tempHistoryArr = userContext.userHistoryPlayersArr;
+                tempHistoryArr.splice(playerIndexInHistoryArr, 1);
+                userContext.setUserHistoryPlayersArr([
+                    playerNameAdditionToHistory,
+                    ...tempHistoryArr
+                ]);
+            }
+
             navigation.navigate('PlayerInfoScreen', {
-                playerData,
-                setFreshStart
+                playerData
             });
         } catch (error) {
             console.log(error);
@@ -148,17 +179,18 @@ export default function NewPlayerScan(props: any) {
     }, [isWaitingForResponse]);
 
     useEffect(() => {
-        console.log('freshStart is: ' + freshStart);
-        if (freshStart === true) {
+        if (userContext.freshStart === true) {
+            console.log('freshStart is: ' + userContext.freshStart);
+            console.log('clearing data...');
             //clean all data at this screen
             setImagePickerResponse(undefined);
             setPlayerNameSearchValue('');
             setFormDataTest(undefined);
             setIsWaitingForResponse(false);
             setShowLoadingSpinner(false);
-            setFreshStart(false);
+            userContext.setFreshStart(false);
         }
-    }, [freshStart]);
+    }, [userContext.freshStart]);
 
     useEffect(() => {
         const getPlayerNamesFunction = async () => {
@@ -221,7 +253,6 @@ export default function NewPlayerScan(props: any) {
                             <PictureOrNameSelector
                                 identifyWithPicture={identifyWithPicture}
                                 setIdentifyWithPicture={setIdentifyWithPicture}
-                                setFreshStart={setFreshStart}
                             />
                         </View>
 
