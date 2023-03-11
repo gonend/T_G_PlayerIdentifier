@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
     SafeAreaView,
     StatusBar,
@@ -12,7 +12,7 @@ import {
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin, User } from '@react-native-google-signin/google-signin';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UserContext } from '../../App';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -25,8 +25,11 @@ GoogleSignin.configure({
 const Login = (props: any) => {
     let userContext = React.useContext(UserContext);
     const navigation = props.navigation;
+    let getHistoryFlagRef = useRef(true); //creating a useRef hook that will determine if home component should fetch user history.
 
     async function getUserCredentialsWithToken(idToken: string) {
+        //function that is being runned by the signInWithGoogle function
+        //this function will try to get the credentials for the specific user and return it
         try {
             const googleCredential =
                 auth.GoogleAuthProvider.credential(idToken);
@@ -41,6 +44,9 @@ const Login = (props: any) => {
     }
 
     async function signInWithGoogle() {
+        //function that is being runned by pressing the signInWithGoogle button.
+        //start the proccess of a google sign in.
+        //by the end of this function run the userToken (required for backend requests) will be stored in userContext.
         try {
             //get the users id Token
             const { idToken } = await GoogleSignin.signIn();
@@ -50,12 +56,15 @@ const Login = (props: any) => {
                 credentials = await getUserCredentialsWithToken(idToken);
                 if (credentials?.user) {
                     userContext.setUserObject(credentials?.user);
-                    userContext.setIdToken(idToken);
+                    //updates userContext with a valid token to use while sending requests to the backend.
+                    let token = await credentials?.user.getIdToken(true);
+                    userContext.setIdToken(token);
+                    //a useRef hook that will be passed to home component and determine if home should get history from the backend. (after logout or after a starting new instance of the app)
+                    getHistoryFlagRef.current = true;
 
-                    // set access token in AsyncStorage storage
-                    AsyncStorage.setItem('accessToken', idToken as string);
-                    userContext.setIsUserAuthorized(true);
-                    navigation.navigate('Home', {});
+                    navigation.navigate('Home', {
+                        getHistoryFlag: getHistoryFlagRef
+                    });
                 }
             }
 
@@ -67,15 +76,13 @@ const Login = (props: any) => {
         }
     }
 
-    async function logoutUser() {
-        GoogleSignin.signOut();
+    // async function logoutUser() {
+    //     GoogleSignin.signOut();
 
-        AsyncStorage.clear();
+    //     userContext.setUserObject(null);
 
-        userContext.setUserObject(null);
-
-        userContext.setIsUserAuthorized(false);
-    }
+    //     userContext.setIsUserAuthorized(false);
+    // }
 
     return (
         <LinearGradient
@@ -104,18 +111,27 @@ const Login = (props: any) => {
                 </View>
                 <View style={styles.bottomContent}>
                     {userContext.isUserAuthorized ? (
-                        <TouchableOpacity
-                            onPress={logoutUser}
-                            style={styles.googleButton}
+                        // <TouchableOpacity
+                        //     onPress={logoutUser}
+                        //     style={styles.googleButton}
+                        // >
+                        //     <Image
+                        //         style={styles.googleIcon}
+                        //         source={{
+                        //             uri: 'https://i.ibb.co/j82DCcR/search.png'
+                        //         }}
+                        //     />
+                        //     <Text style={styles.googleButtonText}>Log out</Text>
+                        // </TouchableOpacity>
+                        <Text
+                            style={{
+                                fontSize: 30,
+                                textAlign: 'center',
+                                color: 'white'
+                            }}
                         >
-                            <Image
-                                style={styles.googleIcon}
-                                source={{
-                                    uri: 'https://i.ibb.co/j82DCcR/search.png'
-                                }}
-                            />
-                            <Text style={styles.googleButtonText}>Log out</Text>
-                        </TouchableOpacity>
+                            Redirecting to home page...
+                        </Text>
                     ) : (
                         <TouchableOpacity
                             onPress={signInWithGoogle}

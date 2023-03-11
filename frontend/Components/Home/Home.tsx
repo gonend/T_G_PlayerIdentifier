@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
     View,
     Text,
@@ -16,26 +16,50 @@ import PlayersHistoryModal from '../PlayersHistoryModal/PlayersHistoryModal';
 import { PORT, SERVER_IP_ADDRESS } from '@env';
 
 function Home(props: any) {
-    let userContext = React.useContext(UserContext);
-    const navigation = props.navigation;
-    const [modalVisible, setModalVisible] = useState(false);
-    const [userPlayersHistoryObject, setUserPlayersHistoryObject] =
-        useState<{}>({});
-    // const [userHistoryPlayersArr, setUserHistoryPlayersArr] = useState<
-    //     string[]
-    // >([]);
+    let userContext = React.useContext(UserContext); //includes most of the user data.
+    const navigation = props.navigation; //for navigation between app screens
+    const [modalVisible, setModalVisible] = useState(false); //use State to control modal appreance
+    const { getHistoryFlag } = props.route.params; //a reference to a flag in the login component. this flag will determine if fetching history array is required.
+    const [historyPlayerNameChosen, setHistoryPlayerNameChosen] = useState(''); //Will be send to modal component to store a history entery selected by the user
 
-    const [historyPlayerNameChosen, setHistoryPlayerNameChosen] = useState('');
-
+    //function that toggles the modal useState (off->on||on->off)
     const toggleModal = () => {
         setModalVisible(!modalVisible);
     };
 
+    //navigates to newPlayerScan
+    //most of the user info is stored in userContext that is shared between the app components.
     const navigateToNewPlayerScan = () => {
         navigation.navigate('NewPlayerScan');
     };
 
+    const getUserSearchHistory = async () => {
+        //Function that is activated by a USE_EFFECT_1
+        //Function will run if fetching userHistoryPlayers is required.
+        try {
+            let response = await axios({
+                method: 'get',
+                url: `http://${SERVER_IP_ADDRESS}:${PORT}/api/getUserPlayersHistory`,
+                headers: {
+                    Authorization: `Bearer ${userContext.idToken}`
+                },
+                signal: Timeout(10).signal
+            });
+            console.log('sharmit2');
+            console.log(response?.data.players);
+            userContext.setUserHistoryPlayersArr(
+                Object.values(response?.data.players)
+            );
+            if (getHistoryFlag) getHistoryFlag.current = false;
+        } catch (error) {
+            console.log('error while getting user search history');
+            console.log(error);
+        }
+    };
+
     const getHistoryPlayerStats = async () => {
+        //Function that is activated by USE_EFFECT_2
+        //Function will run if a history entery was chosen from the userHistoryPlayers array.
         try {
             let response = await axios({
                 method: 'get',
@@ -60,54 +84,25 @@ function Home(props: any) {
         }
     };
 
-    // const getCurrentTokenForUser = async () => {
-    //     // let token = await userContext.userObject?.getIdToken(true);
-    //     console.log('token for this user is:');
-    //     console.log('//////////////Start of token//////////////');
-    //     console.log(userContext.idToken);
-    //     console.log('//////////////End of token//////////////');
-    //     // console.log(userContext.userObject.user);
-    // };
-
-    // useEffect(() => {
-    //     getCurrentTokenForUser();
-    // }, []);
-
-    const getUserSearchHistory = async () => {
-        try {
-            let response = await axios({
-                method: 'get',
-                url: `http://${SERVER_IP_ADDRESS}:${PORT}/api/getUserPlayersHistory`,
-                headers: {
-                    Authorization: `Bearer ${userContext.idToken}`
-                },
-                signal: Timeout(10).signal
-            });
-            userContext.setUserHistoryPlayersArr(
-                Object.values(response?.data.players)
-            );
-        } catch (error) {
-            console.log('error while getting user search history');
-            console.log(error);
+    useEffect(() => {
+        //USE_EFFECT_1
+        //use effect that takes effect if getHistoryFlag=true||undefined;
+        //getHistoryFlag is the reference we got from login component.
+        //it determine if this useEffect will use Axios to get the history array from the backend
+        if (getHistoryFlag === undefined || getHistoryFlag?.current) {
+            console.log('fetching user history...');
+            getUserSearchHistory();
         }
-    };
+    }, [getHistoryFlag]);
 
     useEffect(() => {
-        getUserSearchHistory();
-    }, []);
-
-    useEffect(() => {
+        //USE_EFFECT_2
+        //useEffect that takes effect after a history entery was chosen from the userHistoryPlayers array.
+        //the useEffect will activate getHistoryPlayerStats function
         if (historyPlayerNameChosen.length > 0) {
             getHistoryPlayerStats();
         }
     }, [historyPlayerNameChosen]);
-
-    // useEffect(() => {
-    //     if (userPlayersHistoryObject) {
-    //         let playersArr: string[] = Object.values(userPlayersHistoryObject);
-    //         userContext.setUserHistoryPlayersArr(playersArr);
-    //     }
-    // }, [userPlayersHistoryObject]);
 
     return (
         <View style={styles.container}>
