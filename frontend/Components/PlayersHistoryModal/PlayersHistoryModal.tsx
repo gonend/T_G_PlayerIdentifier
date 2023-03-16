@@ -82,7 +82,7 @@ export default function PlayersHistoryModal(props: any) {
                         ) : (
                             <Text
                                 style={{
-                                    fontSize: 20,
+                                    fontSize: height * 0.02994011,
                                     textAlign: 'center'
                                 }}
                             >
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
         flex: 0.4
     },
     modalView: {
-        borderRadius: 40,
+        borderRadius: width * 0.111111111,
         backgroundColor: '#ffffff',
         marginTop: height * 0.024844,
         flex: 1

@@ -177,37 +177,44 @@ function Home(props: any) {
 const { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
     container: { flex: 1 },
-    upperTexts: { alignItems: 'center', marginHorizontal: 20 },
-    WelcomeText: { fontSize: 30, textAlign: 'center' },
-    descriptionHeader: { fontSize: 20, marginTop: 10, textAlign: 'center' },
-    instructionsText: { marginTop: 10 },
-    buttonsView: { marginTop: 0 },
+    upperTexts: {
+        alignItems: 'center',
+        marginHorizontal: width * 0.0555555555555556
+    },
+    WelcomeText: { fontSize: height * 0.0449101796, textAlign: 'center' },
+    descriptionHeader: {
+        fontSize: height * 0.02994011,
+        marginTop: height * 0.014970059,
+        textAlign: 'center'
+    },
+    instructionsText: { marginTop: height * 0.014970059 },
+    buttonsView: {},
     scanNewPlayerButton: {
-        marginTop: 10,
+        marginTop: height * 0.014970059,
         backgroundColor: 'white',
-        borderRadius: 4,
-        borderWidth: 1,
-        paddingHorizontal: 34,
-        paddingVertical: 16,
+        borderRadius: width * 0.011111111,
+        borderWidth: width * 0.002777777,
+        paddingHorizontal: width * 0.0944444444,
+        paddingVertical: height * 0.02395209,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center'
     },
     scanNewPlayerButtonText: {
         color: '#b97272',
-        fontSize: 20
+        fontSize: height * 0.02994011
     },
     buttonIcon: {
-        height: 24,
-        width: 24,
-        marginRight: 5,
-        marginTop: 10
+        height: height * 0.03592814,
+        width: width * 0.06666666,
+        marginRight: 0.01388888,
+        marginTop: height * 0.014970059
     },
     horizontalRulerView: {
         borderBottomWidth: StyleSheet.hairlineWidth,
         borderColor: '#1850AB',
         backgroundColor: '#1850AB',
-        borderWidth: 1.5,
+        borderWidth: width * 0.004166666,
 
         marginTop: height * 0.024068
     }

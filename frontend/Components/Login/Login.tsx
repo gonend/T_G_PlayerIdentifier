@@ -105,7 +105,12 @@ const Login = (props: any) => {
                     </View>
                     <Text style={styles.mainText}>Welcome!</Text>
                     {userContext.isUserAuthorized === true ? (
-                        <Text style={{ color: '#FFFFFF', fontSize: 20 }}>
+                        <Text
+                            style={{
+                                color: '#FFFFFF',
+                                fontSize: height * 0.02994011
+                            }}
+                        >
                             {userContext.userObject?.displayName}
                         </Text>
                     ) : (
@@ -188,26 +193,26 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     mainText: {
-        fontSize: 54,
+        fontSize: height * 0.08083832,
         color: 'white'
     },
     googleButton: {
         backgroundColor: 'white',
-        borderRadius: 4,
-        paddingHorizontal: 34,
-        paddingVertical: 16,
+        borderRadius: width * 0.01111111,
+        paddingHorizontal: width * 0.094444444,
+        paddingVertical: height * 0.02395209,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center'
     },
     googleButtonText: {
-        marginLeft: 16,
-        fontSize: 18,
+        marginLeft: width * 0.04444444,
+        fontSize: height * 0.0269461,
         fontWeight: '600'
     },
     googleIcon: {
-        height: 24,
-        width: 24
+        height: height * 0.035928143,
+        width: width * 0.0666666666
     }
 });
 export default Login;

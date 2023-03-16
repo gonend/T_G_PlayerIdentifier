@@ -30,7 +30,7 @@ export default function PlayerDetailscreen(props: {
     //A user will get to this screen from newPlayerScan (or from home via search history)
 
     //This component includes the folowing:
-    //1: a selector component that lets the user decide whether to show the data in a simple or profesional view.
+    //1: a selector component that lets the user decide whether to show the data in a simple or expert view.
     //2: player info component with player general info.
     //3: based on the user choice in the selector (section 1) the layout will change respetively.
     //4: An identifyAgain button that will take the user back to newPlayerScan after resetting all values from previous scan.
@@ -128,8 +128,8 @@ const styles = StyleSheet.create({
     playerNameText: {
         textAlign: 'center',
         color: 'white',
-        fontSize: 30,
-        marginTop: 10
+        fontSize: height * 0.044910179,
+        marginTop: height * 0.014970059
     },
     playerInfoView: {
         flexDirection: 'row',
@@ -137,11 +137,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     playerPicture: {
-        height: 150,
-        width: 150,
+        height: height * 0.2245508982035928,
+        width: width * 0.416666666,
         alignSelf: 'center',
-        marginTop: 10,
-        marginRight: 20
+        marginTop: height * 0.014970059,
+        marginRight: width * 0.055555555
     },
     playerSimpleStatsView: { alignItems: 'center' },
     playerExpertStatsScrollView: {
@@ -150,14 +150,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
 
-        marginTop: 10,
-        paddingTop: 20,
-        marginHorizontal: 10
+        marginTop: height * 0.014970059,
+        paddingTop: height * 0.02994011,
+        marginHorizontal: width * 0.027777777
     },
     buttonView: {
         flexDirection: 'row',
         justifyContent: 'center',
-        marginTop: 20
+        marginTop: height * 0.02994011
     },
     identifyAgainButton: {},
     identifyAgainButtonIcon: {

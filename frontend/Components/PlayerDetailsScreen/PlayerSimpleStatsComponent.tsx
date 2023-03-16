@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { Dimensions, StyleSheet, Text } from 'react-native';
 import { View } from 'react-native-animatable';
 
 export default function PlayerSimpleStatsComponent(props: any) {
@@ -43,10 +43,16 @@ export default function PlayerSimpleStatsComponent(props: any) {
         </View>
     );
 }
+const { height, width } = Dimensions.get('window');
+
 const styles = StyleSheet.create({
     container: {},
     positionView: { flexDirection: 'row', alignItems: 'center' },
-    textKey: { color: 'white', fontSize: 20, marginRight: 5 },
-    textValue: { color: 'red', fontSize: 25 },
+    textKey: {
+        color: 'white',
+        fontSize: height * 0.02994011,
+        marginRight: width * 0.013888888
+    },
+    textValue: { color: 'red', fontSize: height * 0.037425149 },
     heightView: { flexDirection: 'row', alignItems: 'center' }
 });

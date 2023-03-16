@@ -3,7 +3,7 @@ import { Dimensions, StyleSheet, Text, View } from 'react-native';
 
 export default function StatsViewSelectorComponent(props: any) {
     //This components is part of the PlayerDetails screen.
-    //This components lets the user choose wether to vire player stats with simplified or profesional view.
+    //This components lets the user choose wether to vire player stats with simplified or expert view.
     const { setSimpleStatsView, simpleStatsView } = props;
     //gets the useState from PlayerDetailsScreen so that pressing on the stats view selector make a diffrence in there
 
@@ -31,7 +31,7 @@ export default function StatsViewSelectorComponent(props: any) {
             style={{
                 // backgroundColor: '#FFFFFF',
                 marginHorizontal: width * 0.1,
-                marginTop: 10,
+                marginTop: height * 0.014970059,
                 flexWrap: 'wrap'
 
                 // justifyContent: 'center'
@@ -86,7 +86,7 @@ var styles = StyleSheet.create({
     enabledButton: {
         flex: 0.5,
         backgroundColor: 'green',
-        borderRadius: 50
+        borderRadius: width * 0.138888888
         // alignContent: 'center',
         // alignItems: 'center',}
     },

@@ -285,7 +285,9 @@ export default function NewPlayerScan(props: any) {
                                                                 color: 'white',
                                                                 textAlign:
                                                                     'center',
-                                                                marginBottom: 10
+                                                                marginBottom:
+                                                                    height *
+                                                                    0.014970059
                                                             }}
                                                         >
                                                             Selected picture:
@@ -361,25 +363,30 @@ export default function NewPlayerScan(props: any) {
                                 </ScrollView>
                             </>
                         )}
-                    </ScrollView>
-                    <View
-                        style={{
-                            alignItems: 'center',
-                            flex: 1
-                        }}
-                    >
-                        <TouchableOpacity
-                            onPress={submitPlayerForIdentification}
-                            style={styles.submitButton}
-                        >
-                            <Image
-                                style={styles.submitButtonIcon}
-                                source={{
-                                    uri: 'https://icon-library.com/images/submit-button-icon-png/submit-button-icon-png-0.jpg'
+                        {formDataTest !== undefined ||
+                        playerNameSearchValue.length > 0 ? (
+                            <View
+                                style={{
+                                    alignItems: 'center',
+                                    flex: 1
                                 }}
-                            />
-                        </TouchableOpacity>
-                    </View>
+                            >
+                                <TouchableOpacity
+                                    onPress={submitPlayerForIdentification}
+                                    style={styles.submitButton}
+                                >
+                                    <Image
+                                        style={styles.submitButtonIcon}
+                                        source={{
+                                            uri: 'https://icon-library.com/images/submit-button-icon-png/submit-button-icon-png-0.jpg'
+                                        }}
+                                    />
+                                </TouchableOpacity>
+                            </View>
+                        ) : (
+                            <></>
+                        )}
+                    </ScrollView>
                 </>
             )}
         </LinearGradient>
@@ -400,52 +407,51 @@ const styles = StyleSheet.create({
     // logoPic: { flex: 0.5, Width: null, Height: null, resizeMode: 'contain' },
     descriptionText: {
         color: '#FFFFFF',
-        fontSize: 18,
-        marginTop: 20,
+        fontSize: height * 0.0269461,
+        marginTop: height * 0.02994011,
         textAlign: 'center',
-        marginHorizontal: 10
+        marginHorizontal: width * 0.02777777
     },
     nameInput: {
         backgroundColor: 'white',
         borderBottomColor: '#000000',
-        borderBottomWidth: 1,
+        borderBottomWidth: width * 0.0027777777,
         fontFamily: 'OpenSans-Regular',
         color: '#132D42',
-        borderRadius: 10,
+        borderRadius: width * 0.027777777,
         marginHorizontal: width * 0.0533333333,
         fontSize: height * 0.02484472,
         textAlign: 'center',
-        marginTop: 20
+        marginTop: height * 0.02994011
         // paddingRight: width * 0.03733333,
     },
     submitButton: {
-        flex: 1
+        flex: 0.8
     },
     // submitButtonText: {
     //     color: '#b97272',
     //     fontSize: 20
     // },
     submitButtonIcon: {
-        flex: 1,
+        flex: 0.5,
         resizeMode: 'contain',
-        height: 250,
-        width: 250
+        height: height * 0.374251497,
+        width: width * 0.694444444
     },
     spinnerTextStyle: { color: '#FFFFFF' },
     autocompleteContainer: {
-        backgroundColor: '#ffffff',
-        borderWidth: 0
+        backgroundColor: '#ffffff'
     },
     itemText: {
         backgroundColor: 'white',
         borderBottomColor: '#000000',
-        borderBottomWidth: 1,
+        borderBottomWidth: width * 0.002777777,
         fontFamily: 'OpenSans-Regular',
         color: '#132D42',
-        borderRadius: 10,
+        borderRadius: height * 0.0277777777,
         marginHorizontal: width * 0.0533333333,
         fontSize: height * 0.02484472,
         textAlign: 'center',
-        marginTop: 0.5
+        marginTop: 0.0000000598
     }
 });

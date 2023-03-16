@@ -114,8 +114,8 @@ var styles = StyleSheet.create({
         borderBottomWidth: StyleSheet.hairlineWidth,
         borderColor: '#1850AB',
         backgroundColor: '#1850AB',
-        borderWidth: 0.6,
-        width: width * 0.8,
+        borderWidth: width * 0.00166666,
+        width: width * 0.9,
         marginTop: height * 0.024068
     }
 });

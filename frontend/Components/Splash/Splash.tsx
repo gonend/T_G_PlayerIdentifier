@@ -71,7 +71,13 @@ const styles = StyleSheet.create({
         flex: 1
     },
 
-    kobePic: { alignSelf: 'center', marginTop: height * 0.153335 }, //the calculation is: marginFromTop/windowHeight
+    kobePic: {
+        alignSelf: 'center',
+        marginTop: height * 0.153335,
+        height: height * 0.299401197,
+        width: width * 0.55555555,
+        resizeMode: 'contain'
+    }, //the calculation is: marginFromTop/windowHeight
     playerIdentifierSymbol: {
         alignSelf: 'center',
         marginTop: height * 0.0207783

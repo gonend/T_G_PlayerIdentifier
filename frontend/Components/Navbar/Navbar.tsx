@@ -64,13 +64,13 @@ var styles = StyleSheet.create({
     },
     hamburgerMenuIcon: {
         marginHorizontal: width * 0.0533333333,
-        height: 25,
-        width: 25
+        height: height * 0.037425149,
+        width: width * 0.069444444
     },
     leftIcon: {
         marginHorizontal: width * 0.0533333333,
-        height: 40,
-        width: 40
+        height: height * 0.059880239,
+        width: width * 0.1111111111
     },
     navbarTitle: {
         color: '#FFFFFF',
