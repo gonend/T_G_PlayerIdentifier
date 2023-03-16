@@ -2,6 +2,9 @@ import React from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
 
 export default function GenericStatComponent(props: any) {
+    //This component is part of the PlayerDetailsScreen profesional stats view.
+    //There is a mapping thats happening in the parent component for each stat data.
+    //the mapping creates the table of stats for a specific player
     const { statObjectKey, statObjectValue } = props;
     return (
         <View style={styles.container}>

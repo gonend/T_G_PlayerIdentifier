@@ -3,8 +3,11 @@ import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import { UserContext } from '../../../App';
 
 export default function PictureOrNameSelector(props: any) {
-    //gets the useState from playerInfoScreen so that pressing on the navbar make a diffrence in there
+    //This compoenent is the selector thats on top of the newPlayerScan screen.
+    //This selector lets the user decide whether to identify through a player picture || through player name
+
     const { identifyWithPicture, setIdentifyWithPicture } = props;
+    //gets the useState from PlayerDetailsScreen so that pressing on the pictureOrName selector make a diffrence in there
 
     let userContext = React.useContext(UserContext);
 
@@ -32,14 +35,14 @@ export default function PictureOrNameSelector(props: any) {
                 flexWrap: 'wrap'
             }}
         >
-            <View style={styles.statsNavbarContainer}>
+            <View style={styles.selectorContainer}>
                 <View style={identifyWithPictureButtonStyle}>
                     <Text
                         onPress={() => {
                             console.log('pressed on pictureView');
                             setIdentifyWithPicture(true);
                         }}
-                        style={styles.StatsNavbarText}
+                        style={styles.selectorText}
                     >
                         {'Picture'}
                     </Text>
@@ -50,7 +53,7 @@ export default function PictureOrNameSelector(props: any) {
                             console.log('pressed on nameView');
                             setIdentifyWithPicture(false);
                         }}
-                        style={styles.StatsNavbarText}
+                        style={styles.selectorText}
                     >
                         {'Name'}
                     </Text>
@@ -62,18 +65,18 @@ export default function PictureOrNameSelector(props: any) {
 const { height, width } = Dimensions.get('window');
 
 var styles = StyleSheet.create({
-    StatsNavbarText: {
+    selectorContainer: {
+        flexDirection: 'row-reverse',
+        flex: 1,
+        alignItems: 'center'
+    },
+    selectorText: {
         textAlign: 'center',
         fontFamily: 'OpenSans-Bold',
         color: '#FFFFFF',
         fontSize: height * 0.03494472
     },
 
-    statsNavbarContainer: {
-        flexDirection: 'row-reverse',
-        flex: 1,
-        alignItems: 'center'
-    },
     enabledButton: {
         flex: 0.5,
         backgroundColor: 'green',

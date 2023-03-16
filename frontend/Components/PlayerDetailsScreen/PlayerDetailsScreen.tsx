@@ -14,19 +14,26 @@ import {
     View
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { filterConfig } from 'react-native-gesture-handler/lib/typescript/handlers/gestureHandlerCommon';
 import LinearGradient from 'react-native-linear-gradient';
 import Navbar from '../Navbar/Navbar';
-import UserRoleNavbar from './StatsNavbarComponent/StatsNavbarComponent';
 import GenericStatComponent from './GenericExpertStatComponent';
 import PlayerInfoComponent from './PlayerInfoComponent';
 import PlayerSimpleStatsComponent from './PlayerSimpleStatsComponent';
 import { UserContext } from '../../App';
+import StatsViewSelectorComponent from './StatsViewSelectorComponent/StatsViewSelectorComponent';
 
-export default function PlayerInfoScreen(props: {
+export default function PlayerDetailscreen(props: {
     navigation: NavigationProp<ParamListBase>;
     route: any;
 }) {
+    //This compoenent shows the player data for a player that was succesfully identified by the backend.
+    //A user will get to this screen from newPlayerScan (or from home via search history)
+
+    //This component includes the folowing:
+    //1: a selector component that lets the user decide whether to show the data in a simple or profesional view.
+    //2: player info component with player general info.
+    //3: based on the user choice in the selector (section 1) the layout will change respetively.
+    //4: An identifyAgain button that will take the user back to newPlayerScan after resetting all values from previous scan.
     const { navigation } = props;
     const { playerData } = props.route.params;
 
@@ -35,7 +42,7 @@ export default function PlayerInfoScreen(props: {
     const [playerStats, setPlayerStats] = useState(
         playerData?.playerObject.playerStats
     );
-    const [simpleStatsView, setSimpleStatsView] = useState(false);
+    const [simpleStatsView, setSimpleStatsView] = useState(true);
     let userContext = React.useContext(UserContext);
 
     async function identifyAgain() {
@@ -59,11 +66,9 @@ export default function PlayerInfoScreen(props: {
             style={styles.linearGradient}
         >
             <Navbar navigation={navigation} />
-
             <Text style={styles.playerNameText}>{playerName}</Text>
-
             <ScrollView>
-                <UserRoleNavbar
+                <StatsViewSelectorComponent
                     setSimpleStatsView={setSimpleStatsView}
                     simpleStatsView={simpleStatsView}
                 />

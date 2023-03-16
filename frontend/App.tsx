@@ -32,12 +32,11 @@ import { createStackNavigator } from '@react-navigation/stack';
 // import { User } from '@react-native-google-signin/google-signin';
 import SplashComponent from './Components/Splash/SplashComponent';
 import HamburgerMenu from './Components/HamburgerMenu/HamburgerMenu';
-import Navbar from './Components/Navbar/Navbar';
 import NewPlayerScan from './Components/NewPlayerScan/NewPlayerScan';
-import PlayerInfoScreen from './Components/PlayerDetailsScreen/PlayerInfoScreen';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import GenericPlayerHistoryButton from './Components/PlayersHistoryModal/GenericPlayerHistoryButton';
+import PlayerDetailsScreen from './Components/PlayerDetailsScreen/PlayerDetailsScreen';
+// import { GoogleSignin } from '@react-native-google-signin/google-signin';
+// import GenericPlayerHistoryButton from './Components/PlayersHistoryModal/GenericPlayerHistoryButton';
 
 LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state'
@@ -196,8 +195,8 @@ const App = (props: { children: any }) => {
                         component={NewPlayerScan}
                     />
                     <Stack.Screen
-                        name="PlayerInfoScreen"
-                        component={PlayerInfoScreen}
+                        name="PlayerDetailsScreen"
+                        component={PlayerDetailsScreen}
                     />
                     {/* <Stack.Screen
                         name="GenericPlayerHistoryButton"
