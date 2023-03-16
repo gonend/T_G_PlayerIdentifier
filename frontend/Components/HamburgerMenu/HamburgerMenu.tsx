@@ -9,6 +9,9 @@ import { UserContext } from '../../App';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
 export default function HamburgerMenu(props: any) {
+    //this components is accessable through app navigation
+    //pressing the burger button in the top right of the phone screen will get you here.
+
     const navigation = props.navigation;
     let userContext = React.useContext(UserContext);
 

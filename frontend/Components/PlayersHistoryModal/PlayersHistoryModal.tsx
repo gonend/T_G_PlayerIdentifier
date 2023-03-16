@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Dimensions, Modal, StyleSheet, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { UserContext } from '../../App';
 import GenericPlayerHistoryButton from './GenericPlayerHistoryButton';
 
 export default function PlayersHistoryModal(props: any) {
+    //This compoenent shows all the players that was identified by the user in the past.
+    //A user will get to this screen from home screen by pressing the My player history button.
+
     const {
         modalVisible,
         setModalVisible,

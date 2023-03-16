@@ -8,20 +8,13 @@ import {
     TouchableOpacity,
     View
 } from 'react-native';
-import { PORT, SERVER_IP_ADDRESS } from '@env';
-import { UserContext } from '../../App';
-import { Timeout } from '../NewPlayerScan/NewPlayerScan';
 
 export default function GenericPlayerHistoryButton(props: any) {
-    const {
-        getPlayerStats,
-        playerName,
-        setModalVisible,
-        setHistoryPlayerNameChosen
-    } = props;
+    //This component is part of the PlayersHistoryModal(Popup).
+    //There is a mapping thats happening in the parent component for each player name.
+    //the mapping creates pressable buttons for each player the user have identified in the past.
+    const { playerName, setModalVisible, setHistoryPlayerNameChosen } = props;
     // const [freshStart, setFreshStart] = useState(false);
-
-    let userContext = React.useContext(UserContext);
 
     return (
         <View style={styles.containerView}>

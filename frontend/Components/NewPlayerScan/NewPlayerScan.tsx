@@ -3,15 +3,13 @@ import {
     Alert,
     Dimensions,
     Image,
-    ImageSourcePropType,
     ScrollView,
     StyleSheet,
     Text,
-    TextInput,
     TouchableOpacity,
     View
 } from 'react-native';
-import { Asset, ImagePickerResponse } from 'react-native-image-picker';
+import { ImagePickerResponse } from 'react-native-image-picker';
 import LinearGradient from 'react-native-linear-gradient';
 import CameraButtons from '../CameraButtons/CameraButtons';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -20,7 +18,7 @@ import { UserContext } from '../../App';
 import Navbar from '../Navbar/Navbar';
 import PictureOrNameSelector from './PictureOrNameSelector/PictureOrNameSelector';
 import axios from 'axios';
-import { SearchBar } from '../SearchBar/SearchBar';
+import { SearchBar } from './SearchBar/SearchBar';
 
 //to shorten time to get a timeout from the server////////////
 
@@ -33,6 +31,14 @@ export const Timeout = (time: number) => {
 ///////////////////////////////////////////////////////////////
 
 export default function NewPlayerScan(props: any) {
+    //This compoenent allows a user to identify new players by their picture or by their name.
+    //A user will get to this screen if autorized and pressed on the scan new player button in home screen.
+
+    //This component includes the folowing:
+    //1: a selector component that lets the user decode whether to use a player picture or a player name to identify
+    //2: based on the user choice, the screen options will change respectively.
+    //3: submit button that will senc the request to the backend server for identification.
+
     const [imagePickerResponse, setImagePickerResponse] =
         useState<ImagePickerResponse>();
     // const [playerName, setPlayerName] = useState('');
@@ -133,7 +139,7 @@ export default function NewPlayerScan(props: any) {
                 ]);
             }
 
-            navigation.navigate('PlayerInfoScreen', {
+            navigation.navigate('PlayerDetailsScreen', {
                 playerData
             });
         } catch (error) {
@@ -233,7 +239,11 @@ export default function NewPlayerScan(props: any) {
                 </>
             ) : (
                 <>
-                    <Navbar navigation={navigation} />
+                    <Navbar
+                        navigation={navigation}
+                        titleName={'New Scan'}
+                        leftImageRole={'goBack'}
+                    />
                     <ScrollView>
                         <View style={styles.topContent}>
                             {/*//////////////////////if we want to put in a logo image uncomment the folowing:///////////////////////////// */}

@@ -1,9 +1,8 @@
 import axios from 'axios';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     View,
     Text,
-    Pressable,
     StyleSheet,
     TouchableOpacity,
     Image,
@@ -16,6 +15,12 @@ import PlayersHistoryModal from '../PlayersHistoryModal/PlayersHistoryModal';
 import { PORT, SERVER_IP_ADDRESS } from '@env';
 
 function Home(props: any) {
+    //This components is accessable through app navigation
+    //successfully logging in to this app will get you here (or via the app menu).
+    //This component includes the folowing:
+    //1: user history for player he already identified
+    //2: a button that will navigate to newPlayerScan screen.
+
     let userContext = React.useContext(UserContext); //includes most of the user data.
     const navigation = props.navigation; //for navigation between app screens
     const [modalVisible, setModalVisible] = useState(false); //use State to control modal appreance
@@ -45,7 +50,6 @@ function Home(props: any) {
                 },
                 signal: Timeout(10).signal
             });
-            console.log('sharmit2');
             console.log(response?.data.players);
             userContext.setUserHistoryPlayersArr(
                 Object.values(response?.data.players)
@@ -76,7 +80,7 @@ function Home(props: any) {
 
             console.log(playerData);
 
-            navigation.navigate('PlayerInfoScreen', {
+            navigation.navigate('PlayerDetailsScreen', {
                 playerData
             });
         } catch (error) {

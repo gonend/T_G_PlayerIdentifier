@@ -4,6 +4,7 @@ import { UserContext } from '../../App';
 import Splash from './Splash';
 
 const SplashComponent = (props: any) => {
+    //This component wraps the Splash class and navigates to the proper screen (login or home) based on he user credentials.
     let userContext = React.useContext(UserContext);
 
     const [splashIsVisible, setSplashIsVisible] = useState(true);

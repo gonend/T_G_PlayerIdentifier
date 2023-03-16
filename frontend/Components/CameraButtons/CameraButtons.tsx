@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import {
     Image,
     Pressable,
@@ -7,21 +7,19 @@ import {
     View
 } from 'react-native';
 import { Text } from 'react-native-animatable';
-// Import Image Picker
 import {
-    ImagePickerResponse,
     launchCamera,
     launchImageLibrary,
     OptionsCommon
 } from 'react-native-image-picker';
 
-import LinearGradient from 'react-native-linear-gradient';
-
 export default function Camera(props: any) {
-    const pickerResponse = props.pickerResponse;
+    //This component include buttons that interact with phone camera||photo gallery
+    //It is placed inside NewPlayerScan
     const setPickerResponse = props.setPickerResponse;
 
     const onImageLibraryPress = useCallback(() => {
+        //this function is runned when a user press the image library button
         const options: OptionsCommon = {
             mediaType: 'photo',
             includeBase64: false
@@ -30,6 +28,7 @@ export default function Camera(props: any) {
     }, []);
 
     const onCameraPress = React.useCallback(() => {
+        //this function is runned when a user press the camera button
         const options: OptionsCommon = {
             mediaType: 'photo',
             includeBase64: false

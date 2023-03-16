@@ -3,6 +3,8 @@ import { StyleSheet, Text } from 'react-native';
 import { View } from 'react-native-animatable';
 
 export default function PlayerInfoComponent(props: any) {
+    //This component is part of the PlayerDetailsScreen.
+    //It shows the general player info (including picture if present) at the top of PlayerDetailsScreen
     const { playerInfo } = props;
     const [playerHeight, setPlayerHeight] = useState('');
 
