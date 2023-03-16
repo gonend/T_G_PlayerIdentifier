@@ -1,21 +1,13 @@
 import React, { Component } from 'react';
 
-import {
-    Platform,
-    StyleSheet,
-    View,
-    Text,
-    Image,
-    TouchableOpacity,
-    Alert,
-    Dimensions
-} from 'react-native';
+import { StyleSheet, View, Image, Dimensions } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 
 const { height, width } = Dimensions.get('window');
 
 export default class Splash extends Component<{}, { isVisible: boolean }> {
+    //this is a class that control the visability of the splash component
     constructor(props: {}) {
         super(props);
         this.state = {
@@ -68,8 +60,7 @@ export default class Splash extends Component<{}, { isVisible: boolean }> {
                 style={styles.linearGradient}
             >
                 <View>
-                    {/* {this.state.isVisible === true ? Splash_Screen : null} */}
-                    {Splash_Screen}
+                    {this.state.isVisible === true ? Splash_Screen : null}
                 </View>
             </LinearGradient>
         );

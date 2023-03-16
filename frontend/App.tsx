@@ -29,15 +29,14 @@ import Home from './Components/Home/Home';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { User } from '@react-native-google-signin/google-signin';
 import SplashComponent from './Components/Splash/SplashComponent';
 import HamburgerMenu from './Components/HamburgerMenu/HamburgerMenu';
-import Navbar from './Components/Navbar/Navbar';
 import NewPlayerScan from './Components/NewPlayerScan/NewPlayerScan';
-import PlayerInfoScreen from './Components/PlayerDetailsScreen/PlayerDetailsScreen';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import PlayerDetailsScreen from './Components/PlayerDetailsScreen/PlayerDetailsScreen';
+// import { GoogleSignin } from '@react-native-google-signin/google-signin';
+// import GenericPlayerHistoryButton from './Components/PlayersHistoryModal/GenericPlayerHistoryButton';
 
 LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state'
@@ -52,13 +51,21 @@ export const UserContext = React.createContext<{
     setIsUserAuthorized: Function;
     idToken: string;
     setIdToken: Function;
+    freshStart: boolean;
+    setFreshStart: Function;
+    userHistoryPlayersArr: string[];
+    setUserHistoryPlayersArr: Function;
 }>({
     userObject: null,
     setUserObject: () => {},
     isUserAuthorized: false,
     setIsUserAuthorized: () => {},
     idToken: '',
-    setIdToken: () => {}
+    setIdToken: () => {},
+    freshStart: false,
+    setFreshStart: () => {},
+    userHistoryPlayersArr: [],
+    setUserHistoryPlayersArr: () => {}
 });
 
 // const [refreshToken, setRefreshToken] = useState(null);
@@ -67,25 +74,31 @@ const App = (props: { children: any }) => {
     // const value = React.useContext(UserContext);
     const [userTemp, setUserTemp] = useState<FirebaseAuthTypes.User | null>(
         null
-    );
+    ); //the user useState that is inside userContext.
+    const [isUserAutorized, setIsUserAuthorized] = useState(false); //flag useState that is inside userContext. This flag will help splash screen decide for the user appropriate navigation.
+    const [idToken, setIdToken] = useState(''); //idToken useState that is inside userContext.
+    //fresh start explenation:
+    //this useState is stored in userContext. when freshStart==true--> new playerScan will delete every info it stores.
+    // that way it will be ready for a new player recognition
+    const [freshStart, setFreshStart] = useState(false);
+    //end of fresh start expleneations.
 
-    const [isUserAutorized, setIsUserAuthorized] = useState(false);
-    const [idToken, setIdToken] = useState('');
+    const [userHistoryPlayersArr, setUserHistoryPlayersArr] = useState<
+        string[]
+    >([]); //this use state is inside userContext. it includes the array of players a user have already searched for.
 
     const getCurrentTokenForUser = async (user: FirebaseAuthTypes.User) => {
+        //Function that gets runned by USE_EFFECT_1
+        //function will refresh user token when requested and store the new token in userContext.
         try {
             let token = await user.getIdToken(true);
-
-            // console.log('token generated in app component is:');
-            // console.log(token);
             setIdToken(token);
-            setIsUserAuthorized(true); //this will make the splash screen navigate us to home screen directly.
             console.log('token was refreshed successfully');
-
             console.log('token for this user is:');
             console.log('//////////////Start of token//////////////');
             console.log(token);
             console.log('//////////////End of token//////////////');
+            setIsUserAuthorized(true); //this will make the splash screen navigate us to home screen directly.
         } catch (error) {
             console.log(
                 'App_component error-error getting current token for user. error details:'
@@ -94,10 +107,11 @@ const App = (props: { children: any }) => {
         }
     };
 
-    //useEffect to handle authrization status while lunching the app.
-    //if a user already authorized before==> it will refresh his token and send him to home screen
-    //else==> navigate to login screen
     useEffect(() => {
+        //USE_EFFECT_1
+        //useEffect to handle authrization status while lunching the app.
+        //if a user already authorized before==> it will refresh his token and send him to home screen
+        //else==> navigate to login screen
         try {
             const unsubscribe = auth().onAuthStateChanged(
                 (user: FirebaseAuthTypes.User | null) => {
@@ -120,8 +134,9 @@ const App = (props: { children: any }) => {
         }
     }, []);
 
-    //use effect to handle the automitcal proccess of refreshing token after each hour have passed.
     useEffect(() => {
+        //USE_EFFECT_2
+        //use effect to handle the automitcal proccess of refreshing token after each hour have passed.
         try {
             const user = auth().currentUser;
             let tokenRefreshTimer: NodeJS.Timeout | null = null;
@@ -156,7 +171,11 @@ const App = (props: { children: any }) => {
                 isUserAuthorized: isUserAutorized,
                 setIsUserAuthorized: setIsUserAuthorized,
                 idToken: idToken,
-                setIdToken: setIdToken
+                setIdToken: setIdToken,
+                freshStart: freshStart,
+                setFreshStart: setFreshStart,
+                userHistoryPlayersArr: userHistoryPlayersArr,
+                setUserHistoryPlayersArr: setUserHistoryPlayersArr
             }}
         >
             <NavigationContainer>
@@ -176,9 +195,13 @@ const App = (props: { children: any }) => {
                         component={NewPlayerScan}
                     />
                     <Stack.Screen
-                        name="PlayerInfoScreen"
-                        component={PlayerInfoScreen}
+                        name="PlayerDetailsScreen"
+                        component={PlayerDetailsScreen}
                     />
+                    {/* <Stack.Screen
+                        name="GenericPlayerHistoryButton"
+                        component={GenericPlayerHistoryButton}
+                    /> */}
                 </Stack.Navigator>
             </NavigationContainer>
         </UserContext.Provider>

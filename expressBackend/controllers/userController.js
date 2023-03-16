@@ -9,6 +9,7 @@ const { default: axios } = require("axios");
 // const { config } = require("dotenv");
 
 const fs = require("fs");
+const { NOTFOUND } = require("dns");
 
 async function saveNameInHistoryCollection(playerObject, userId, playerName) {
   var searchHistoryRef = firestore.collection("usersSearchHistory").doc(userId);
@@ -189,12 +190,31 @@ const getNamesForAutoComplete = async (req, res, next) => {
   res.send(namesArrFromFirestore);
 };
 
+const getUserPlayersHistory = async (req, res, next) => {
+  console.log(res.locals.firebaseUserId);
+
+  var playerInfoRef = firestore
+    .collection("usersSearchHistory")
+    .doc(res.locals.firebaseUserId);
+
+  let objectFromFirestore = await playerInfoRef.get();
+  console.log(objectFromFirestore.exists);
+  if (objectFromFirestore.exists) {
+    let userPlayersHistory = objectFromFirestore.data();
+    console.log(userPlayersHistory);
+
+    res.send(userPlayersHistory);
+  } else res.send(NOTFOUND);
+};
+
 module.exports = {
   addUser,
   receiveImage,
   getStatsByplayerName,
   getNamesForAutoComplete,
   checkAuthFlask,
+  getUserPlayersHistory,
+
   // connectFlask,
 };
 

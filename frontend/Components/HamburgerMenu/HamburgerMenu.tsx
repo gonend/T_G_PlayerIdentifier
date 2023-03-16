@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import React, { useState } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
@@ -9,31 +9,34 @@ import { UserContext } from '../../App';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
 export default function HamburgerMenu(props: any) {
+    //this components is accessable through app navigation
+    //pressing the burger button in the top right of the phone screen will get you here.
+
     const navigation = props.navigation;
     let userContext = React.useContext(UserContext);
-    const [modalVisible, setModalVisible] = useState(false);
 
     function clickedOnX() {
         navigation.pop();
     }
 
     function clickedOnHomePage() {
+        //navigates to home component.
         navigation.navigate('Home', {});
     }
 
-    function clickedOnProfile() {
-        navigation.navigate('UserProfileComponent', {});
-    }
-
     function clickedOnLogout() {
+        //function that is runned by pressing the logout button.
+        //this function will clear the user info from userContext and then navigate to the login page.
         try {
             auth().signOut();
             GoogleSignin.signOut();
-            AsyncStorage.removeItem('accessToken');
+            //clearing all userObject values
             userContext.setIsUserAuthorized(false);
+            userContext.setUserObject(null);
+            userContext.setUserHistoryPlayersArr([]);
             navigation.navigate('Login', {});
         } catch (error) {
-            console.log('error in hamburgerMenu. Error details:');
+            console.log('error in hamburgerMenu->logout. Error details:');
             console.log(error);
         }
     }
@@ -62,10 +65,6 @@ export default function HamburgerMenu(props: any) {
                 <View>
                     <Text style={styles.optionText} onPress={clickedOnHomePage}>
                         {'Home'}
-                    </Text>
-                    <View style={styles.horizontalRulerView}></View>
-                    <Text style={styles.optionText} onPress={clickedOnProfile}>
-                        {'Change Favorite teams'}
                     </Text>
                     <View style={styles.horizontalRulerView}></View>
 

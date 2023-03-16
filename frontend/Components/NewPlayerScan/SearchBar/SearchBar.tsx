@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Dimensions, StyleSheet, TextInput, View } from 'react-native';
 export function SearchBar(props: {
     allNamesArray: any[];
@@ -8,6 +7,8 @@ export function SearchBar(props: {
     playerNameSearchValue: string;
     setPlayerNameSearchValue: Function;
 }) {
+    //This component is part of the newPlayerScan screen (when a user wants to identify a player by player name)
+    //it gets an array of playerNames from props and filter that array by the user input.
     const {
         allNamesArray,
         filteredPlayerNames,

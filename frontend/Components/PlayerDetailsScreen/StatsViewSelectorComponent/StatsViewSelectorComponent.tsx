@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
 
-export default function UserRoleNavbar(props: any) {
-    //gets the useState from playerInfoScreen so that pressing on the navbar make a diffrence in there
+export default function StatsViewSelectorComponent(props: any) {
+    //This components is part of the PlayerDetails screen.
+    //This components lets the user choose wether to vire player stats with simplified or profesional view.
     const { setSimpleStatsView, simpleStatsView } = props;
+    //gets the useState from PlayerDetailsScreen so that pressing on the stats view selector make a diffrence in there
 
     const [simpleViewButtonStyle, setSimpleViewButtonStyle] = useState<object>(
         styles.enabledButton
@@ -11,10 +13,6 @@ export default function UserRoleNavbar(props: any) {
     const [expertViewButtonStyle, setExpertViewButtonStyle] = useState<object>(
         styles.disabledButton
     );
-
-    //defines if the underline should go under Simple View||Expret View
-    // const [statsNavbarRectangleStyle, setStatsNavbarRectangleStyle] =
-    //     useState<object>(styles.rectangleRight);
 
     //monitors the simpleStatsView useState and changes the style acordingly
     useEffect(() => {
@@ -39,7 +37,7 @@ export default function UserRoleNavbar(props: any) {
                 // justifyContent: 'center'
             }}
         >
-            <View style={styles.statsNavbarContainer}>
+            <View style={styles.statsSelectorContainer}>
                 <View style={simpleViewButtonStyle}>
                     <Text
                         onPress={() => {
@@ -47,7 +45,7 @@ export default function UserRoleNavbar(props: any) {
                             setSimpleStatsView(true);
                             // setMyMissionsIsFocused(false);
                         }}
-                        style={styles.StatsNavbarText}
+                        style={styles.StatsSelectorText}
                     >
                         {'Simple View'}
                     </Text>
@@ -59,7 +57,7 @@ export default function UserRoleNavbar(props: any) {
                             setSimpleStatsView(false);
                             // setMyMissionsIsFocused(true);
                         }}
-                        style={styles.StatsNavbarText}
+                        style={styles.StatsSelectorText}
                     >
                         {'Expert View'}
                     </Text>
@@ -73,18 +71,18 @@ export default function UserRoleNavbar(props: any) {
 const { height, width } = Dimensions.get('window');
 
 var styles = StyleSheet.create({
-    StatsNavbarText: {
+    statsSelectorContainer: {
+        flexDirection: 'row-reverse',
+        flex: 1,
+        alignItems: 'center'
+    },
+    StatsSelectorText: {
         textAlign: 'center',
         fontFamily: 'OpenSans-Bold',
         color: '#FFFFFF',
         fontSize: height * 0.03494472
     },
 
-    statsNavbarContainer: {
-        flexDirection: 'row-reverse',
-        flex: 1,
-        alignItems: 'center'
-    },
     enabledButton: {
         flex: 0.5,
         backgroundColor: 'green',

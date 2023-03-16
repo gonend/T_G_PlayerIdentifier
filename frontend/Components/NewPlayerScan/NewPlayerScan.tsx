@@ -3,15 +3,13 @@ import {
     Alert,
     Dimensions,
     Image,
-    ImageSourcePropType,
     ScrollView,
     StyleSheet,
     Text,
-    TextInput,
     TouchableOpacity,
     View
 } from 'react-native';
-import { Asset, ImagePickerResponse } from 'react-native-image-picker';
+import { ImagePickerResponse } from 'react-native-image-picker';
 import LinearGradient from 'react-native-linear-gradient';
 import CameraButtons from '../CameraButtons/CameraButtons';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -20,7 +18,7 @@ import { UserContext } from '../../App';
 import Navbar from '../Navbar/Navbar';
 import PictureOrNameSelector from './PictureOrNameSelector/PictureOrNameSelector';
 import axios from 'axios';
-import { SearchBar } from '../SearchBar/SearchBar';
+import { SearchBar } from './SearchBar/SearchBar';
 
 //to shorten time to get a timeout from the server////////////
 
@@ -33,6 +31,14 @@ export const Timeout = (time: number) => {
 ///////////////////////////////////////////////////////////////
 
 export default function NewPlayerScan(props: any) {
+    //This compoenent allows a user to identify new players by their picture or by their name.
+    //A user will get to this screen if autorized and pressed on the scan new player button in home screen.
+
+    //This component includes the folowing:
+    //1: a selector component that lets the user decode whether to use a player picture or a player name to identify
+    //2: based on the user choice, the screen options will change respectively.
+    //3: submit button that will senc the request to the backend server for identification.
+
     const [imagePickerResponse, setImagePickerResponse] =
         useState<ImagePickerResponse>();
     // const [playerName, setPlayerName] = useState('');
@@ -41,7 +47,8 @@ export default function NewPlayerScan(props: any) {
     const [showLoadingSpinner, setShowLoadingSpinner] = useState(false);
     const navigation = props.navigation;
     let userContext = React.useContext(UserContext);
-    const [freshStart, setFreshStart] = useState(false);
+    // const [freshStart, setFreshStart] = useState(false);
+
     const [identifyWithPicture, setIdentifyWithPicture] = useState(true);
 
     //////////////////////////autoComplete test/////////////////////////////////////////////
@@ -101,9 +108,39 @@ export default function NewPlayerScan(props: any) {
                 default:
                     break;
             }
-            navigation.navigate('PlayerInfoScreen', {
-                playerData,
-                setFreshStart
+            //Adding player to history array if its a new entery.
+            //this method saves us axios calls to our backend and the history array stays updated.
+            let playerNameAdditionToHistory =
+                playerData.playerObject.playerInfo.first_name +
+                ' ' +
+                playerData.playerObject.playerInfo.last_name;
+
+            let playerIndexInHistoryArr =
+                userContext.userHistoryPlayersArr.indexOf(
+                    playerNameAdditionToHistory
+                );
+
+            if (playerIndexInHistoryArr === -1) {
+                userContext.setUserHistoryPlayersArr([
+                    playerNameAdditionToHistory,
+                    ...userContext.userHistoryPlayersArr
+                ]);
+
+                console.log(
+                    'History array was updated with a new player entery.'
+                );
+            } else {
+                //getting the last searched value to be the first in history
+                let tempHistoryArr = userContext.userHistoryPlayersArr;
+                tempHistoryArr.splice(playerIndexInHistoryArr, 1);
+                userContext.setUserHistoryPlayersArr([
+                    playerNameAdditionToHistory,
+                    ...tempHistoryArr
+                ]);
+            }
+
+            navigation.navigate('PlayerDetailsScreen', {
+                playerData
             });
         } catch (error) {
             console.log(error);
@@ -148,17 +185,18 @@ export default function NewPlayerScan(props: any) {
     }, [isWaitingForResponse]);
 
     useEffect(() => {
-        console.log('freshStart is: ' + freshStart);
-        if (freshStart === true) {
+        if (userContext.freshStart === true) {
+            console.log('freshStart is: ' + userContext.freshStart);
+            console.log('clearing data...');
             //clean all data at this screen
             setImagePickerResponse(undefined);
             setPlayerNameSearchValue('');
             setFormDataTest(undefined);
             setIsWaitingForResponse(false);
             setShowLoadingSpinner(false);
-            setFreshStart(false);
+            userContext.setFreshStart(false);
         }
-    }, [freshStart]);
+    }, [userContext.freshStart]);
 
     useEffect(() => {
         const getPlayerNamesFunction = async () => {
@@ -201,7 +239,11 @@ export default function NewPlayerScan(props: any) {
                 </>
             ) : (
                 <>
-                    <Navbar navigation={navigation} />
+                    <Navbar
+                        navigation={navigation}
+                        titleName={'New Scan'}
+                        leftImageRole={'goBack'}
+                    />
                     <ScrollView>
                         <View style={styles.topContent}>
                             {/*//////////////////////if we want to put in a logo image uncomment the folowing:///////////////////////////// */}
@@ -221,7 +263,6 @@ export default function NewPlayerScan(props: any) {
                             <PictureOrNameSelector
                                 identifyWithPicture={identifyWithPicture}
                                 setIdentifyWithPicture={setIdentifyWithPicture}
-                                setFreshStart={setFreshStart}
                             />
                         </View>
 

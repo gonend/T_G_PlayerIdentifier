@@ -4,8 +4,7 @@ const {
   receiveImage,
   getStatsByplayerName,
   getNamesForAutoComplete,
-  connectFlask,
-  checkAuthFlask,
+  getUserPlayersHistory,
 } = require("../controllers/userController");
 
 const multer = require("multer");
@@ -30,18 +29,16 @@ const fileFilter = (req, file, cb) => {
 };
 
 const uploads = multer({ storage, fileFilter });
-// const os = require("os");
-// console.log(os.tmpdir());
-router.post("/user", addUser);
-// router.put("/user", updateUserName);
 
-// router.post("/login", connectFlask);
+router.post("/user", addUser);
 
 router.post("/uploadPicture", uploads.single("photo"), receiveImage);
 
 router.get("/getStatsByPlayerName", getStatsByplayerName);
 
 router.get("/autoCompleteNames", getNamesForAutoComplete);
+
+router.get("/getUserPlayersHistory", getUserPlayersHistory);
 
 router.get("/tasks", (req, res) => {
   return res.json({

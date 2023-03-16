@@ -3,6 +3,7 @@ import { StyleSheet, Text } from 'react-native';
 import { View } from 'react-native-animatable';
 
 export default function PlayerSimpleStatsComponent(props: any) {
+    //This component is part of the PlayerDetailsScreen simple stats view.
     const { playerStats } = props;
 
     return (
