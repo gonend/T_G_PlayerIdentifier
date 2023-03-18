@@ -103,17 +103,23 @@ const styles = StyleSheet.create({
     },
     modalView: {
         borderRadius: width * 0.111111111,
-        backgroundColor: '#ffffff',
+        backgroundColor: '#426e85',
         marginTop: height * 0.024844,
         flex: 1
     },
     xText: {
-        color: '#000000',
+        color: '#FFFFFF',
         fontSize: height * 0.0332919,
         marginHorizontal: width * 0.1,
-        marginTop: height * 0.0419254
+        marginTop: height * 0.0419254,
+        fontFamily: 'OpenSans-Bold'
     },
     instructionsText: {
-        textAlign: 'center'
+        textAlign: 'center',
+        color: '#FFFFFF',
+        fontFamily: 'OpenSans-Bold',
+        fontSize: 20,
+        marginBottom: 10,
+        marginTop: 5
     }
 });

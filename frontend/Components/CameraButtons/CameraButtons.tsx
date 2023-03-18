@@ -78,8 +78,9 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     ButtonText: {
-        color: '#b97272',
-        fontSize: height * 0.0299401
+        color: 'white',
+        fontSize: height * 0.0299401,
+        fontFamily: 'OpenSans-Regular'
     },
     ButtonIcon: {
         height: height * 0.059880239,

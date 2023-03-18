@@ -57,7 +57,7 @@ const { height, width } = Dimensions.get('window');
 var styles = StyleSheet.create({
     homeNavbarView: {
         flexDirection: 'row-reverse',
-        backgroundColor: '#0064C3',
+        backgroundColor: '#f5f5f532',
         justifyContent: 'space-between',
         height: height * 0.0714285,
         alignItems: 'center'
@@ -77,7 +77,7 @@ var styles = StyleSheet.create({
         fontSize: height * 0.02484472,
         letterSpacing: 0,
         lineHeight: height * 0.03416149,
-        fontFamily: 'OpenSans-Regular'
+        fontFamily: 'OpenSans-Bold'
     }
 });
 

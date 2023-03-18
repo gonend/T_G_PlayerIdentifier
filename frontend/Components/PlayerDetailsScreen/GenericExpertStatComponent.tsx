@@ -24,11 +24,13 @@ const styles = StyleSheet.create({
     statKeyStyle: {
         backgroundColor: 'gray',
         color: 'white',
-        padding: width * 0.005555555
+        padding: width * 0.005555555,
+        fontFamily: 'OpenSans-Bold'
     },
     statValueStyle: {
         backgroundColor: 'black',
         color: 'white',
-        padding: width * 0.005555555
+        padding: width * 0.005555555,
+        fontFamily: 'OpenSans-Regular'
     }
 });
