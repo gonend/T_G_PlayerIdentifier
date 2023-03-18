@@ -56,7 +56,11 @@ export default function PlayersHistoryModal(props: any) {
                                 <Text style={styles.instructionsText}>
                                     {'Pick a player to get stats'}
                                 </Text>
-                                <ScrollView horizontal={true}>
+                                <ScrollView
+                                    horizontal={true}
+                                    contentInset={{ right: 20 }}
+                                    contentOffset={{ x: -20, y: 0 }}
+                                >
                                     {userContext.userHistoryPlayersArr?.map(
                                         (currPlayer: string) => {
                                             return (
@@ -82,7 +86,7 @@ export default function PlayersHistoryModal(props: any) {
                         ) : (
                             <Text
                                 style={{
-                                    fontSize: 20,
+                                    fontSize: height * 0.02994011,
                                     textAlign: 'center'
                                 }}
                             >
@@ -102,18 +106,24 @@ const styles = StyleSheet.create({
         flex: 0.4
     },
     modalView: {
-        borderRadius: 40,
-        backgroundColor: '#ffffff',
+        borderRadius: width * 0.111111111,
+        backgroundColor: '#426e85',
         marginTop: height * 0.024844,
         flex: 1
     },
     xText: {
-        color: '#000000',
+        color: '#FFFFFF',
         fontSize: height * 0.0332919,
         marginHorizontal: width * 0.1,
-        marginTop: height * 0.0419254
+        marginTop: height * 0.0419254,
+        fontFamily: 'OpenSans-Bold'
     },
     instructionsText: {
-        textAlign: 'center'
+        textAlign: 'center',
+        color: '#FFFFFF',
+        fontFamily: 'OpenSans-Bold',
+        fontSize: height * 0.029069767,
+        marginBottom: height * 0.0145348837,
+        marginTop: height * 0.007267441
     }
 });

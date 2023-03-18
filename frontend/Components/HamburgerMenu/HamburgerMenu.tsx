@@ -1,7 +1,7 @@
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import React, { useState } from 'react';
-import { Dimensions, StyleSheet, View } from 'react-native';
+import { Dimensions, Image, StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import { UserContext } from '../../App';
@@ -14,6 +14,7 @@ export default function HamburgerMenu(props: any) {
 
     const navigation = props.navigation;
     let userContext = React.useContext(UserContext);
+    const profilePictureUrl = userContext.userObject?.photoURL;
 
     function clickedOnX() {
         navigation.pop();
@@ -43,9 +44,9 @@ export default function HamburgerMenu(props: any) {
 
     return (
         <LinearGradient
-            start={{ x: 0, y: 0 }}
+            start={{ x: 0, y: 0.3 }}
             end={{ x: 0, y: 1 }}
-            colors={['#28449C', '#0064C3']}
+            colors={['#315466', '#2a6381']}
             style={styles.linearGradient}
         >
             <View>
@@ -56,6 +57,17 @@ export default function HamburgerMenu(props: any) {
                     <Text
                         style={styles.userNameText}
                     >{`Hello ${userContext.userObject?.displayName} :)`}</Text>
+                ) : (
+                    <></>
+                )}
+
+                {profilePictureUrl !== undefined ? (
+                    <Image
+                        style={styles.profilePicture}
+                        source={{
+                            uri: '' + profilePictureUrl
+                        }}
+                    />
                 ) : (
                     <></>
                 )}
@@ -97,6 +109,13 @@ var styles = StyleSheet.create({
         fontFamily: 'OpenSans-Regular',
         marginTop: height * 0.0279503
     },
+    profilePicture: {
+        height: height * 0.132352941,
+        width: width * 0.25,
+        alignSelf: 'center',
+        marginTop: height * 0.021802325,
+        borderRadius: height * 0.058139534
+    },
     allOptionsView: {
         backgroundColor: '#ffffff',
         flex: 1,
@@ -106,7 +125,7 @@ var styles = StyleSheet.create({
     optionText: {
         marginTop: height * 0.024068,
         textAlign: 'center',
-        fontFamily: 'OpenSans-Regular',
+        fontFamily: 'OpenSans-Bold',
         color: '#000000',
         fontSize: height * 0.0217391304347826
     },
@@ -114,8 +133,8 @@ var styles = StyleSheet.create({
         borderBottomWidth: StyleSheet.hairlineWidth,
         borderColor: '#1850AB',
         backgroundColor: '#1850AB',
-        borderWidth: 0.6,
-        width: width * 0.8,
+        borderWidth: width * 0.00166666,
+        width: width * 0.9,
         marginTop: height * 0.024068
     }
 });

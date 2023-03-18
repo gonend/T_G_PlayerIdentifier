@@ -39,23 +39,29 @@ export default function GenericPlayerHistoryButton(props: any) {
 
 const { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
-    containerView: { marginRight: 5, marginLeft: 5 },
-    playerNameText: { fontSize: 15 },
+    containerView: {
+        marginRight: width * 0.013888888,
+        marginLeft: width * 0.013888888
+    },
+    playerNameText: {
+        fontSize: height * 0.02245508,
+        fontFamily: 'OpenSans-Regular'
+    },
     getPlayerDataButton: {
-        marginTop: 10,
-        backgroundColor: 'white',
-        borderRadius: 4,
-        borderWidth: 1,
-        paddingHorizontal: 34,
-        paddingVertical: 16,
+        marginTop: height * 0.01497005,
+        backgroundColor: '#89acbd',
+        borderRadius: width * 0.311111111,
+        borderWidth: width * 0.002777777,
+        paddingHorizontal: width * 0.0944444444,
+        paddingVertical: height * 0.023952095,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center'
     },
     buttonIcon: {
-        height: 24,
-        width: 24,
-        marginRight: 5,
-        marginTop: 10
+        height: height * 0.03592814,
+        width: width * 0.066666666,
+        marginRight: width * 0.013888888,
+        marginTop: height * 0.014970059
     }
 });

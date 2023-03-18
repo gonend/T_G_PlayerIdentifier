@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { Dimensions, StyleSheet, Text } from 'react-native';
 import { View } from 'react-native-animatable';
 
 export default function PlayerInfoComponent(props: any) {
@@ -43,11 +43,27 @@ export default function PlayerInfoComponent(props: any) {
         </View>
     );
 }
+const { height, width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-    container: {},
+    container: {
+        borderColor: 'white',
+        borderWidth: height * 0.00436046,
+        borderRadius: height * 0.02906976,
+        padding: height * 0.01453488
+    },
     positionView: { flexDirection: 'row', alignItems: 'center' },
-    textKey: { color: 'white', fontSize: 20, marginRight: 5 },
-    textValue: { color: 'red', fontSize: 25 },
+    textKey: {
+        color: 'white',
+        fontSize: height * 0.02994011,
+        marginRight: width * 0.0138888888,
+        fontFamily: 'OpenSans-Bold'
+    },
+    textValue: {
+        color: 'white',
+        fontSize: height * 0.037425149,
+        // fontFamily: 'OpenSans-Regular'
+        fontFamily: 'OpenSans-Regular'
+    },
     heightView: { flexDirection: 'row', alignItems: 'center' }
 });

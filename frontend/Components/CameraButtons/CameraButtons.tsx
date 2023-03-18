@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import {
+    Dimensions,
     Image,
     Pressable,
     StyleSheet,
@@ -64,25 +65,26 @@ export default function Camera(props: any) {
         </View>
     );
 }
+const { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
     ViewWrapper: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginHorizontal: 20
+        marginHorizontal: width * 0.05555555
     },
     ButtonContainer: {
-        borderRadius: 4,
-        paddingVertical: 16,
+        paddingVertical: height * 0.02395209,
         flexDirection: 'row',
         alignItems: 'center'
     },
     ButtonText: {
-        color: '#b97272',
-        fontSize: 20
+        color: 'white',
+        fontSize: height * 0.0299401,
+        fontFamily: 'OpenSans-Regular'
     },
     ButtonIcon: {
-        height: 40,
-        width: 40,
-        marginRight: 5
+        height: height * 0.059880239,
+        width: width * 0.11111111,
+        marginRight: width * 0.01388888
     }
 });

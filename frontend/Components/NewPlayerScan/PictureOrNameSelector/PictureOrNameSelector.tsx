@@ -31,7 +31,7 @@ export default function PictureOrNameSelector(props: any) {
         <View
             style={{
                 marginHorizontal: width * 0.1,
-                marginTop: 10,
+                marginTop: height * 0.014970059,
                 flexWrap: 'wrap'
             }}
         >
@@ -80,7 +80,7 @@ var styles = StyleSheet.create({
     enabledButton: {
         flex: 0.5,
         backgroundColor: 'green',
-        borderRadius: 50
+        borderRadius: width * 0.13888888
     },
     disabledButton: { flex: 0.5, opacity: 0.3 }
 });

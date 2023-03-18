@@ -65,13 +65,13 @@ const styles = StyleSheet.create({
     textInput: {
         backgroundColor: 'white',
         borderBottomColor: '#000000',
-        borderBottomWidth: 1,
+        borderBottomWidth: width * 0.00277777777,
         fontFamily: 'OpenSans-Regular',
         color: '#132D42',
-        borderRadius: 10,
+        borderRadius: width * 0.02777777777,
         marginHorizontal: width * 0.0533333333,
         fontSize: height * 0.02484472,
         textAlign: 'center',
-        marginTop: 20
+        marginTop: height * 0.02994011
     }
 });

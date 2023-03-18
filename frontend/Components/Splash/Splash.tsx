@@ -32,8 +32,8 @@ export default class Splash extends Component<{}, { isVisible: boolean }> {
         let Splash_Screen = (
             <View>
                 <Image
-                    source={require('../../assets/img/login_kobe_logo.png')}
-                    style={styles.kobePic}
+                    source={require('../../assets/img/nba_logo.png')}
+                    style={styles.nbaLogo}
                 />
                 <Image
                     source={require('../../assets/img/playerIdentifierText.png')}
@@ -42,7 +42,7 @@ export default class Splash extends Component<{}, { isVisible: boolean }> {
 
                 <Animatable.View>
                     <Animatable.Image
-                        style={styles.loadingBar}
+                        style={styles.boucingBall}
                         animation="bounce"
                         iterationCount={'infinite'}
                         direction="normal"
@@ -54,9 +54,9 @@ export default class Splash extends Component<{}, { isVisible: boolean }> {
 
         return (
             <LinearGradient
-                start={{ x: 0, y: 0 }}
+                start={{ x: 0, y: 0.3 }}
                 end={{ x: 0, y: 1 }}
-                colors={['#28449C', '#0064C3']}
+                colors={['#315466', '#2a6381']}
                 style={styles.linearGradient}
             >
                 <View>
@@ -71,13 +71,24 @@ const styles = StyleSheet.create({
         flex: 1
     },
 
-    kobePic: { alignSelf: 'center', marginTop: height * 0.153335 }, //the calculation is: marginFromTop/windowHeight
+    nbaLogo: {
+        alignSelf: 'center',
+        marginTop: height * 0.053335,
+        height: height * 0.299401197,
+        width: width * 0.55555555,
+        resizeMode: 'contain'
+    }, //the calculation is: marginFromTop/windowHeight
     playerIdentifierSymbol: {
         alignSelf: 'center',
-        marginTop: height * 0.0207783
+        // marginTop: height * 0.0207783,
+        height: 300,
+        width: 200,
+        resizeMode: 'contain'
     },
-    loadingBar: {
+    boucingBall: {
         alignSelf: 'center',
-        marginTop: height * 0.0302138
+        marginTop: height * 0.0302138,
+        height: height * 0.20348837,
+        width: width * 0.388888888
     }
 });

@@ -30,7 +30,7 @@ export default function PlayerDetailscreen(props: {
     //A user will get to this screen from newPlayerScan (or from home via search history)
 
     //This component includes the folowing:
-    //1: a selector component that lets the user decide whether to show the data in a simple or profesional view.
+    //1: a selector component that lets the user decide whether to show the data in a simple or expert view.
     //2: player info component with player general info.
     //3: based on the user choice in the selector (section 1) the layout will change respetively.
     //4: An identifyAgain button that will take the user back to newPlayerScan after resetting all values from previous scan.
@@ -60,25 +60,26 @@ export default function PlayerDetailscreen(props: {
 
     return (
         <LinearGradient
-            start={{ x: 0, y: 0 }}
+            start={{ x: 0, y: 0.3 }}
             end={{ x: 0, y: 1 }}
-            colors={['#28449C', '#0064C3']}
+            colors={['#315466', '#2a6381']}
             style={styles.linearGradient}
         >
             <Navbar navigation={navigation} />
             <Text style={styles.playerNameText}>{playerName}</Text>
+
             <ScrollView>
+                <Image
+                    style={styles.playerPicture}
+                    source={{
+                        uri: playerData.playerObject.playerInfo.img_uri //'https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png'
+                    }}
+                />
                 <StatsViewSelectorComponent
                     setSimpleStatsView={setSimpleStatsView}
                     simpleStatsView={simpleStatsView}
                 />
                 <View style={styles.playerInfoView}>
-                    <Image
-                        style={styles.playerPicture}
-                        source={{
-                            uri: playerData.playerObject.playerInfo.img_uri //'https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png'
-                        }}
-                    />
                     <PlayerInfoComponent playerInfo={playerInfo} />
                 </View>
 
@@ -101,15 +102,10 @@ export default function PlayerDetailscreen(props: {
                 )}
 
                 <View style={styles.buttonView}>
-                    <TouchableOpacity
-                        onPress={identifyAgain}
-                        style={styles.identifyAgainButton}
-                    >
+                    <TouchableOpacity onPress={identifyAgain}>
                         <Image
                             style={styles.identifyAgainButtonIcon}
-                            source={{
-                                uri: 'https://st.depositphotos.com/1139310/4042/v/600/depositphotos_40420877-stock-illustration-3d-vector-icon-of-reload.jpg'
-                            }}
+                            source={require('../../assets/img/restart.png')}
                         />
                     </TouchableOpacity>
                 </View>
@@ -128,40 +124,42 @@ const styles = StyleSheet.create({
     playerNameText: {
         textAlign: 'center',
         color: 'white',
-        fontSize: 30,
-        marginTop: 10
+        fontSize: height * 0.044910179,
+        marginTop: height * 0.014970059,
+        fontFamily: 'OpenSans-Bold'
     },
     playerInfoView: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginTop: height * 0.01453488
     },
     playerPicture: {
-        height: 150,
-        width: 150,
+        height: height * 0.2245508982035928,
+        width: width * 0.416666666,
         alignSelf: 'center',
-        marginTop: 10,
-        marginRight: 20
+        marginTop: height * 0.014970059,
+        // marginRight: width * 0.055555555,
+        marginBottom: height * 0.00726744
     },
-    playerSimpleStatsView: { alignItems: 'center' },
+    playerSimpleStatsView: { alignItems: 'center', marginTop: 5 },
     playerExpertStatsScrollView: {
         flex: 0.5,
         flexWrap: 'wrap',
         flexDirection: 'row',
         justifyContent: 'center',
 
-        marginTop: 10,
-        paddingTop: 20,
-        marginHorizontal: 10
+        marginTop: height * 0.014970059,
+        paddingTop: height * 0.02994011,
+        marginHorizontal: width * 0.027777777
     },
     buttonView: {
         flexDirection: 'row',
         justifyContent: 'center',
-        marginTop: 20
+        marginTop: height * 0.00594011
     },
-    identifyAgainButton: {},
     identifyAgainButtonIcon: {
-        height: height * 0.1563354,
-        width: width * 0.33333333
+        height: height * 0.116279069,
+        width: width * 0.222222222
     }
 });

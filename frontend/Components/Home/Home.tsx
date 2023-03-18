@@ -13,6 +13,7 @@ import Navbar from '../Navbar/Navbar';
 import { Timeout } from '../NewPlayerScan/NewPlayerScan';
 import PlayersHistoryModal from '../PlayersHistoryModal/PlayersHistoryModal';
 import { PORT, SERVER_IP_ADDRESS } from '@env';
+import LinearGradient from 'react-native-linear-gradient';
 
 function Home(props: any) {
     //This components is accessable through app navigation
@@ -109,9 +110,13 @@ function Home(props: any) {
     }, [historyPlayerNameChosen]);
 
     return (
-        <View style={styles.container}>
+        <LinearGradient
+            start={{ x: 0, y: 0.3 }}
+            end={{ x: 0, y: 1 }}
+            colors={['#315466', '#2a6381']}
+            style={styles.linearGradient}
+        >
             <Navbar navigation={navigation} />
-
             <View style={styles.upperTexts}>
                 <Text style={styles.WelcomeText}>
                     {`Welcome ${userContext.userObject?.displayName}`}
@@ -128,8 +133,7 @@ function Home(props: any) {
                     }
                 </Text>
             </View>
-            <View style={styles.horizontalRulerView}></View>
-
+            {/* <View style={styles.horizontalRulerView}></View> */}
             <View style={styles.buttonsView}>
                 <TouchableOpacity
                     onPress={toggleModal}
@@ -171,43 +175,66 @@ function Home(props: any) {
                     </Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </LinearGradient>
     );
 }
 const { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
     container: { flex: 1 },
-    upperTexts: { alignItems: 'center', marginHorizontal: 20 },
-    WelcomeText: { fontSize: 30, textAlign: 'center' },
-    descriptionHeader: { fontSize: 20, marginTop: 10, textAlign: 'center' },
-    instructionsText: { marginTop: 10 },
-    buttonsView: { marginTop: 0 },
+    linearGradient: { flex: 1, justifyContent: 'space-between' },
+    upperTexts: {
+        alignItems: 'center',
+        marginHorizontal: width * 0.0555555555555556
+    },
+    WelcomeText: {
+        fontSize: height * 0.0409101796,
+        textAlign: 'center',
+        color: 'white',
+        fontFamily: 'OpenSans-Bold'
+    },
+    descriptionHeader: {
+        fontSize: height * 0.02994011,
+        marginTop: height * 0.014970059,
+        textAlign: 'center',
+        color: 'white',
+        fontFamily: 'OpenSans-Regular'
+    },
+    instructionsText: {
+        marginTop: height * 0.014970059,
+        color: 'white',
+        fontSize: height * 0.0218023255,
+        fontFamily: 'OpenSans-Regular'
+    },
+    buttonsView: { marginBottom: height * 0.19461077 },
     scanNewPlayerButton: {
-        marginTop: 10,
-        backgroundColor: 'white',
-        borderRadius: 4,
-        borderWidth: 1,
-        paddingHorizontal: 34,
-        paddingVertical: 16,
+        marginTop: height * 0.014970059,
+        backgroundColor: '#f5f5f532',
+        borderRadius: width * 0.011111111,
+        borderWidth: width * 0.002777777,
+        paddingHorizontal: width * 0.0944444444,
+        paddingVertical: height * 0.02395209,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center'
     },
     scanNewPlayerButtonText: {
-        color: '#b97272',
-        fontSize: 20
+        color: 'white',
+        fontSize: height * 0.02994011,
+        marginTop: height * 0.010174418,
+        marginLeft: width * 0.0111111111,
+        fontFamily: 'OpenSans-Bold'
     },
     buttonIcon: {
-        height: 24,
-        width: 24,
-        marginRight: 5,
-        marginTop: 10
+        height: height * 0.03592814,
+        width: width * 0.06666666,
+        marginRight: 0.01388888,
+        marginTop: height * 0.014970059
     },
     horizontalRulerView: {
         borderBottomWidth: StyleSheet.hairlineWidth,
         borderColor: '#1850AB',
         backgroundColor: '#1850AB',
-        borderWidth: 1.5,
+        borderWidth: width * 0.004166666,
 
         marginTop: height * 0.024068
     }

@@ -89,23 +89,28 @@ const Login = (props: any) => {
 
     return (
         <LinearGradient
-            start={{ x: 0, y: 0 }}
+            start={{ x: 0, y: 0.3 }}
             end={{ x: 0, y: 1 }}
-            colors={['#28449C', '#0064C3']}
+            colors={['#315466', '#2a6381']}
             style={styles.linearGradient}
         >
-            <StatusBar barStyle="light-content" />
+            {/* <StatusBar barStyle="light-content" /> */}
             <View style={styles.container}>
                 <View style={styles.topContent}>
                     <View style={styles.imgView}>
                         <Image
-                            style={styles.kobePic}
-                            source={require('../../assets/img/login_kobe_logo.png')}
+                            style={styles.nbaLogo}
+                            source={require('../../assets/img/nba_logo.png')}
                         />
                     </View>
                     <Text style={styles.mainText}>Welcome!</Text>
                     {userContext.isUserAuthorized === true ? (
-                        <Text style={{ color: '#FFFFFF', fontSize: 20 }}>
+                        <Text
+                            style={{
+                                color: '#FFFFFF',
+                                fontSize: height * 0.02994011
+                            }}
+                        >
                             {userContext.userObject?.displayName}
                         </Text>
                     ) : (
@@ -174,12 +179,10 @@ const styles = StyleSheet.create({
     imgView: {
         flex: 1,
         marginTop: height * 0.0427795,
-        maxHeight: height * 0.210559
+        maxHeight: height * 0.220559
     },
-    kobePic: {
+    nbaLogo: {
         flex: 1,
-        Width: null,
-        Height: null,
         resizeMode: 'contain'
     },
     bottomContent: {
@@ -188,26 +191,28 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     mainText: {
-        fontSize: 54,
-        color: 'white'
+        fontSize: height * 0.08083832,
+        color: 'white',
+        fontFamily: 'OpenSans-Bold'
     },
     googleButton: {
         backgroundColor: 'white',
-        borderRadius: 4,
-        paddingHorizontal: 34,
-        paddingVertical: 16,
+        borderRadius: width * 0.01111111,
+        paddingHorizontal: width * 0.094444444,
+        paddingVertical: height * 0.02395209,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center'
     },
     googleButtonText: {
-        marginLeft: 16,
-        fontSize: 18,
-        fontWeight: '600'
+        marginLeft: width * 0.04444444,
+        fontSize: height * 0.0269461,
+        fontWeight: '600',
+        fontFamily: 'OpenSans-Bold'
     },
     googleIcon: {
-        height: 24,
-        width: 24
+        height: height * 0.035928143,
+        width: width * 0.0666666666
     }
 });
 export default Login;
