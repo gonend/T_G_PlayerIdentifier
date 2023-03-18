@@ -118,8 +118,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: '#FFFFFF',
         fontFamily: 'OpenSans-Bold',
-        fontSize: 20,
-        marginBottom: 10,
-        marginTop: 5
+        fontSize: height * 0.029069767,
+        marginBottom: height * 0.0145348837,
+        marginTop: height * 0.007267441
     }
 });

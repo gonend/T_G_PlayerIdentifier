@@ -75,7 +75,6 @@ var styles = StyleSheet.create({
     navbarTitle: {
         color: '#FFFFFF',
         fontSize: height * 0.02484472,
-        letterSpacing: 0,
         lineHeight: height * 0.03416149,
         fontFamily: 'OpenSans-Bold'
     }

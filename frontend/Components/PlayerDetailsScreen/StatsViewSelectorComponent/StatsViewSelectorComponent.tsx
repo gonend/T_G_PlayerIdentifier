@@ -76,7 +76,8 @@ var styles = StyleSheet.create({
     enabledButton: {
         flex: 0.4,
         backgroundColor: 'green',
-        borderRadius: width * 0.138888888
+        borderRadius: width * 0.138888888,
+        padding: height * 0.00726744
         // alignContent: 'center',
         // alignItems: 'center',}
     },
@@ -84,6 +85,7 @@ var styles = StyleSheet.create({
         flex: 0.4,
         opacity: 0.3,
         backgroundColor: '#c7c7c7',
-        borderRadius: width * 0.138888888
+        borderRadius: width * 0.138888888,
+        padding: height * 0.00726744
     }
 });

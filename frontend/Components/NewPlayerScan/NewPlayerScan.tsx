@@ -296,8 +296,12 @@ export default function NewPlayerScan(props: any) {
                                                         </Text>
                                                         <Image
                                                             style={{
-                                                                width: 250,
-                                                                height: 250,
+                                                                width:
+                                                                    width *
+                                                                    0.6944444444,
+                                                                height:
+                                                                    height *
+                                                                    0.363372093,
                                                                 resizeMode:
                                                                     'contain'
                                                             }}
@@ -343,7 +347,9 @@ export default function NewPlayerScan(props: any) {
                                     }
                                 />
 
-                                <ScrollView style={{ maxHeight: 150 }}>
+                                <ScrollView
+                                    style={{ maxHeight: height * 0.2180232558 }}
+                                >
                                     {filteredPlayerNames?.map((playerName) => {
                                         return (
                                             <TouchableOpacity

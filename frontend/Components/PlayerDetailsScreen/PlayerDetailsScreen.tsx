@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 10
+        marginTop: height * 0.01453488
     },
     playerPicture: {
         height: height * 0.2245508982035928,
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginTop: height * 0.014970059,
         // marginRight: width * 0.055555555,
-        marginBottom: 5
+        marginBottom: height * 0.00726744
     },
     playerSimpleStatsView: { alignItems: 'center', marginTop: 5 },
     playerExpertStatsScrollView: {

@@ -52,23 +52,23 @@ const { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
     container: { flexDirection: 'row' },
     leftStatsView: {
-        marginTop: 10,
-        marginRight: 5,
-        minWidth: 180,
+        marginTop: height * 0.01453488,
+        marginRight: height * 0.00726744,
+        minWidth: width * 0.5,
         // borderWidth: 1,
         alignItems: 'center'
     },
     rightStatsView: {
-        marginTop: 10,
-        marginLeft: 5,
-        minWidth: 180,
+        marginTop: height * 0.01453488,
+        marginLeft: height * 0.00726744,
+        minWidth: width * 0.5,
         // borderWidth: 1,
         alignItems: 'center'
     },
     singleStatView: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: 5
+        marginTop: height * 0.00726744
     },
     textKey: {
         color: 'white',
@@ -81,9 +81,9 @@ const styles = StyleSheet.create({
         fontSize: height * 0.037425149,
         fontFamily: 'OpenSans-Regular',
         backgroundColor: 'green',
-        borderRadius: 10,
-        padding: 3,
-        minWidth: 70,
+        borderRadius: height * 0.01453488,
+        padding: height * 0.00436046,
+        minWidth: width * 0.1944444444,
         textAlign: 'center'
     }
 });

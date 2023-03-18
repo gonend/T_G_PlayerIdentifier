@@ -48,9 +48,9 @@ const { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
     container: {
         borderColor: 'white',
-        borderWidth: 3,
-        borderRadius: 20,
-        padding: 10
+        borderWidth: height * 0.00436046,
+        borderRadius: height * 0.02906976,
+        padding: height * 0.01453488
     },
     positionView: { flexDirection: 'row', alignItems: 'center' },
     textKey: {

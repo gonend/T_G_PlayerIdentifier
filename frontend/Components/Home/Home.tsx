@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
     instructionsText: {
         marginTop: height * 0.014970059,
         color: 'white',
-        fontSize: 15,
+        fontSize: height * 0.0218023255,
         fontFamily: 'OpenSans-Regular'
     },
     buttonsView: { marginBottom: height * 0.19461077 },
@@ -220,8 +220,8 @@ const styles = StyleSheet.create({
     scanNewPlayerButtonText: {
         color: 'white',
         fontSize: height * 0.02994011,
-        marginTop: 7,
-        marginLeft: 4,
+        marginTop: height * 0.010174418,
+        marginLeft: width * 0.0111111111,
         fontFamily: 'OpenSans-Bold'
     },
     buttonIcon: {

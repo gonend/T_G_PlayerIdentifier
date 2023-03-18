@@ -110,11 +110,11 @@ var styles = StyleSheet.create({
         marginTop: height * 0.0279503
     },
     profilePicture: {
-        height: 90,
-        width: 90,
+        height: height * 0.132352941,
+        width: width * 0.25,
         alignSelf: 'center',
-        marginTop: 15,
-        borderRadius: 40
+        marginTop: height * 0.021802325,
+        borderRadius: height * 0.058139534
     },
     allOptionsView: {
         backgroundColor: '#ffffff',
