@@ -73,17 +73,17 @@ const styles = StyleSheet.create({
 
     nbaLogo: {
         alignSelf: 'center',
-        marginTop: height * 0.153335,
+        marginTop: height * 0.053335,
         height: height * 0.299401197,
         width: width * 0.55555555,
         resizeMode: 'contain'
     }, //the calculation is: marginFromTop/windowHeight
     playerIdentifierSymbol: {
         alignSelf: 'center',
-        marginTop: height * 0.0207783
-        // height: 200,
-        // width: 117,
-        // resizeMode: 'contain'
+        // marginTop: height * 0.0207783,
+        height: 300,
+        width: 200,
+        resizeMode: 'contain'
     },
     boucingBall: {
         alignSelf: 'center',

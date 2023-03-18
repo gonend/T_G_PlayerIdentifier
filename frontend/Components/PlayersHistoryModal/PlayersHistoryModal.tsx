@@ -56,7 +56,11 @@ export default function PlayersHistoryModal(props: any) {
                                 <Text style={styles.instructionsText}>
                                     {'Pick a player to get stats'}
                                 </Text>
-                                <ScrollView horizontal={true}>
+                                <ScrollView
+                                    horizontal={true}
+                                    contentInset={{ right: 20 }}
+                                    contentOffset={{ x: -20, y: 0 }}
+                                >
                                     {userContext.userHistoryPlayersArr?.map(
                                         (currPlayer: string) => {
                                             return (
