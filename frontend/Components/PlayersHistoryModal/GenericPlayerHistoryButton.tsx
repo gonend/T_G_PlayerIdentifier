@@ -43,11 +43,14 @@ const styles = StyleSheet.create({
         marginRight: width * 0.013888888,
         marginLeft: width * 0.013888888
     },
-    playerNameText: { fontSize: height * 0.02245508 },
+    playerNameText: {
+        fontSize: height * 0.02245508,
+        fontFamily: 'OpenSans-Regular'
+    },
     getPlayerDataButton: {
         marginTop: height * 0.01497005,
-        backgroundColor: 'white',
-        borderRadius: width * 0.011111111,
+        backgroundColor: '#89acbd',
+        borderRadius: width * 0.311111111,
         borderWidth: width * 0.002777777,
         paddingHorizontal: width * 0.0944444444,
         paddingVertical: height * 0.023952095,

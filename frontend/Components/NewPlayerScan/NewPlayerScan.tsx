@@ -224,9 +224,9 @@ export default function NewPlayerScan(props: any) {
 
     return (
         <LinearGradient
-            start={{ x: 0, y: 0 }}
+            start={{ x: 0, y: 0.3 }}
             end={{ x: 0, y: 1 }}
-            colors={['#28449C', '#0064C3']}
+            colors={['#315466', '#2a6381']}
             style={styles.linearGradient}
         >
             {showLoadingSpinner === true ? (
@@ -287,7 +287,9 @@ export default function NewPlayerScan(props: any) {
                                                                     'center',
                                                                 marginBottom:
                                                                     height *
-                                                                    0.014970059
+                                                                    0.014970059,
+                                                                fontFamily:
+                                                                    'OpenSans-Regular'
                                                             }}
                                                         >
                                                             Selected picture:
@@ -377,9 +379,7 @@ export default function NewPlayerScan(props: any) {
                                 >
                                     <Image
                                         style={styles.submitButtonIcon}
-                                        source={{
-                                            uri: 'https://icon-library.com/images/submit-button-icon-png/submit-button-icon-png-0.jpg'
-                                        }}
+                                        source={require('../../assets/img/submitButton.png')}
                                     />
                                 </TouchableOpacity>
                             </View>
@@ -407,24 +407,25 @@ const styles = StyleSheet.create({
     // logoPic: { flex: 0.5, Width: null, Height: null, resizeMode: 'contain' },
     descriptionText: {
         color: '#FFFFFF',
-        fontSize: height * 0.0269461,
+        fontSize: height * 0.0259461,
         marginTop: height * 0.02994011,
         textAlign: 'center',
-        marginHorizontal: width * 0.02777777
+        marginHorizontal: width * 0.02777777,
+        fontFamily: 'OpenSans-Regular'
     },
-    nameInput: {
-        backgroundColor: 'white',
-        borderBottomColor: '#000000',
-        borderBottomWidth: width * 0.0027777777,
-        fontFamily: 'OpenSans-Regular',
-        color: '#132D42',
-        borderRadius: width * 0.027777777,
-        marginHorizontal: width * 0.0533333333,
-        fontSize: height * 0.02484472,
-        textAlign: 'center',
-        marginTop: height * 0.02994011
-        // paddingRight: width * 0.03733333,
-    },
+    // nameInput: {
+    //     backgroundColor: 'red',
+    //     borderBottomColor: 'red',
+    //     borderBottomWidth: width * 0.0027777777,
+    //     fontFamily: 'OpenSans-Regular',
+    //     color: '#132D42',
+    //     borderRadius: width * 0.027777777,
+    //     marginHorizontal: width * 0.0533333333,
+    //     fontSize: height * 0.02484472,
+    //     textAlign: 'center',
+    //     marginTop: height * 0.02994011
+    //     // paddingRight: width * 0.03733333,
+    // },
     submitButton: {
         flex: 0.8
     },
@@ -438,7 +439,7 @@ const styles = StyleSheet.create({
         height: height * 0.374251497,
         width: width * 0.694444444
     },
-    spinnerTextStyle: { color: '#FFFFFF' },
+    spinnerTextStyle: { color: '#FFFFFF', fontFamily: 'OpenSans-Regular' },
     autocompleteContainer: {
         backgroundColor: '#ffffff'
     },

@@ -46,13 +46,24 @@ export default function PlayerInfoComponent(props: any) {
 const { height, width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-    container: {},
+    container: {
+        borderColor: 'white',
+        borderWidth: 3,
+        borderRadius: 20,
+        padding: 10
+    },
     positionView: { flexDirection: 'row', alignItems: 'center' },
     textKey: {
         color: 'white',
         fontSize: height * 0.02994011,
-        marginRight: width * 0.0138888888
+        marginRight: width * 0.0138888888,
+        fontFamily: 'OpenSans-Bold'
     },
-    textValue: { color: 'red', fontSize: height * 0.037425149 },
+    textValue: {
+        color: 'white',
+        fontSize: height * 0.037425149,
+        // fontFamily: 'OpenSans-Regular'
+        fontFamily: 'OpenSans-Regular'
+    },
     heightView: { flexDirection: 'row', alignItems: 'center' }
 });

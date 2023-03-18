@@ -60,25 +60,26 @@ export default function PlayerDetailscreen(props: {
 
     return (
         <LinearGradient
-            start={{ x: 0, y: 0 }}
+            start={{ x: 0, y: 0.3 }}
             end={{ x: 0, y: 1 }}
-            colors={['#28449C', '#0064C3']}
+            colors={['#315466', '#2a6381']}
             style={styles.linearGradient}
         >
             <Navbar navigation={navigation} />
             <Text style={styles.playerNameText}>{playerName}</Text>
+
             <ScrollView>
+                <Image
+                    style={styles.playerPicture}
+                    source={{
+                        uri: playerData.playerObject.playerInfo.img_uri //'https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png'
+                    }}
+                />
                 <StatsViewSelectorComponent
                     setSimpleStatsView={setSimpleStatsView}
                     simpleStatsView={simpleStatsView}
                 />
                 <View style={styles.playerInfoView}>
-                    <Image
-                        style={styles.playerPicture}
-                        source={{
-                            uri: playerData.playerObject.playerInfo.img_uri //'https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png'
-                        }}
-                    />
                     <PlayerInfoComponent playerInfo={playerInfo} />
                 </View>
 
@@ -101,15 +102,10 @@ export default function PlayerDetailscreen(props: {
                 )}
 
                 <View style={styles.buttonView}>
-                    <TouchableOpacity
-                        onPress={identifyAgain}
-                        style={styles.identifyAgainButton}
-                    >
+                    <TouchableOpacity onPress={identifyAgain}>
                         <Image
                             style={styles.identifyAgainButtonIcon}
-                            source={{
-                                uri: 'https://st.depositphotos.com/1139310/4042/v/600/depositphotos_40420877-stock-illustration-3d-vector-icon-of-reload.jpg'
-                            }}
+                            source={require('../../assets/img/restart.png')}
                         />
                     </TouchableOpacity>
                 </View>
@@ -129,21 +125,24 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: 'white',
         fontSize: height * 0.044910179,
-        marginTop: height * 0.014970059
+        marginTop: height * 0.014970059,
+        fontFamily: 'OpenSans-Bold'
     },
     playerInfoView: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginTop: 10
     },
     playerPicture: {
         height: height * 0.2245508982035928,
         width: width * 0.416666666,
         alignSelf: 'center',
         marginTop: height * 0.014970059,
-        marginRight: width * 0.055555555
+        // marginRight: width * 0.055555555,
+        marginBottom: 5
     },
-    playerSimpleStatsView: { alignItems: 'center' },
+    playerSimpleStatsView: { alignItems: 'center', marginTop: 5 },
     playerExpertStatsScrollView: {
         flex: 0.5,
         flexWrap: 'wrap',
@@ -157,11 +156,10 @@ const styles = StyleSheet.create({
     buttonView: {
         flexDirection: 'row',
         justifyContent: 'center',
-        marginTop: height * 0.02994011
+        marginTop: height * 0.00594011
     },
-    identifyAgainButton: {},
     identifyAgainButtonIcon: {
-        height: height * 0.1563354,
-        width: width * 0.33333333
+        height: height * 0.116279069,
+        width: width * 0.222222222
     }
 });
