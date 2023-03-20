@@ -39,6 +39,7 @@ const Login = (props: any) => {
             let credentials = await auth().signInWithCredential(
                 googleCredential
             );
+            console.log(credentials);
             return credentials;
         } catch (error) {
             console.log('error authenticationg ur token');
@@ -53,6 +54,7 @@ const Login = (props: any) => {
         try {
             //get the users id Token
             const { idToken } = await GoogleSignin.signIn();
+            console.log('sharmuta');
             //create a google credentials with the token
             let credentials;
             if (idToken) {
@@ -64,6 +66,7 @@ const Login = (props: any) => {
                     userContext.setIdToken(token);
                     //a useRef hook that will be passed to home component and determine if home should get history from the backend. (after logout or after a starting new instance of the app)
                     getHistoryFlagRef.current = true;
+                    userContext.setIsUserAuthorized(true);
 
                     navigation.navigate('Home', {
                         getHistoryFlag: getHistoryFlagRef
