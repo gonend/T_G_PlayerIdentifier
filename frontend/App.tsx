@@ -35,6 +35,7 @@ import HamburgerMenu from './Components/HamburgerMenu/HamburgerMenu';
 import NewPlayerScan from './Components/NewPlayerScan/NewPlayerScan';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import PlayerDetailsScreen from './Components/PlayerDetailsScreen/PlayerDetailsScreen';
+import GenericSimpleStatComponent from './Components/PlayerDetailsScreen/GenericSimpleStatComponent';
 // import { GoogleSignin } from '@react-native-google-signin/google-signin';
 // import GenericPlayerHistoryButton from './Components/PlayersHistoryModal/GenericPlayerHistoryButton';
 
@@ -198,10 +199,10 @@ const App = (props: { children: any }) => {
                         name="PlayerDetailsScreen"
                         component={PlayerDetailsScreen}
                     />
-                    {/* <Stack.Screen
-                        name="GenericPlayerHistoryButton"
-                        component={GenericPlayerHistoryButton}
-                    /> */}
+                    <Stack.Screen
+                        name="GenericSimpleStatComponent"
+                        component={GenericSimpleStatComponent}
+                    />
                 </Stack.Navigator>
             </NavigationContainer>
         </UserContext.Provider>

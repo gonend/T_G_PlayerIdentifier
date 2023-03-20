@@ -160,6 +160,7 @@ const styles = StyleSheet.create({
     },
     identifyAgainButtonIcon: {
         height: height * 0.116279069,
-        width: width * 0.222222222
+        width: width * 0.222222222,
+        marginTop: height * 0.014534883
     }
 });
