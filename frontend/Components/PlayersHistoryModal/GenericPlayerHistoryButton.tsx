@@ -8,6 +8,7 @@ import {
     TouchableOpacity,
     View
 } from 'react-native';
+import ScreenDimensionsContext from '../../DimentionsUtils/ScreenDimensionsContext';
 
 export default function GenericPlayerHistoryButton(props: any) {
     //This component is part of the PlayersHistoryModal(Popup).
@@ -15,6 +16,46 @@ export default function GenericPlayerHistoryButton(props: any) {
     //the mapping creates pressable buttons for each player the user have identified in the past.
     const { playerName, setModalVisible, setHistoryPlayerNameChosen } = props;
     // const [freshStart, setFreshStart] = useState(false);
+
+    ////////////////////////////dimention context test/////////////////////////////
+
+    const { screenDimensions } = React.useContext(ScreenDimensionsContext);
+
+    const { screenWidth, screenHeight } = screenDimensions ?? {
+        screenWidth: 360,
+        screenHeight: 688
+    };
+
+    /////////////////////////////end of dmimention test////////
+
+    const styles = StyleSheet.create({
+        containerView: {
+            marginRight: screenWidth * 0.013888888,
+            marginLeft: screenWidth * 0.013888888
+        },
+        playerNameText: {
+            fontSize: screenHeight * 0.02245508,
+            fontFamily: 'OpenSans-Regular'
+        },
+        getPlayerDataButton: {
+            marginTop: screenHeight * 0.01497005,
+            backgroundColor: '#89acbd',
+            borderRadius: screenWidth * 0.311111111,
+            borderWidth: screenWidth * 0.002777777,
+            paddingHorizontal: screenWidth * 0.0944444444,
+            paddingVertical: screenHeight * 0.023952095,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center'
+        },
+        buttonIcon: {
+            height: screenHeight * 0.03592814,
+            width: screenWidth * 0.066666666,
+            resizeMode: 'contain',
+            marginRight: screenWidth * 0.013888888,
+            marginTop: screenHeight * 0.014970059
+        }
+    });
 
     return (
         <View style={styles.containerView}>
@@ -37,31 +78,4 @@ export default function GenericPlayerHistoryButton(props: any) {
     );
 }
 
-const { height, width } = Dimensions.get('window');
-const styles = StyleSheet.create({
-    containerView: {
-        marginRight: width * 0.013888888,
-        marginLeft: width * 0.013888888
-    },
-    playerNameText: {
-        fontSize: height * 0.02245508,
-        fontFamily: 'OpenSans-Regular'
-    },
-    getPlayerDataButton: {
-        marginTop: height * 0.01497005,
-        backgroundColor: '#89acbd',
-        borderRadius: width * 0.311111111,
-        borderWidth: width * 0.002777777,
-        paddingHorizontal: width * 0.0944444444,
-        paddingVertical: height * 0.023952095,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    buttonIcon: {
-        height: height * 0.03592814,
-        width: width * 0.066666666,
-        marginRight: width * 0.013888888,
-        marginTop: height * 0.014970059
-    }
-});
+// const { height, width } = Dimensions.get('window');

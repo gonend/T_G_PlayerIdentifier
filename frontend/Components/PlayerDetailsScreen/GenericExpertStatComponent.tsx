@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         fontFamily: 'OpenSans-Bold'
     },
     statValueStyle: {
-        backgroundColor: 'black',
+        backgroundColor: '#3a3a3a',
         color: 'white',
         padding: width * 0.005555555,
         fontFamily: 'OpenSans-Regular'

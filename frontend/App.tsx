@@ -36,6 +36,7 @@ import NewPlayerScan from './Components/NewPlayerScan/NewPlayerScan';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import PlayerDetailsScreen from './Components/PlayerDetailsScreen/PlayerDetailsScreen';
 import GenericSimpleStatComponent from './Components/PlayerDetailsScreen/GenericSimpleStatComponent';
+import { ScreenDimensionsProvider } from './DimentionsUtils/ScreenDimensionsProvider';
 // import { GoogleSignin } from '@react-native-google-signin/google-signin';
 // import GenericPlayerHistoryButton from './Components/PlayersHistoryModal/GenericPlayerHistoryButton';
 
@@ -165,47 +166,52 @@ const App = (props: { children: any }) => {
     }, []);
 
     return (
-        <UserContext.Provider
-            value={{
-                userObject: userTemp,
-                setUserObject: setUserTemp,
-                isUserAuthorized: isUserAutorized,
-                setIsUserAuthorized: setIsUserAuthorized,
-                idToken: idToken,
-                setIdToken: setIdToken,
-                freshStart: freshStart,
-                setFreshStart: setFreshStart,
-                userHistoryPlayersArr: userHistoryPlayersArr,
-                setUserHistoryPlayersArr: setUserHistoryPlayersArr
-            }}
-        >
-            <NavigationContainer>
-                <Stack.Navigator
-                    screenOptions={{ headerShown: false }}
-                    initialRouteName="Splash"
-                >
-                    <Stack.Screen name="Login" component={Login} />
-                    <Stack.Screen name="Splash" component={SplashComponent} />
-                    <Stack.Screen name="Home" component={Home} />
-                    <Stack.Screen
-                        name="HamburgerMenu"
-                        component={HamburgerMenu}
-                    />
-                    <Stack.Screen
-                        name="NewPlayerScan"
-                        component={NewPlayerScan}
-                    />
-                    <Stack.Screen
-                        name="PlayerDetailsScreen"
-                        component={PlayerDetailsScreen}
-                    />
-                    <Stack.Screen
-                        name="GenericSimpleStatComponent"
-                        component={GenericSimpleStatComponent}
-                    />
-                </Stack.Navigator>
-            </NavigationContainer>
-        </UserContext.Provider>
+        <ScreenDimensionsProvider>
+            <UserContext.Provider
+                value={{
+                    userObject: userTemp,
+                    setUserObject: setUserTemp,
+                    isUserAuthorized: isUserAutorized,
+                    setIsUserAuthorized: setIsUserAuthorized,
+                    idToken: idToken,
+                    setIdToken: setIdToken,
+                    freshStart: freshStart,
+                    setFreshStart: setFreshStart,
+                    userHistoryPlayersArr: userHistoryPlayersArr,
+                    setUserHistoryPlayersArr: setUserHistoryPlayersArr
+                }}
+            >
+                <NavigationContainer>
+                    <Stack.Navigator
+                        screenOptions={{ headerShown: false }}
+                        initialRouteName="Splash"
+                    >
+                        <Stack.Screen name="Login" component={Login} />
+                        <Stack.Screen
+                            name="Splash"
+                            component={SplashComponent}
+                        />
+                        <Stack.Screen name="Home" component={Home} />
+                        <Stack.Screen
+                            name="HamburgerMenu"
+                            component={HamburgerMenu}
+                        />
+                        <Stack.Screen
+                            name="NewPlayerScan"
+                            component={NewPlayerScan}
+                        />
+                        <Stack.Screen
+                            name="PlayerDetailsScreen"
+                            component={PlayerDetailsScreen}
+                        />
+                        <Stack.Screen
+                            name="GenericSimpleStatComponent"
+                            component={GenericSimpleStatComponent}
+                        />
+                    </Stack.Navigator>
+                </NavigationContainer>
+            </UserContext.Provider>
+        </ScreenDimensionsProvider>
     );
 };
 

@@ -15,6 +15,8 @@ import PlayersHistoryModal from '../PlayersHistoryModal/PlayersHistoryModal';
 import { PORT, SERVER_IP_ADDRESS } from '@env';
 import LinearGradient from 'react-native-linear-gradient';
 
+import { ScreenDimensionsContext } from '../../DimentionsUtils/ScreenDimensionsContext';
+
 function Home(props: any) {
     //This components is accessable through app navigation
     //successfully logging in to this app will get you here (or via the app menu).
@@ -27,6 +29,90 @@ function Home(props: any) {
     const [modalVisible, setModalVisible] = useState(false); //use State to control modal appreance
     const { getHistoryFlag } = props.route.params; //a reference to a flag in the login component. this flag will determine if fetching history array is required.
     const [historyPlayerNameChosen, setHistoryPlayerNameChosen] = useState(''); //Will be send to modal component to store a history entery selected by the user
+
+    ////////////////////////////dimention context test/////////////////////////////
+
+    const { screenDimensions } = React.useContext(ScreenDimensionsContext);
+
+    const { screenWidth, screenHeight } = screenDimensions ?? {
+        screenWidth: 360,
+        screenHeight: 688
+    };
+
+    /////////////////////////////end of dmimention test////////
+
+    const styles = StyleSheet.create({
+        container: { flex: 1 },
+        linearGradient: { flex: 1, justifyContent: 'space-between' },
+        upperTexts: {
+            alignItems: 'center',
+            marginHorizontal: screenWidth * 0.0555555555555556
+        },
+        WelcomeText: {
+            fontSize: screenHeight * 0.0409101796,
+            textAlign: 'center',
+            color: 'white',
+            fontFamily: 'OpenSans-Bold'
+        },
+        descriptionHeader: {
+            fontSize: screenHeight * 0.02994011,
+            marginTop: screenHeight * 0.014970059,
+            textAlign: 'center',
+            color: 'white',
+            fontFamily: 'OpenSans-Regular'
+        },
+        instructionsText: {
+            marginTop: screenHeight * 0.014970059,
+            color: 'white',
+            fontSize: screenHeight * 0.0218023255,
+            fontFamily: 'OpenSans-Regular'
+        },
+        buttonsView: { marginBottom: screenHeight * 0.19461077 },
+        scanNewPlayerButton: {
+            marginTop: screenHeight * 0.014970059,
+            backgroundColor: '#f5f5f532',
+            borderRadius: screenWidth * 0.011111111,
+            borderWidth: screenWidth * 0.002777777,
+            paddingHorizontal: screenWidth * 0.0944444444,
+            paddingVertical: screenHeight * 0.02395209,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center'
+        },
+        myPlayersHistoryButton: {
+            marginTop: screenHeight * 0.014970059,
+            backgroundColor: '#f5f5f532',
+            borderRadius: screenWidth * 0.011111111,
+            borderWidth: screenWidth * 0.002777777,
+            paddingHorizontal: screenWidth * 0.0944444444,
+            paddingVertical: screenHeight * 0.02395209,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center'
+        },
+        scanNewPlayerButtonText: {
+            color: 'white',
+            fontSize: screenHeight * 0.02994011,
+            marginTop: screenHeight * 0.010174418,
+            marginLeft: screenWidth * 0.0111111111,
+            fontFamily: 'OpenSans-Bold'
+        },
+        buttonIcon: {
+            height: screenHeight * 0.03592814,
+            width: screenWidth * 0.06666666,
+            resizeMode: 'contain',
+            marginRight: 0.01388888,
+            marginTop: screenHeight * 0.014970059
+        },
+        horizontalRulerView: {
+            borderBottomWidth: StyleSheet.hairlineWidth,
+            borderColor: '#1850AB',
+            backgroundColor: '#1850AB',
+            borderWidth: screenWidth * 0.004166666,
+
+            marginTop: screenHeight * 0.024068
+        }
+    });
 
     //function that toggles the modal useState (off->on||on->off)
     const toggleModal = () => {
@@ -140,7 +226,7 @@ function Home(props: any) {
             <View style={styles.buttonsView}>
                 <TouchableOpacity
                     onPress={toggleModal}
-                    style={styles.scanNewPlayerButton}
+                    style={styles.myPlayersHistoryButton}
                 >
                     <Image
                         style={styles.buttonIcon}
@@ -181,65 +267,6 @@ function Home(props: any) {
         </LinearGradient>
     );
 }
-const { height, width } = Dimensions.get('window');
-const styles = StyleSheet.create({
-    container: { flex: 1 },
-    linearGradient: { flex: 1, justifyContent: 'space-between' },
-    upperTexts: {
-        alignItems: 'center',
-        marginHorizontal: width * 0.0555555555555556
-    },
-    WelcomeText: {
-        fontSize: height * 0.0409101796,
-        textAlign: 'center',
-        color: 'white',
-        fontFamily: 'OpenSans-Bold'
-    },
-    descriptionHeader: {
-        fontSize: height * 0.02994011,
-        marginTop: height * 0.014970059,
-        textAlign: 'center',
-        color: 'white',
-        fontFamily: 'OpenSans-Regular'
-    },
-    instructionsText: {
-        marginTop: height * 0.014970059,
-        color: 'white',
-        fontSize: height * 0.0218023255,
-        fontFamily: 'OpenSans-Regular'
-    },
-    buttonsView: { marginBottom: height * 0.19461077 },
-    scanNewPlayerButton: {
-        marginTop: height * 0.014970059,
-        backgroundColor: '#f5f5f532',
-        borderRadius: width * 0.011111111,
-        borderWidth: width * 0.002777777,
-        paddingHorizontal: width * 0.0944444444,
-        paddingVertical: height * 0.02395209,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    scanNewPlayerButtonText: {
-        color: 'white',
-        fontSize: height * 0.02994011,
-        marginTop: height * 0.010174418,
-        marginLeft: width * 0.0111111111,
-        fontFamily: 'OpenSans-Bold'
-    },
-    buttonIcon: {
-        height: height * 0.03592814,
-        width: width * 0.06666666,
-        marginRight: 0.01388888,
-        marginTop: height * 0.014970059
-    },
-    horizontalRulerView: {
-        borderBottomWidth: StyleSheet.hairlineWidth,
-        borderColor: '#1850AB',
-        backgroundColor: '#1850AB',
-        borderWidth: width * 0.004166666,
+// const { height, width } = Dimensions.get('window');
 
-        marginTop: height * 0.024068
-    }
-});
 export default Home;

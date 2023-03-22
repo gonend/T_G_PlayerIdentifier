@@ -42,7 +42,7 @@ export default class Splash extends Component<{}, { isVisible: boolean }> {
                     style={styles.nbaLogo}
                 />
                 <Image
-                    source={require('../../assets/img/playerIdentifierText.png')}
+                    source={require('../../assets/img/playerIdentifierText3.png')}
                     style={styles.playerIdentifierSymbol}
                 />
 

@@ -60,9 +60,9 @@ const { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
     container: {},
     leftStatsView: {
-        marginRight: height * 0.02017441
+        marginRight: height * 0.01417441
     },
     rightStatsView: {
-        marginLeft: height * 0.02017441
+        // marginLeft: height * 0.02017441
     }
 });

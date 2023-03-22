@@ -70,7 +70,7 @@ var styles = StyleSheet.create({
         textAlign: 'center',
         fontFamily: 'OpenSans-Bold',
         color: '#FFFFFF',
-        fontSize: height * 0.04499472
+        fontSize: height * 0.03499472
     },
 
     enabledButton: {
