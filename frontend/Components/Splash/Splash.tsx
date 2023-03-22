@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 
-import { StyleSheet, View, Image, Dimensions } from 'react-native';
+import {
+    StyleSheet,
+    View,
+    Image,
+    Dimensions,
+    ImageBackground
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 
@@ -36,7 +42,7 @@ export default class Splash extends Component<{}, { isVisible: boolean }> {
                     style={styles.nbaLogo}
                 />
                 <Image
-                    source={require('../../assets/img/playerIdentifierText.png')}
+                    source={require('../../assets/img/playerIdentifierText3.png')}
                     style={styles.playerIdentifierSymbol}
                 />
 
@@ -53,22 +59,27 @@ export default class Splash extends Component<{}, { isVisible: boolean }> {
         );
 
         return (
-            <LinearGradient
-                start={{ x: 0, y: 0.3 }}
-                end={{ x: 0, y: 1 }}
-                colors={['#315466', '#2a6381']}
-                style={styles.linearGradient}
-            >
-                <View>
-                    {this.state.isVisible === true ? Splash_Screen : null}
-                </View>
-            </LinearGradient>
+            <View style={styles.container}>
+                <ImageBackground
+                    source={require('../../assets/img/splash_background.png')}
+                    style={styles.backgroundImage}
+                >
+                    <View>
+                        {this.state.isVisible === true ? Splash_Screen : null}
+                    </View>
+                </ImageBackground>
+            </View>
         );
     }
 }
 const styles = StyleSheet.create({
-    linearGradient: {
+    container: {
         flex: 1
+    },
+    backgroundImage: {
+        flex: 1,
+        resizeMode: 'cover',
+        justifyContent: 'center'
     },
 
     nbaLogo: {
@@ -81,14 +92,15 @@ const styles = StyleSheet.create({
     playerIdentifierSymbol: {
         alignSelf: 'center',
         // marginTop: height * 0.0207783,
-        height: 300,
-        width: 200,
+        height: height * 0.43604651,
+        width: width * 0.55555555,
         resizeMode: 'contain'
     },
     boucingBall: {
         alignSelf: 'center',
-        marginTop: height * 0.0302138,
+        // marginTop: height * 0.0302138,
         height: height * 0.20348837,
-        width: width * 0.388888888
+        width: width * 0.388888888,
+        resizeMode: 'contain'
     }
 });

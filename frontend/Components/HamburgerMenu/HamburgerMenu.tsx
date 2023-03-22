@@ -25,12 +25,12 @@ export default function HamburgerMenu(props: any) {
         navigation.navigate('Home', {});
     }
 
-    function clickedOnLogout() {
+    async function clickedOnLogout() {
         //function that is runned by pressing the logout button.
         //this function will clear the user info from userContext and then navigate to the login page.
         try {
             auth().signOut();
-            GoogleSignin.signOut();
+            await GoogleSignin.signOut();
             //clearing all userObject values
             userContext.setIsUserAuthorized(false);
             userContext.setUserObject(null);

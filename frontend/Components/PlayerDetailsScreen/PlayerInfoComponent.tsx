@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     },
     textValue: {
         color: 'white',
-        fontSize: height * 0.037425149,
+        fontSize: height * 0.02994011,
         // fontFamily: 'OpenSans-Regular'
         fontFamily: 'OpenSans-Regular'
     },

@@ -20,6 +20,12 @@ const SplashComponent = (props: any) => {
     }, []);
 
     useEffect(() => {
+        console.log(userContext.isUserAuthorized);
+        // userContext.setIsUserAuthorized(true);
+        console.log(userContext.userObject);
+    }, []);
+
+    useEffect(() => {
         if (splashIsVisible === false) {
             if (userContext.isUserAuthorized === false) {
                 navigation.navigate('Login', { undefined });

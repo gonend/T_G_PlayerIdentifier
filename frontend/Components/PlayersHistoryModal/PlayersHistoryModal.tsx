@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Dimensions, Modal, StyleSheet, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { UserContext } from '../../App';
+import ScreenDimensionsContext from '../../DimentionsUtils/ScreenDimensionsContext';
 import GenericPlayerHistoryButton from './GenericPlayerHistoryButton';
 
 export default function PlayersHistoryModal(props: any) {
@@ -18,6 +19,45 @@ export default function PlayersHistoryModal(props: any) {
     let userContext = React.useContext(UserContext);
 
     // const [playersArr, setPlayersArr] = useState<string[]>([]);
+
+    ////////////////////////////dimention context test/////////////////////////////
+
+    const { screenDimensions } = React.useContext(ScreenDimensionsContext);
+
+    const { screenWidth, screenHeight } = screenDimensions ?? {
+        screenWidth: 360,
+        screenHeight: 688
+    };
+
+    /////////////////////////////end of dmimention test////////
+
+    const styles = StyleSheet.create({
+        centeredView: {
+            marginTop: screenHeight * 0.254491017,
+            flex: 0.4
+        },
+        modalView: {
+            borderRadius: screenWidth * 0.111111111,
+            backgroundColor: '#426e85',
+            marginTop: screenHeight * 0.024844,
+            flex: 1
+        },
+        xText: {
+            color: '#FFFFFF',
+            fontSize: screenHeight * 0.0332919,
+            marginHorizontal: screenWidth * 0.1,
+            marginTop: screenHeight * 0.0419254,
+            fontFamily: 'OpenSans-Bold'
+        },
+        instructionsText: {
+            textAlign: 'center',
+            color: '#FFFFFF',
+            fontFamily: 'OpenSans-Bold',
+            fontSize: screenHeight * 0.029069767,
+            marginBottom: screenHeight * 0.0145348837,
+            marginTop: screenHeight * 0.007267441
+        }
+    });
 
     let playersHistoryKeys = 0;
 
@@ -86,7 +126,7 @@ export default function PlayersHistoryModal(props: any) {
                         ) : (
                             <Text
                                 style={{
-                                    fontSize: height * 0.02994011,
+                                    fontSize: screenHeight * 0.02994011,
                                     textAlign: 'center'
                                 }}
                             >
@@ -99,31 +139,4 @@ export default function PlayersHistoryModal(props: any) {
         </View>
     );
 }
-const { height, width } = Dimensions.get('window');
-const styles = StyleSheet.create({
-    centeredView: {
-        marginTop: height * 0.254491017,
-        flex: 0.4
-    },
-    modalView: {
-        borderRadius: width * 0.111111111,
-        backgroundColor: '#426e85',
-        marginTop: height * 0.024844,
-        flex: 1
-    },
-    xText: {
-        color: '#FFFFFF',
-        fontSize: height * 0.0332919,
-        marginHorizontal: width * 0.1,
-        marginTop: height * 0.0419254,
-        fontFamily: 'OpenSans-Bold'
-    },
-    instructionsText: {
-        textAlign: 'center',
-        color: '#FFFFFF',
-        fontFamily: 'OpenSans-Bold',
-        fontSize: height * 0.029069767,
-        marginBottom: height * 0.0145348837,
-        marginTop: height * 0.007267441
-    }
-});
+// const { height, width } = Dimensions.get('window');

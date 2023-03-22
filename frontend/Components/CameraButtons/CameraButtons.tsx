@@ -45,7 +45,7 @@ export default function Camera(props: any) {
             >
                 <Image
                     style={styles.ButtonIcon}
-                    source={require('../../assets/img/photoAddPic.png')}
+                    source={require('../../assets/img/image_gallery2.png')}
                 />
                 <Text style={styles.ButtonText}>{'Use Gallery'}</Text>
             </TouchableOpacity>
@@ -55,9 +55,7 @@ export default function Camera(props: any) {
             >
                 <Image
                     style={styles.ButtonIcon}
-                    source={{
-                        uri: 'https://freeiconshop.com/wp-content/uploads/edd/camera-outline-filled.png'
-                    }}
+                    source={require('../../assets/img/photoUseCamera.png')}
                 />
 
                 <Text style={styles.ButtonText}>{'Use Camera'}</Text>
