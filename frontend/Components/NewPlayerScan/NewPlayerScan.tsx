@@ -13,7 +13,7 @@ import { ImagePickerResponse } from 'react-native-image-picker';
 import LinearGradient from 'react-native-linear-gradient';
 import CameraButtons from '../CameraButtons/CameraButtons';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { PORT, SERVER_IP_ADDRESS } from '@env';
+import { PORT, SERVER_IP_ADDRESS, SERVER_URL } from '@env';
 import { UserContext } from '../../App';
 import Navbar from '../Navbar/Navbar';
 import PictureOrNameSelector from './PictureOrNameSelector/PictureOrNameSelector';
@@ -71,17 +71,14 @@ export default function NewPlayerScan(props: any) {
         try {
             switch (pictureOrName) {
                 case 'picture':
-                    response = await fetch(
-                        `http://${SERVER_IP_ADDRESS}:${PORT}/api/uploadPicture`,
-                        {
-                            method: 'post',
-                            body: formDataTest,
-                            headers: {
-                                Authorization: `Bearer ${userContext.idToken}`
-                            },
-                            signal: Timeout(15).signal
-                        }
-                    );
+                    response = await fetch(`${SERVER_URL}/api/uploadPicture`, {
+                        method: 'post',
+                        body: formDataTest,
+                        headers: {
+                            Authorization: `Bearer ${userContext.idToken}`
+                        },
+                        signal: Timeout(15).signal
+                    });
 
                     playerData = await response.json();
                     break;
@@ -94,7 +91,7 @@ export default function NewPlayerScan(props: any) {
 
                     response = await axios({
                         method: 'get',
-                        url: `http://${SERVER_IP_ADDRESS}:${PORT}/api/getStatsByPlayerName`,
+                        url: `${SERVER_URL}/api/getStatsByPlayerName`,
                         headers: {
                             Authorization: `Bearer ${userContext.idToken}`
                         },
@@ -204,7 +201,7 @@ export default function NewPlayerScan(props: any) {
                 // console.log( `http://${SERVER_IP_ADDRESS}:${PORT}/api/autoCompleteNames`)
                 let response = await axios({
                     method: 'get',
-                    url: `http://${SERVER_IP_ADDRESS}:${PORT}/api/autoCompleteNames`,
+                    url: `${SERVER_URL}/api/autoCompleteNames`,
                     headers: {
                         Authorization: `Bearer ${userContext.idToken}`
                     },

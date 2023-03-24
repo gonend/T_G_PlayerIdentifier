@@ -2,9 +2,9 @@ const { db, firestore } = require("../db");
 
 const config = require("../config");
 
-const { firebaseUserId } = require("../middleware/index");
+const { firebaseUserId } = require("../middleware/index.js");
 
-const { getPlayerSeasonStats } = require("./extApi");
+const { getPlayerSeasonStats } = require("./extApi.js");
 const { default: axios } = require("axios");
 // const { config } = require("dotenv");
 

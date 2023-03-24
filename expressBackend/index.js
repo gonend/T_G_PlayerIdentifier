@@ -4,10 +4,10 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 
-const config = require("./config");
-const userRoutes = require("./routes/user-routes");
+const config = require("./src/config");
+const userRoutes = require("./src/routes/user-routes");
 
-const middleware = require("./middleware/index.js");
+const middleware = require("./src/middleware/index");
 
 const app = express();
 
@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(middleware.decodeToken);
 app.use("/api", userRoutes.routes);
 
-app.listen(config.port, () => {
+app.listen(config.port || 8080, () => {
   console.log(
     "App is listening for http requests on http://localhost:" + config.port
   );

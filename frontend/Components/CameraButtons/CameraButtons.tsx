@@ -45,7 +45,7 @@ export default function Camera(props: any) {
             >
                 <Image
                     style={styles.ButtonIcon}
-                    source={require('../../assets/img/image_gallery2.png')}
+                    source={require('../../assets/img/image_gallery.png')}
                 />
                 <Text style={styles.ButtonText}>{'Use Gallery'}</Text>
             </TouchableOpacity>
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     ViewWrapper: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginHorizontal: width * 0.05555555
+        marginHorizontal: width * 0.02555555
     },
     ButtonContainer: {
         paddingVertical: height * 0.02395209,

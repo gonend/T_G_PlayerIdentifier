@@ -127,7 +127,8 @@ export default function PlayersHistoryModal(props: any) {
                             <Text
                                 style={{
                                     fontSize: screenHeight * 0.02994011,
-                                    textAlign: 'center'
+                                    textAlign: 'center',
+                                    color: 'white'
                                 }}
                             >
                                 {'History is empty.'}
