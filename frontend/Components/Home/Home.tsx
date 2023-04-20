@@ -12,7 +12,7 @@ import { UserContext } from '../../App';
 import Navbar from '../Navbar/Navbar';
 import { Timeout } from '../NewPlayerScan/NewPlayerScan';
 import PlayersHistoryModal from '../PlayersHistoryModal/PlayersHistoryModal';
-import { PORT, SERVER_IP_ADDRESS } from '@env';
+import { PORT, SERVER_IP_ADDRESS, SERVER_URL } from '@env';
 import LinearGradient from 'react-native-linear-gradient';
 
 import { ScreenDimensionsContext } from '../../DimentionsUtils/ScreenDimensionsContext';
@@ -134,7 +134,8 @@ function Home(props: any) {
             // );
             let response = await axios({
                 method: 'get',
-                url: `http://${SERVER_IP_ADDRESS}:${PORT}/api/getUserPlayersHistory`,
+                // url: `http://${SERVER_IP_ADDRESS}:${PORT}/api/getUserPlayersHistory`,
+                url: `${SERVER_URL}/api/getUserPlayersHistory`,
                 headers: {
                     Authorization: `Bearer ${userContext.idToken}`
                 },
@@ -154,10 +155,12 @@ function Home(props: any) {
     const getHistoryPlayerStats = async () => {
         //Function that is activated by USE_EFFECT_2
         //Function will run if a history entery was chosen from the userHistoryPlayers array.
+
         try {
             let response = await axios({
                 method: 'get',
-                url: `http://${SERVER_IP_ADDRESS}:${PORT}/api/getStatsByPlayerName`,
+                // url: `http://${SERVER_IP_ADDRESS}:${PORT}/api/getStatsByPlayerName`,
+                url: `${SERVER_URL}/api/getStatsByPlayerName`,
                 headers: {
                     Authorization: `Bearer ${userContext.idToken}`
                 },

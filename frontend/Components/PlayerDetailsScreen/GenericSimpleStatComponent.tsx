@@ -30,7 +30,7 @@ export default function GenericSimpleStatComponent(props: any) {
     return (
         <View style={styles.container}>
             <ImageBackground
-                source={require('../../assets/img/key.png')}
+                source={require('../../assets/img/whiteKeyPiece.png')}
                 style={styles.keyImage}
             >
                 <Text style={styles.keyText}>
@@ -63,12 +63,12 @@ const styles = StyleSheet.create({
         height: height * 0.034593023,
         resizeMode: 'contain',
         justifyContent: 'center',
-        width: width * 0.2777777777
+        width: width * 0.2977777777
     },
     valueImage: {
         height: height * 0.035447674,
         justifyContent: 'center',
-        width: width * 0.2222222222,
+        width: width * 0.1922222222,
         marginLeft: width * -0.055555555
     },
     keyText: {
@@ -79,7 +79,8 @@ const styles = StyleSheet.create({
         textShadowColor: 'white',
         textShadowOffset: { width: 2, height: 2 },
         textShadowRadius: 10,
-        fontFamily: 'OpenSans-Bold'
+        fontFamily: 'OpenSans-Bold',
+        paddingLeft: height * 0.004360465
     },
     valueText: {
         color: 'white',
