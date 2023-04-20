@@ -100,15 +100,15 @@ const getPlayerInfo = async (playerName) => {
     if (playerInfo === undefined) {
       //if playerInfo doesnt exist in firestore ==>use to API to import playerInfo
       let response = await axios(config);
-      // console.log(response.data.data[0]);
-      // playerInfo = JSON.stringify(response.data.data[0]);
       playerInfo = response.data.data[0];
       console.log(playerInfo);
       if (playerInfo) {
         playerInfo = parsePlayerInfo(playerInfo);
+        playerKey =
+          `${playerInfo.first_name} ${playerInfo.last_name}`.toLowerCase();
         await firestore
           .collection("playersInfo")
-          .doc("" + playerName)
+          .doc(playerKey)
           .set(playerInfo);
       }
     }
@@ -118,24 +118,35 @@ const getPlayerInfo = async (playerName) => {
   }
 };
 
-const getPlayerSeasonStats = async (playerName, seasonYear) => {
+const getSeasonStats = async (playerId, seasonYear) => {
+  let config = {
+    method: "get",
+    url: `${seasonalStatsApi}${seasonYear}&player_ids[]=${playerId}`,
+    headers: {},
+  };
+
+  let response = await axios(config);
+  return response.data.data[0];
+};
+
+// const getLastActiveSeasonStats = async (playerId) => {
+//   const [left, right] = [1979];
+//   let stats = await getSeasonStats(playerId, right);
+//   if (stats !== undefined) {
+//     return stats;
+//   } else {
+//   }
+//   mid = (right - left) / 2;
+// };
+const buildPlayerObj = async (playerName, prevYear) => {
   try {
-    playerName = playerName.toLowerCase();
     console.log("before info: ", playerName);
     let playerInfo = await getPlayerInfo(playerName);
     console.log(playerInfo);
     if (playerInfo === undefined) {
       throw new Error("couldnt get playerInfo using API or Firebase");
     }
-
-    let config = {
-      method: "get",
-      url: `${seasonalStatsApi}${seasonYear}&player_ids[]=${playerInfo.id}`,
-      headers: {},
-    };
-
-    let response = await axios(config);
-    let playerStats = response.data.data[0];
+    let playerStats = await getSeasonStats(playerInfo.id, prevYear);
 
     playerStats = parsePlayerStats(playerStats);
 
@@ -150,4 +161,4 @@ const getPlayerSeasonStats = async (playerName, seasonYear) => {
   }
 };
 
-module.exports = { getPlayerSeasonStats };
+module.exports = { buildPlayerObj, getSeasonStats };

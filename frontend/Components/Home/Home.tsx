@@ -155,6 +155,7 @@ function Home(props: any) {
     const getHistoryPlayerStats = async () => {
         //Function that is activated by USE_EFFECT_2
         //Function will run if a history entery was chosen from the userHistoryPlayers array.
+
         try {
             let response = await axios({
                 method: 'get',

@@ -72,11 +72,12 @@ export default function NewPlayerScan(props: any) {
             switch (pictureOrName) {
                 case 'picture':
                     response = await fetch(`${SERVER_URL}/api/uploadPicture`, {
-                        method: 'post',
-                        body: formDataTest,
+                        method: 'POST',
                         headers: {
-                            Authorization: `Bearer ${userContext.idToken}`
+                            Authorization: `Bearer ${userContext.idToken}`,
+                            'Content-Type': 'multipart/form-data'
                         },
+                        body: formDataTest,
                         signal: Timeout(15).signal
                     });
 
@@ -207,7 +208,7 @@ export default function NewPlayerScan(props: any) {
                     },
                     signal: Timeout(10).signal
                 });
-                setAllPlayersNames(response?.data.playerNames);
+                setAllPlayersNames(response?.data);
             } catch (error) {
                 console.log('error while getting player names');
                 console.log(error);
@@ -369,28 +370,29 @@ export default function NewPlayerScan(props: any) {
                                 </ScrollView>
                             </>
                         )}
-                        {formDataTest !== undefined ||
-                        playerNameSearchValue.length > 0 ? (
-                            <View
-                                style={{
-                                    alignItems: 'center',
-                                    flex: 1
-                                }}
-                            >
-                                <TouchableOpacity
-                                    onPress={submitPlayerForIdentification}
-                                    style={styles.submitButton}
-                                >
-                                    <Image
-                                        style={styles.submitButtonIcon}
-                                        source={require('../../assets/img/submitButton.png')}
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                        ) : (
-                            <></>
-                        )}
                     </ScrollView>
+                    {formDataTest !== undefined ||
+                    playerNameSearchValue.length > 0 ? (
+                        <View
+                            style={{
+                                alignItems: 'center',
+                                flex: 2,
+                                marginBottom: 15
+                            }}
+                        >
+                            <TouchableOpacity
+                                onPress={submitPlayerForIdentification}
+                                // style={styles.submitButton}
+                            >
+                                <Image
+                                    style={styles.submitButtonIcon}
+                                    source={require('../../assets/img/submitButton.png')}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                    ) : (
+                        <></>
+                    )}
                 </>
             )}
         </LinearGradient>
@@ -403,12 +405,7 @@ const styles = StyleSheet.create({
         flex: 1
         // alignItems: 'center'
     },
-    // logoImgView: {
-    //     flex: 0.3,
-    //     marginTop: height * 0.0427795,
-    //     maxHeight: height * 0.210559
-    // },
-    // logoPic: { flex: 0.5, Width: null, Height: null, resizeMode: 'contain' },
+
     descriptionText: {
         color: '#FFFFFF',
         fontSize: height * 0.0259461,
@@ -417,28 +414,14 @@ const styles = StyleSheet.create({
         marginHorizontal: width * 0.02777777,
         fontFamily: 'OpenSans-Regular'
     },
-    // nameInput: {
-    //     backgroundColor: 'red',
-    //     borderBottomColor: 'red',
-    //     borderBottomWidth: width * 0.0027777777,
-    //     fontFamily: 'OpenSans-Regular',
-    //     color: '#132D42',
-    //     borderRadius: width * 0.027777777,
-    //     marginHorizontal: width * 0.0533333333,
-    //     fontSize: height * 0.02484472,
-    //     textAlign: 'center',
-    //     marginTop: height * 0.02994011
-    //     // paddingRight: width * 0.03733333,
+
+    // submitButton: {
+    //     borderWidth: 10,
+    //     borderColor: 'red'
     // },
-    submitButton: {
-        flex: 0.8
-    },
-    // submitButtonText: {
-    //     color: '#b97272',
-    //     fontSize: 20
-    // },
+
     submitButtonIcon: {
-        flex: 0.5,
+        flex: 1,
         resizeMode: 'contain',
         height: height * 0.374251497,
         width: width * 0.694444444
