@@ -199,7 +199,7 @@ export default function NewPlayerScan(props: any) {
     useEffect(() => {
         const getPlayerNamesFunction = async () => {
             try {
-                // console.log( `http://${SERVER_IP_ADDRESS}:${PORT}/api/autoCompleteNames`)
+                console.log(`${SERVER_URL}/api/autoCompleteNames`);
                 let response = await axios({
                     method: 'get',
                     url: `${SERVER_URL}/api/autoCompleteNames`,
