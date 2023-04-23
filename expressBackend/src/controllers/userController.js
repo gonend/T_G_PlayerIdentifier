@@ -139,6 +139,7 @@ const getStatsByplayerName = async (req, res, next) => {
     let playerFullName = await getFormalName(playerName);
     console.log("full name: ", playerFullName);
     const playerObject = await buildPlayerObj(playerFullName, prevYear);
+    console.log(playerObject);
 
     await saveNameInHistoryCollection(
       playerObject,
