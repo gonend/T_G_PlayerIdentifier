@@ -1,3 +1,4 @@
+console.log("sharmuta");
 const axios = require("axios");
 
 const { db, firestore } = require("../db");
@@ -34,12 +35,12 @@ async function parsePlayerInfo(playerInfo) {
   } = playerInfo;
 
   // console.log("name to look is:");
-  keyInDict = `${first_name} ${last_name}`.toLowerCase();
+  keyInJson = `${first_name} ${last_name}`.toLowerCase();
 
   // console.log(keyInDict);
   // console.log("dict is:");
   // console.log(playersHeadshotDictionary[keyInDict]);
-  let headshot_id = playersHeadshotDictionary[keyInDict];
+  let headshot_id = playersHeadshotDictionary[keyInJson];
   const img_uri = `https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${headshot_id}.png`;
 
   const parsedPlayerInfo = {
