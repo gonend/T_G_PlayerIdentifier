@@ -129,9 +129,8 @@ function Home(props: any) {
         //Function that is activated by a USE_EFFECT_1
         //Function will run if fetching userHistoryPlayers is required.
         try {
-            // console.log(
-            //     `http://${SERVER_IP_ADDRESS}:${PORT}/api/getUserPlayersHistory`
-            // );
+            console.log(`${SERVER_URL}/api/getUserPlayersHistory`);
+
             let response = await axios({
                 method: 'get',
                 // url: `http://${SERVER_IP_ADDRESS}:${PORT}/api/getUserPlayersHistory`,
