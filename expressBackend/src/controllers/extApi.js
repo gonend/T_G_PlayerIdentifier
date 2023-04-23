@@ -2,7 +2,7 @@ console.log("sharmuta");
 const axios = require("axios");
 
 const { db, firestore } = require("../db");
-const playersData = require("./data/PlayersData.json");
+// const playersData = require("./data/PlayersData.json");
 
 const playerApi = "https://balldontlie.io/api/v1/players/?search=";
 const seasonalStatsApi = `https://www.balldontlie.io/api/v1/season_averages?season=`;
@@ -13,10 +13,9 @@ async function getPlayerInfoFromFirestore(playerName) {
   var playerInfoRef = firestore.collection("playersInfo").doc(playerName);
 
   let objectFromFirestore = await playerInfoRef.get();
-  console.log(objectFromFirestore.exists);
   if (objectFromFirestore.exists) {
     playerInfoFromFirebase = objectFromFirestore.data();
-    console.log(playerInfoFromFirebase);
+    // console.log(playerInfoFromFirebase);
 
     return playerInfoFromFirebase;
   }
@@ -100,12 +99,12 @@ function parsePlayerStats(playerStats) {
   };
   return parsedPlayerStats;
 }
-const getPlayerHeadshot = async (playerName) => {
-  console.log("nameeeee: ", playerName);
-  const playerId = playersData[playerName];
-  console.log("idddddddd: ", playerId);
-  return `https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${playerId}.png`;
-};
+// const getPlayerHeadshot = async (playerName) => {
+//   console.log("nameeeee: ", playerName);
+//   const playerId = playersData[playerName];
+//   console.log("idddddddd: ", playerId);
+//   return `https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${playerId}.png`;
+// };
 const getPlayerInfo = async (playerName) => {
   let config = {
     method: "get",
@@ -120,9 +119,8 @@ const getPlayerInfo = async (playerName) => {
       //if playerInfo doesnt exist in firestore ==>use to API to import playerInfo
       let response = await axios(config);
       playerInfo = response.data.data[0];
-      console.log(playerInfo);
       if (playerInfo) {
-        playerInfo = parsePlayerInfo(playerInfo);
+        playerInfo = await parsePlayerInfo(playerInfo);
         playerKey =
           `${playerInfo.first_name} ${playerInfo.last_name}`.toLowerCase();
         await firestore
@@ -159,9 +157,9 @@ const getSeasonStats = async (playerId, seasonYear) => {
 // };
 const buildPlayerObj = async (playerName, prevYear) => {
   try {
-    console.log("before info: ", playerName);
+    // console.log("before info: ", playerName);
     let playerInfo = await getPlayerInfo(playerName);
-    console.log(playerInfo);
+    // console.log("infoooooooo", playerInfo);
     if (playerInfo === undefined) {
       throw new Error("couldnt get playerInfo using API or Firebase");
     }

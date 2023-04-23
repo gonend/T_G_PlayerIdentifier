@@ -1,7 +1,7 @@
 import requests
 import json
 
-url = "https://data.nba.net/data/10s/prod/v1/2022/players.json" # replace with your URL
+url = "http://data.nba.net/data/10s/prod/v1/2018/players.json" # replace with your URL
 response = requests.get(url)
 
 if response.status_code == 200:
