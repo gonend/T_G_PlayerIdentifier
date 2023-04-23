@@ -1,10 +1,10 @@
 const axios = require("axios");
 
 const { db, firestore } = require("../db");
+const playersData = require("./data/PlayersData.json");
 
 const playerApi = "https://balldontlie.io/api/v1/players/?search=";
 const seasonalStatsApi = `https://www.balldontlie.io/api/v1/season_averages?season=`;
-
 async function getPlayerInfoFromFirestore(playerName) {
   var playerInfoRef = firestore.collection("playersInfo").doc(playerName);
 
@@ -19,7 +19,7 @@ async function getPlayerInfoFromFirestore(playerName) {
   return undefined;
 }
 
-function parsePlayerInfo(playerInfo) {
+async function parsePlayerInfo(playerInfo) {
   const {
     id,
     first_name,
@@ -29,6 +29,8 @@ function parsePlayerInfo(playerInfo) {
     position,
     // img_uri,
   } = playerInfo;
+  let fullName = `${first_name} ${last_name}`.toLowerCase();
+  let headshot_uri = await getPlayerHeadshot(fullName);
   const parsedPlayerInfo = {
     id: id,
     first_name: first_name,
@@ -36,7 +38,7 @@ function parsePlayerInfo(playerInfo) {
     height_feet: height_feet,
     height_inches: height_inches,
     position: position,
-    // img_uri: img_uri,
+    img_uri: headshot_uri,
   };
   return parsedPlayerInfo;
 }
@@ -86,7 +88,12 @@ function parsePlayerStats(playerStats) {
   };
   return parsedPlayerStats;
 }
-
+const getPlayerHeadshot = async (playerName) => {
+  console.log("nameeeee: ", playerName);
+  const playerId = playersData[playerName];
+  console.log("idddddddd: ", playerId);
+  return `https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${playerId}.png`;
+};
 const getPlayerInfo = async (playerName) => {
   let config = {
     method: "get",
