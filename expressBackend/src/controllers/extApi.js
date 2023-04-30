@@ -1,8 +1,6 @@
-console.log("sharmuta");
 const axios = require("axios");
 
 const { db, firestore } = require("../db");
-// const playersData = require("./data/PlayersData.json");
 
 const playerApi = "https://balldontlie.io/api/v1/players/?search=";
 const seasonalStatsApi = `https://www.balldontlie.io/api/v1/season_averages?season=`;
@@ -15,7 +13,6 @@ async function getPlayerInfoFromFirestore(playerName) {
   let objectFromFirestore = await playerInfoRef.get();
   if (objectFromFirestore.exists) {
     playerInfoFromFirebase = objectFromFirestore.data();
-    // console.log(playerInfoFromFirebase);
 
     return playerInfoFromFirebase;
   }
@@ -33,12 +30,8 @@ async function parsePlayerInfo(playerInfo) {
     // img_uri,
   } = playerInfo;
 
-  // console.log("name to look is:");
   keyInJson = `${first_name} ${last_name}`.toLowerCase();
 
-  // console.log(keyInDict);
-  // console.log("dict is:");
-  // console.log(playersHeadshotDictionary[keyInDict]);
   let headshot_id = playersHeadshotDictionary[keyInJson];
   const img_uri = `https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${headshot_id}.png`;
 
@@ -84,7 +77,6 @@ function parsePlayerStats(playerStats) {
     fga,
     fg3m,
     ftm,
-    // fta,
     oreb,
     dreb,
     reb,
@@ -99,12 +91,7 @@ function parsePlayerStats(playerStats) {
   };
   return parsedPlayerStats;
 }
-// const getPlayerHeadshot = async (playerName) => {
-//   console.log("nameeeee: ", playerName);
-//   const playerId = playersData[playerName];
-//   console.log("idddddddd: ", playerId);
-//   return `https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${playerId}.png`;
-// };
+
 const getPlayerInfo = async (playerName) => {
   let config = {
     method: "get",
@@ -114,7 +101,6 @@ const getPlayerInfo = async (playerName) => {
   try {
     //check if we have the info for that specific player in firestore
     let playerInfo = await getPlayerInfoFromFirestore(playerName);
-    // console.log(playerInfo);
     if (playerInfo === undefined) {
       //if playerInfo doesnt exist in firestore ==>use to API to import playerInfo
       let response = await axios(config);
@@ -146,20 +132,9 @@ const getSeasonStats = async (playerId, seasonYear) => {
   return response.data.data[0];
 };
 
-// const getLastActiveSeasonStats = async (playerId) => {
-//   const [left, right] = [1979];
-//   let stats = await getSeasonStats(playerId, right);
-//   if (stats !== undefined) {
-//     return stats;
-//   } else {
-//   }
-//   mid = (right - left) / 2;
-// };
 const buildPlayerObj = async (playerName, prevYear) => {
   try {
-    // console.log("before info: ", playerName);
     let playerInfo = await getPlayerInfo(playerName);
-    // console.log("infoooooooo", playerInfo);
     if (playerInfo === undefined) {
       throw new Error("couldnt get playerInfo using API or Firebase");
     }
@@ -171,7 +146,6 @@ const buildPlayerObj = async (playerName, prevYear) => {
       playerInfo: playerInfo,
       playerStats: playerStats,
     };
-    // console.log(playerStats);
     return finalPlayerJson;
   } catch (error) {
     console.log(error);

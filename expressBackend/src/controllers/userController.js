@@ -139,16 +139,13 @@ const getStatsByplayerName = async (req, res, next) => {
     let playerFullName = await getFormalName(playerName);
     console.log("full name: ", playerFullName);
     const playerObject = await buildPlayerObj(playerFullName, prevYear);
-    console.log(playerObject);
 
     await saveNameInHistoryCollection(
       playerObject,
       res.locals.firebaseUserId,
       playerFullName
     );
-    // console.log(req.file);
 
-    console.log(playerObject);
     res.send({
       congrats: "data recieved",
       playerObject: playerObject,
@@ -160,13 +157,6 @@ const getStatsByplayerName = async (req, res, next) => {
 };
 
 const getNamesForAutoComplete = async (req, res, next) => {
-  // let playerNameRef = firestore
-  //   .collection("allPlayersNames")
-  //   .doc("allPlayersNames");
-
-  // let namesArrFromFirestore = await playerNameRef.get();
-
-  // namesArrFromFirestore = namesArrFromFirestore.data();
   const snapshot = await firestore.collection("playersInfo").get();
   let namesArrFromFirestore = snapshot.docs.map(
     (doc) => doc.get("first_name") + " " + doc.get("last_name")

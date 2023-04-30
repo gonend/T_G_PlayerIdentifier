@@ -1,5 +1,4 @@
 const adminFirebase = require("firebase-admin");
-// const { firebaseConfig } = require("./config");
 
 var serviceAccount = require("../serviceAccountJson/playeridentifierv2-firebase-adminsdk.json");
 

@@ -1,5 +1,4 @@
 const { db, firestore } = require("../db");
-const config = require("../config");
 class Middleware {
   async decodeToken(req, res, next) {
     if (
