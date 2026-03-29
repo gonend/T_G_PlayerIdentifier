@@ -3,9 +3,9 @@ const adminFirebase = require("firebase-admin");
 
 var serviceAccount = require("../serviceAccountJson/playeridentifierv2-firebase-adminsdk.json");
 
-const db = adminFirebase.initializeApp({
+adminFirebase.initializeApp({
   credential: adminFirebase.credential.cert(serviceAccount),
 });
-const firestore = db.firestore();
+const firestore = adminFirebase.firestore();
 
-module.exports = { db: db, firestore: firestore };
+module.exports = { db: adminFirebase, firestore: firestore };
